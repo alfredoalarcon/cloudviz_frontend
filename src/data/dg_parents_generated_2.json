@@ -1,0 +1,1268 @@
+{
+  "nodes": [
+    {
+      "id": "AWS Cloud",
+      "type": "aws_container",
+      "data": {
+        "resource_name": "AWS Cloud",
+        "resource_type": "aws_container"
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "IAM Service",
+      "type": "service_container",
+      "data": {
+        "resource_name": "IAM Service",
+        "resource_type": "service_container"
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "Managed VPCs",
+      "type": "service_container",
+      "data": {
+        "resource_name": "Managed VPCs",
+        "resource_type": "service_container"
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "S3 Service",
+      "type": "service_container",
+      "data": {
+        "resource_name": "S3 Service",
+        "resource_type": "service_container"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "Lambda Service",
+      "type": "service_container",
+      "data": {
+        "resource_name": "Lambda Service",
+        "resource_type": "service_container"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "Neptune Service",
+      "type": "service_container",
+      "data": {
+        "resource_name": "Neptune Service",
+        "resource_type": "service_container"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "Rds Service",
+      "type": "service_container",
+      "data": {
+        "resource_name": "Rds Service",
+        "resource_type": "service_container"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_vpc.web_vpc",
+      "type": "vpc",
+      "data": {
+        "resource_type": "aws_vpc",
+        "resource_name": "web_vpc",
+        "has_internet_gateway": true,
+        "cidr_block": "172.16.0.0/16",
+        "enable_dns_hostnames": true,
+        "enable_dns_support": true,
+        "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-vpc\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/ec2.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"9bf2359b-952e-4570-9595-52eba4c20473\"})}"
+      },
+      "parentId": "Managed VPCs",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_vpc.eks_vpc",
+      "type": "vpc",
+      "data": {
+        "resource_type": "aws_vpc",
+        "resource_name": "eks_vpc",
+        "has_internet_gateway": false,
+        "cidr_block": "10.10.0.0/16",
+        "enable_dns_hostnames": true,
+        "enable_dns_support": true,
+        "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-eks-vpc\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/eks.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"1600ca6c-72f6-45c0-a71d-88e117e51d6b\"})}"
+      },
+      "parentId": "Managed VPCs",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_subnet.web_subnet",
+      "type": "subnet",
+      "data": {
+        "resource_type": "aws_subnet",
+        "resource_name": "web_subnet",
+        "is_public": true,
+        "vpc_id": "${aws_vpc.web_vpc.id}",
+        "cidr_block": "172.16.10.0/24",
+        "availability_zone": "${var.region}a",
+        "map_public_ip_on_launch": true,
+        "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-subnet\"}, {\"git_commit\": \"6e62522d2ab8f63740e53752b84a6e99cd65696a\", \"git_file\": \"terraform/aws/ec2.tf\", \"git_last_modified_at\": \"2021-05-02 11:16:31\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"0345f650-d280-4ca8-86c9-c71c38c0eda8\"})}"
+      },
+      "parentId": "aws_vpc.web_vpc",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_subnet.web_subnet2",
+      "type": "subnet",
+      "data": {
+        "resource_type": "aws_subnet",
+        "resource_name": "web_subnet2",
+        "is_public": true,
+        "vpc_id": "${aws_vpc.web_vpc.id}",
+        "cidr_block": "172.16.11.0/24",
+        "availability_zone": "${var.region}b",
+        "map_public_ip_on_launch": true,
+        "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-subnet2\"}, {\"git_commit\": \"6e62522d2ab8f63740e53752b84a6e99cd65696a\", \"git_file\": \"terraform/aws/ec2.tf\", \"git_last_modified_at\": \"2021-05-02 11:16:31\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"224af03a-00e0-4981-be30-14965833c2db\"})}"
+      },
+      "parentId": "aws_vpc.web_vpc",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_subnet.eks_subnet1",
+      "type": "subnet",
+      "data": {
+        "resource_type": "aws_subnet",
+        "resource_name": "eks_subnet1",
+        "is_public": false,
+        "vpc_id": "${aws_vpc.eks_vpc.id}",
+        "cidr_block": "10.10.10.0/24",
+        "availability_zone": "${var.region}a",
+        "map_public_ip_on_launch": true,
+        "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-eks-subnet\", \"\"kubernetes.io/cluster/${local.eks_name.value}\"\": \"shared\"}, {\"git_commit\": \"6e62522d2ab8f63740e53752b84a6e99cd65696a\", \"git_file\": \"terraform/aws/eks.tf\", \"git_last_modified_at\": \"2021-05-02 11:16:31\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"\\\"kubernetes.io/cluster/$${local.eks_name.value}\"\": \"shared\", \"yor_trace\": \"1fb4fa23-a5d6-4d6a-b7dc-88749383f48d\"}, {\"\\\"kubernetes.io/cluster/$$${local.eks_name.value}\"\": \"shared\", \"\"kubernetes.io/cluster/$${local.eks_name.value}\"\": \"shared\"}, {\"\\\"kubernetes.io/cluster/$$$${local.eks_name.value}\"\": \"shared\", \"\"kubernetes.io/cluster/$$${local.eks_name.value}\"\": \"shared\", \"\"kubernetes.io/cluster/$${local.eks_name.value}\"\": \"shared\"})}"
+      },
+      "parentId": "aws_vpc.eks_vpc",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_subnet.eks_subnet2",
+      "type": "subnet",
+      "data": {
+        "resource_type": "aws_subnet",
+        "resource_name": "eks_subnet2",
+        "is_public": false,
+        "vpc_id": "${aws_vpc.eks_vpc.id}",
+        "cidr_block": "10.10.11.0/24",
+        "availability_zone": "${var.region}b",
+        "map_public_ip_on_launch": true,
+        "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-eks-subnet2\", \"\"kubernetes.io/cluster/${local.eks_name.value}\"\": \"shared\"}, {\"git_commit\": \"6e62522d2ab8f63740e53752b84a6e99cd65696a\", \"git_file\": \"terraform/aws/eks.tf\", \"git_last_modified_at\": \"2021-05-02 11:16:31\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"\\\"kubernetes.io/cluster/$${local.eks_name.value}\"\": \"shared\", \"yor_trace\": \"9ce04af2-5321-4e6c-a262-e4d7c1f69525\"}, {\"\\\"kubernetes.io/cluster/$$${local.eks_name.value}\"\": \"shared\", \"\"kubernetes.io/cluster/$${local.eks_name.value}\"\": \"shared\"}, {\"\\\"kubernetes.io/cluster/$$$${local.eks_name.value}\"\": \"shared\", \"\"kubernetes.io/cluster/$$${local.eks_name.value}\"\": \"shared\", \"\"kubernetes.io/cluster/$${local.eks_name.value}\"\": \"shared\"})}"
+      },
+      "parentId": "aws_vpc.eks_vpc",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.ec2role",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "ec2role",
+        "policies": {
+          "aws_iam_role_policy.ec2policy": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Action": [
+                  "s3:*",
+                  "ec2:*",
+                  "rds:*"
+                ],
+                "Effect": "Allow",
+                "Resource": "*"
+              }
+            ]
+          }
+        },
+        "name": "${local.resource_prefix.value}-role",
+        "path": "/",
+        "assume_role_policy": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Principal": {
+                "Service": "ec2.amazonaws.com"
+              },
+              "Effect": "Allow",
+              "Sid": ""
+            }
+          ]
+        },
+        "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-role\", \"Environment\": \"${local.resource_prefix.value}\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/db-app.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"d4b631c1-c1d0-4986-affb-fb8b94a6a7a5\"})}"
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.iam_for_lambda",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "iam_for_lambda",
+        "policies": {},
+        "name": "${local.resource_prefix.value}-analysis-lambda",
+        "assume_role_policy": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              },
+              "Effect": "Allow",
+              "Sid": ""
+            }
+          ]
+        },
+        "tags": {
+          "git_commit": "e6d83b21346fe85d4fe28b16c0b2f1e0662eb1d7",
+          "git_file": "terraform/aws/lambda.tf",
+          "git_last_modified_at": "2023-04-27 12:47:51",
+          "git_last_modified_by": "nadler@paloaltonetworks.com",
+          "git_modifiers": "nadler/nimrodkor",
+          "git_org": "bridgecrewio",
+          "git_repo": "terragoat",
+          "yor_trace": "93cfa6f9-a257-40c3-b7dc-3c3686929734"
+        }
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_user.user",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_user",
+        "resource_name": "user",
+        "policies": {
+          "aws_iam_user_policy.userpolicy": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Action": [
+                  "ec2:*",
+                  "s3:*",
+                  "lambda:*",
+                  "cloudwatch:*"
+                ],
+                "Effect": "Allow",
+                "Resource": "*"
+              }
+            ]
+          }
+        },
+        "name": "${local.resource_prefix.value}-user",
+        "force_destroy": true,
+        "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-user\", \"Environment\": \"${local.resource_prefix.value}\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/iam.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"9b45b298-c1ea-426a-9644-610780021eaa\"})}"
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.iam_for_eks",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "iam_for_eks",
+        "policies": {
+          "aws_iam_role_policy_attachment.policy_attachment-AmazonEKSClusterPolicy": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Sid": "AmazonEKSClusterPolicy",
+                "Effect": "Allow",
+                "Action": [
+                  "autoscaling:DescribeAutoScalingGroups",
+                  "autoscaling:UpdateAutoScalingGroup",
+                  "ec2:AttachVolume",
+                  "ec2:AuthorizeSecurityGroupIngress",
+                  "ec2:CreateRoute",
+                  "ec2:CreateSecurityGroup",
+                  "ec2:CreateTags",
+                  "ec2:CreateVolume",
+                  "ec2:DeleteRoute",
+                  "ec2:DeleteSecurityGroup",
+                  "ec2:DeleteVolume",
+                  "ec2:DescribeInstances",
+                  "ec2:DescribeRouteTables",
+                  "ec2:DescribeSecurityGroups",
+                  "ec2:DescribeSubnets",
+                  "ec2:DescribeVolumes",
+                  "ec2:DescribeVolumesModifications",
+                  "ec2:DescribeVpcs",
+                  "ec2:DescribeDhcpOptions",
+                  "ec2:DescribeNetworkInterfaces",
+                  "ec2:DescribeAvailabilityZones",
+                  "ec2:DetachVolume",
+                  "ec2:ModifyInstanceAttribute",
+                  "ec2:ModifyVolume",
+                  "ec2:RevokeSecurityGroupIngress",
+                  "ec2:DescribeAccountAttributes",
+                  "ec2:DescribeAddresses",
+                  "ec2:DescribeInternetGateways",
+                  "ec2:DescribeInstanceTopology",
+                  "elasticloadbalancing:AddTags",
+                  "elasticloadbalancing:ApplySecurityGroupsToLoadBalancer",
+                  "elasticloadbalancing:AttachLoadBalancerToSubnets",
+                  "elasticloadbalancing:ConfigureHealthCheck",
+                  "elasticloadbalancing:CreateListener",
+                  "elasticloadbalancing:CreateLoadBalancer",
+                  "elasticloadbalancing:CreateLoadBalancerListeners",
+                  "elasticloadbalancing:CreateLoadBalancerPolicy",
+                  "elasticloadbalancing:CreateTargetGroup",
+                  "elasticloadbalancing:DeleteListener",
+                  "elasticloadbalancing:DeleteLoadBalancer",
+                  "elasticloadbalancing:DeleteLoadBalancerListeners",
+                  "elasticloadbalancing:DeleteTargetGroup",
+                  "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
+                  "elasticloadbalancing:DeregisterTargets",
+                  "elasticloadbalancing:DescribeListeners",
+                  "elasticloadbalancing:DescribeLoadBalancerAttributes",
+                  "elasticloadbalancing:DescribeLoadBalancerPolicies",
+                  "elasticloadbalancing:DescribeLoadBalancers",
+                  "elasticloadbalancing:DescribeTargetGroupAttributes",
+                  "elasticloadbalancing:DescribeTargetGroups",
+                  "elasticloadbalancing:DescribeTargetHealth",
+                  "elasticloadbalancing:DetachLoadBalancerFromSubnets",
+                  "elasticloadbalancing:ModifyListener",
+                  "elasticloadbalancing:ModifyLoadBalancerAttributes",
+                  "elasticloadbalancing:ModifyTargetGroup",
+                  "elasticloadbalancing:ModifyTargetGroupAttributes",
+                  "elasticloadbalancing:RegisterInstancesWithLoadBalancer",
+                  "elasticloadbalancing:RegisterTargets",
+                  "elasticloadbalancing:SetLoadBalancerPoliciesForBackendServer",
+                  "elasticloadbalancing:SetLoadBalancerPoliciesOfListener",
+                  "kms:DescribeKey"
+                ],
+                "Resource": "*"
+              },
+              {
+                "Sid": "AmazonEKSClusterPolicySLRCreate",
+                "Effect": "Allow",
+                "Action": "iam:CreateServiceLinkedRole",
+                "Resource": "*",
+                "Condition": {
+                  "StringEquals": {
+                    "iam:AWSServiceName": "elasticloadbalancing.amazonaws.com"
+                  }
+                }
+              },
+              {
+                "Sid": "AmazonEKSClusterPolicyENIDelete",
+                "Effect": "Allow",
+                "Action": "ec2:DeleteNetworkInterface",
+                "Resource": "*",
+                "Condition": {
+                  "StringEquals": {
+                    "ec2:ResourceTag/eks:eni:owner": "amazon-vpc-cni"
+                  }
+                }
+              }
+            ]
+          },
+          "aws_iam_role_policy_attachment.policy_attachment-AmazonEKSServicePolicy": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "ec2:CreateNetworkInterface",
+                  "ec2:CreateNetworkInterfacePermission",
+                  "ec2:DeleteNetworkInterface",
+                  "ec2:DescribeInstances",
+                  "ec2:DescribeNetworkInterfaces",
+                  "ec2:DetachNetworkInterface",
+                  "ec2:DescribeSecurityGroups",
+                  "ec2:DescribeSubnets",
+                  "ec2:DescribeVpcs",
+                  "ec2:ModifyNetworkInterfaceAttribute",
+                  "iam:ListAttachedRolePolicies",
+                  "eks:UpdateClusterVersion",
+                  "ec2:GetSecurityGroupsForVpc"
+                ],
+                "Resource": "*"
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "ec2:CreateTags",
+                  "ec2:DeleteTags"
+                ],
+                "Resource": [
+                  "arn:aws:ec2:*:*:vpc/*",
+                  "arn:aws:ec2:*:*:subnet/*"
+                ]
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "ec2:CreateTags"
+                ],
+                "Resource": [
+                  "arn:aws:ec2:*:*:network-interface/*"
+                ],
+                "Condition": {
+                  "StringLike": {
+                    "aws:RequestTag/Name": "eks-cluster-*"
+                  }
+                }
+              },
+              {
+                "Effect": "Allow",
+                "Action": "route53:AssociateVPCWithHostedZone",
+                "Resource": "*"
+              },
+              {
+                "Effect": "Allow",
+                "Action": "logs:CreateLogGroup",
+                "Resource": "*"
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "logs:CreateLogStream",
+                  "logs:DescribeLogStreams"
+                ],
+                "Resource": "arn:aws:logs:*:*:log-group:/aws/eks/*:*"
+              },
+              {
+                "Effect": "Allow",
+                "Action": "logs:PutLogEvents",
+                "Resource": "arn:aws:logs:*:*:log-group:/aws/eks/*:*:*"
+              },
+              {
+                "Effect": "Allow",
+                "Action": "iam:CreateServiceLinkedRole",
+                "Resource": "arn:aws:iam::*:role/aws-service-role/eks.amazonaws.com/AWSServiceRoleForAmazonEKS",
+                "Condition": {
+                  "StringLike": {
+                    "iam:AWSServiceName": "eks.amazonaws.com"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "name": "${local.resource_prefix.value}-iam-for-eks",
+        "assume_role_policy": "${data.aws_iam_policy_document.iam_policy_eks.json}",
+        "tags": {
+          "git_commit": "d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0",
+          "git_file": "terraform/aws/eks.tf",
+          "git_last_modified_at": "2020-06-16 14:46:24",
+          "git_last_modified_by": "nimrodkor@gmail.com",
+          "git_modifiers": "nimrodkor",
+          "git_org": "bridgecrewio",
+          "git_repo": "terragoat",
+          "yor_trace": "de052596-21a0-43de-8153-469add277b18"
+        }
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_neptune_cluster.default",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_neptune_cluster",
+        "resource_name": "default",
+        "cluster_identifier": "${var.neptune-dbname}",
+        "engine": "neptune",
+        "backup_retention_period": 5,
+        "preferred_backup_window": "07:00-09:00",
+        "skip_final_snapshot": true,
+        "iam_database_authentication_enabled": false,
+        "apply_immediately": true,
+        "storage_encrypted": false,
+        "tags": {
+          "git_commit": "aa8fd16fd94cccf6af206e2f0922b5558f8ac514",
+          "git_file": "terraform/aws/neptune.tf",
+          "git_last_modified_at": "2020-08-21 19:14:35",
+          "git_last_modified_by": "matt@bridgecrew.io",
+          "git_modifiers": "matt",
+          "git_org": "bridgecrewio",
+          "git_repo": "terragoat",
+          "yor_trace": "0d4cbb85-73ed-4ca0-b1da-296e4185f34e"
+        }
+      },
+      "parentId": "Neptune Service",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_s3_bucket.data",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_s3_bucket",
+        "resource_name": "data",
+        "bucket": "${local.resource_prefix.value}-data",
+        "force_destroy": true,
+        "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-data\", \"Environment\": \"${local.resource_prefix.value}\"}, {\"git_commit\": \"4d57f83ca4d3a78a44fb36d1dcf0d23983fa44f5\", \"git_file\": \"terraform/aws/s3.tf\", \"git_last_modified_at\": \"2022-05-18 07:08:06\", \"git_last_modified_by\": \"nimrod@bridgecrew.io\", \"git_modifiers\": \"34870196+LironElbaz/nimrod/nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"0874007d-903a-4b4c-945f-c9c233e13243\"})}"
+      },
+      "parentId": "S3 Service",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_s3_bucket.financials",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_s3_bucket",
+        "resource_name": "financials",
+        "bucket": "${local.resource_prefix.value}-financials",
+        "acl": "private",
+        "force_destroy": true,
+        "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-financials\", \"Environment\": \"${local.resource_prefix.value}\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/s3.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"0e012640-b597-4e5d-9378-d4b584aea913\"})}"
+      },
+      "parentId": "S3 Service",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_s3_bucket.operations",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_s3_bucket",
+        "resource_name": "operations",
+        "bucket": "${local.resource_prefix.value}-operations",
+        "acl": "private",
+        "versioning": [
+          {
+            "enabled": true
+          }
+        ],
+        "force_destroy": true,
+        "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-operations\", \"Environment\": \"${local.resource_prefix.value}\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/s3.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"29efcf7b-22a8-4bd6-8e14-1f55b3a2d743\"})}"
+      },
+      "parentId": "S3 Service",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_s3_bucket.data_science",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_s3_bucket",
+        "resource_name": "data_science",
+        "bucket": "${local.resource_prefix.value}-data-science",
+        "acl": "private",
+        "versioning": [
+          {
+            "enabled": true
+          }
+        ],
+        "logging": [
+          {
+            "target_bucket": "${aws_s3_bucket.logs.id}",
+            "target_prefix": "log/"
+          }
+        ],
+        "force_destroy": true,
+        "tags": {
+          "git_commit": "d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0",
+          "git_file": "terraform/aws/s3.tf",
+          "git_last_modified_at": "2020-06-16 14:46:24",
+          "git_last_modified_by": "nimrodkor@gmail.com",
+          "git_modifiers": "nimrodkor",
+          "git_org": "bridgecrewio",
+          "git_repo": "terragoat",
+          "yor_trace": "9a7c8788-5655-4708-bbc3-64ead9847f64"
+        }
+      },
+      "parentId": "S3 Service",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_s3_bucket.logs",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_s3_bucket",
+        "resource_name": "logs",
+        "bucket": "${local.resource_prefix.value}-logs",
+        "acl": "log-delivery-write",
+        "versioning": [
+          {
+            "enabled": true
+          }
+        ],
+        "server_side_encryption_configuration": [
+          {
+            "rule": [
+              {
+                "apply_server_side_encryption_by_default": [
+                  {
+                    "sse_algorithm": "aws:kms",
+                    "kms_master_key_id": "${aws_kms_key.logs_key.arn}"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "force_destroy": true,
+        "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-logs\", \"Environment\": \"${local.resource_prefix.value}\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/s3.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"01946fe9-aae2-4c99-a975-e9b0d3a4696c\"})}"
+      },
+      "parentId": "S3 Service",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_db_instance.default-1",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_db_instance",
+        "resource_name": "default",
+        "name": "${var.dbname}",
+        "engine": "mysql",
+        "option_group_name": "${aws_db_option_group.default.name}",
+        "parameter_group_name": "${aws_db_parameter_group.default.name}",
+        "db_subnet_group_name": "${aws_db_subnet_group.default.name}",
+        "vpc_security_group_ids": [
+          "${aws_security_group.default.id}"
+        ],
+        "identifier": "rds-${local.resource_prefix.value}",
+        "engine_version": "8.0",
+        "instance_class": "db.t3.micro",
+        "allocated_storage": "20",
+        "username": "admin",
+        "password": "${var.password}",
+        "apply_immediately": true,
+        "multi_az": false,
+        "backup_retention_period": 0,
+        "storage_encrypted": false,
+        "skip_final_snapshot": true,
+        "monitoring_interval": 0,
+        "publicly_accessible": true,
+        "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-rds\", \"Environment\": \"${local.resource_prefix.value}\"}, {\"git_commit\": \"e6d83b21346fe85d4fe28b16c0b2f1e0662eb1d7\", \"git_file\": \"terraform/aws/db-app.tf\", \"git_last_modified_at\": \"2023-04-27 12:47:51\", \"git_last_modified_by\": \"nadler@paloaltonetworks.com\", \"git_modifiers\": \"nadler/nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"47c13290-c2ce-48a7-b666-1b0085effb92\"})}",
+        "lifecycle": [
+          {
+            "ignore_changes": [
+              "password"
+            ]
+          }
+        ]
+      },
+      "parentId": "aws_subnet.web_subnet",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_db_instance.default-2",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_db_instance",
+        "resource_name": "default",
+        "name": "${var.dbname}",
+        "engine": "mysql",
+        "option_group_name": "${aws_db_option_group.default.name}",
+        "parameter_group_name": "${aws_db_parameter_group.default.name}",
+        "db_subnet_group_name": "${aws_db_subnet_group.default.name}",
+        "vpc_security_group_ids": [
+          "${aws_security_group.default.id}"
+        ],
+        "identifier": "rds-${local.resource_prefix.value}",
+        "engine_version": "8.0",
+        "instance_class": "db.t3.micro",
+        "allocated_storage": "20",
+        "username": "admin",
+        "password": "${var.password}",
+        "apply_immediately": true,
+        "multi_az": false,
+        "backup_retention_period": 0,
+        "storage_encrypted": false,
+        "skip_final_snapshot": true,
+        "monitoring_interval": 0,
+        "publicly_accessible": true,
+        "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-rds\", \"Environment\": \"${local.resource_prefix.value}\"}, {\"git_commit\": \"e6d83b21346fe85d4fe28b16c0b2f1e0662eb1d7\", \"git_file\": \"terraform/aws/db-app.tf\", \"git_last_modified_at\": \"2023-04-27 12:47:51\", \"git_last_modified_by\": \"nadler@paloaltonetworks.com\", \"git_modifiers\": \"nadler/nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"47c13290-c2ce-48a7-b666-1b0085effb92\"})}",
+        "lifecycle": [
+          {
+            "ignore_changes": [
+              "password"
+            ]
+          }
+        ]
+      },
+      "parentId": "aws_subnet.web_subnet2",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_instance.db_app",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_instance",
+        "resource_name": "db_app",
+        "ami": "${data.aws_ami.amazon-linux-2.id}",
+        "instance_type": "t2.nano",
+        "iam_instance_profile": "${aws_iam_instance_profile.ec2profile.name}",
+        "vpc_security_group_ids": [
+          "${aws_security_group.web-node.id}"
+        ],
+        "subnet_id": "${aws_subnet.web_subnet.id}",
+        "user_data": "#! /bin/bash\n### Config from https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Tutorials.WebServerDB.CreateWebServer.html\nsudo yum -y update\nsudo yum -y install httpd php php-mysqlnd\nsudo systemctl enable httpd \nsudo systemctl start httpd\n\nsudo mkdir /var/www/inc\ncat << EnD > /tmp/dbinfo.inc\n<?php\ndefine('DB_SERVER', '${aws_db_instance.default.endpoint}');\ndefine('DB_USERNAME', '${aws_db_instance.default.username}');\ndefine('DB_PASSWORD', '${var.password}');\ndefine('DB_DATABASE', '${aws_db_instance.default.name}');\n?>\nEnD\nsudo mv /tmp/dbinfo.inc /var/www/inc \nsudo chown root:root /var/www/inc/dbinfo.inc\n\ncat << EnD > /tmp/index.php\n<?php include \"../inc/dbinfo.inc\"; ?>\n<html>\n<body>\n<h1>Sample page</h1>\n<?php\n\n  /* Connect to MySQL and select the database. */\n  \\$connection = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD);\n\n  if (mysqli_connect_errno()) echo \"Failed to connect to MySQL: \" . mysqli_connect_error();\n\n  \\$database = mysqli_select_db(\\$connection, DB_DATABASE);\n\n  /* Ensure that the EMPLOYEES table exists. */\n  VerifyEmployeesTable(\\$connection, DB_DATABASE);\n\n  /* If input fields are populated, add a row to the EMPLOYEES table. */\n  \\$employee_name = htmlentities(\\$_POST['NAME']);\n  \\$employee_address = htmlentities(\\$_POST['ADDRESS']);\n\n  if (strlen(\\$employee_name) || strlen(\\$employee_address)) {\n    AddEmployee(\\$connection, \\$employee_name, \\$employee_address);\n  }\n?>\n\n<!-- Input form -->\n<form action=\"<?PHP echo \\$_SERVER['SCRIPT_NAME'] ?>\" method=\"POST\">\n  <table border=\"0\">\n    <tr>\n      <td>NAME</td>\n      <td>ADDRESS</td>\n    </tr>\n    <tr>\n      <td>\n        <input type=\"text\" name=\"NAME\" maxlength=\"45\" size=\"30\" />\n      </td>\n      <td>\n        <input type=\"text\" name=\"ADDRESS\" maxlength=\"90\" size=\"60\" />\n      </td>\n      <td>\n        <input type=\"submit\" value=\"Add Data\" />\n      </td>\n    </tr>\n  </table>\n</form>\n\n<!-- Display table data. -->\n<table border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n  <tr>\n    <td>ID</td>\n    <td>NAME</td>\n    <td>ADDRESS</td>\n  </tr>\n\n<?php\n\n\\$result = mysqli_query(\\$connection, \"SELECT * FROM EMPLOYEES\");\n\nwhile(\\$query_data = mysqli_fetch_row(\\$result)) {\n  echo \"<tr>\";\n  echo \"<td>\",\\$query_data[0], \"</td>\",\n       \"<td>\",\\$query_data[1], \"</td>\",\n       \"<td>\",\\$query_data[2], \"</td>\";\n  echo \"</tr>\";\n}\n?>\n\n</table>\n\n<!-- Clean up. -->\n<?php\n\n  mysqli_free_result(\\$result);\n  mysqli_close(\\$connection);\n\n?>\n\n</body>\n</html>\n\n\n<?php\n\n/* Add an employee to the table. */\nfunction AddEmployee(\\$connection, \\$name, \\$address) {\n   \\$n = mysqli_real_escape_string(\\$connection, \\$name);\n   \\$a = mysqli_real_escape_string(\\$connection, \\$address);\n\n   \\$query = \"INSERT INTO EMPLOYEES (NAME, ADDRESS) VALUES ('\\$n', '\\$a');\";\n\n   if(!mysqli_query(\\$connection, \\$query)) echo(\"<p>Error adding employee data.</p>\");\n}\n\n/* Check whether the table exists and, if not, create it. */\nfunction VerifyEmployeesTable(\\$connection, \\$dbName) {\n  if(!TableExists(\"EMPLOYEES\", \\$connection, \\$dbName))\n  {\n     \\$query = \"CREATE TABLE EMPLOYEES (\n         ID int(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,\n         NAME VARCHAR(45),\n         ADDRESS VARCHAR(90)\n       )\";\n\n     if(!mysqli_query(\\$connection, \\$query)) echo(\"<p>Error creating table.</p>\");\n  }\n}\n\n/* Check for the existence of a table. */\nfunction TableExists(\\$tableName, \\$connection, \\$dbName) {\n  \\$t = mysqli_real_escape_string(\\$connection, \\$tableName);\n  \\$d = mysqli_real_escape_string(\\$connection, \\$dbName);\n\n  \\$checktable = mysqli_query(\\$connection,\n      \"SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_NAME = '\\$t' AND TABLE_SCHEMA = '\\$d'\");\n\n  if(mysqli_num_rows(\\$checktable) > 0) return true;\n\n  return false;\n}\n?>               \nEnD\n\nsudo mv /tmp/index.php /var/www/html\nsudo chown root:root /var/www/html/index.php",
+        "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-dbapp\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/db-app.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"f7999d4e-c983-43ee-bd88-7903a6f8483e\"})}"
+      },
+      "parentId": "aws_subnet.web_subnet",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_elb.weblb",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_elb",
+        "resource_name": "weblb",
+        "name": "weblb-terraform-elb",
+        "listener": [
+          {
+            "instance_port": 8000,
+            "instance_protocol": "http",
+            "lb_port": 80,
+            "lb_protocol": "http"
+          }
+        ],
+        "health_check": [
+          {
+            "healthy_threshold": 2,
+            "unhealthy_threshold": 2,
+            "timeout": 3,
+            "target": "HTTP:8000/",
+            "interval": 30
+          }
+        ],
+        "subnets": [
+          "${aws_subnet.web_subnet.id}"
+        ],
+        "security_groups": [
+          "${aws_security_group.web-node.id}"
+        ],
+        "instances": [
+          "${aws_instance.web_host.id}"
+        ],
+        "cross_zone_load_balancing": true,
+        "idle_timeout": 400,
+        "connection_draining": true,
+        "connection_draining_timeout": 400,
+        "tags": "${merge({\"Name\": \"foobar-terraform-elb\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/elb.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"b4a83ce9-9a45-43b4-b6d9-1783c282f702\"})}"
+      },
+      "parentId": "aws_subnet.web_subnet",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_instance.web_host",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_instance",
+        "resource_name": "web_host",
+        "ami": "${var.ami}",
+        "instance_type": "t2.nano",
+        "vpc_security_group_ids": [
+          "${aws_security_group.web-node.id}"
+        ],
+        "subnet_id": "${aws_subnet.web_subnet.id}",
+        "user_data": "#! /bin/bash\nsudo apt-get update\nsudo apt-get install -y apache2\nsudo systemctl start apache2\nsudo systemctl enable apache2\nexport AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMAAA\nexport AWS_SECRET_ACCESS_KEY=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\nexport AWS_DEFAULT_REGION=us-west-2\necho \"<h1>Deployed via Terraform</h1>\" | sudo tee /var/www/html/index.html",
+        "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-ec2\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/ec2.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"347af3cd-4f70-4632-aca3-4d5e30ffc0b6\"})}"
+      },
+      "parentId": "aws_subnet.web_subnet",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_s3_bucket.flowbucket",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_s3_bucket",
+        "resource_name": "flowbucket",
+        "bucket": "${local.resource_prefix.value}-flowlogs",
+        "force_destroy": true,
+        "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-flowlogs\", \"Environment\": \"${local.resource_prefix.value}\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/ec2.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"f058838a-b1e0-4383-b965-7e06e987ffb1\"})}"
+      },
+      "parentId": "S3 Service",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_lambda_function.analysis_lambda",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_lambda_function",
+        "resource_name": "analysis_lambda",
+        "filename": "resources/lambda_function_payload.zip",
+        "function_name": "${local.resource_prefix.value}-analysis",
+        "role": "${aws_iam_role.iam_for_lambda.arn}",
+        "handler": "exports.test",
+        "source_code_hash": "${filebase64sha256(\"resources/lambda_function_payload.zip\")}",
+        "runtime": "nodejs12.x",
+        "environment": [
+          {
+            "variables": {
+              "access_key": "AKIAIOSFODNN7EXAMPLE",
+              "secret_key": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+            }
+          }
+        ],
+        "tags": {
+          "git_commit": "5c6b5d60a8aa63a5d37e60f15185d13a967f0542",
+          "git_file": "terraform/aws/lambda.tf",
+          "git_last_modified_at": "2021-05-02 10:06:10",
+          "git_last_modified_by": "nimrodkor@users.noreply.github.com",
+          "git_modifiers": "nimrodkor",
+          "git_org": "bridgecrewio",
+          "git_repo": "terragoat",
+          "yor_trace": "f7d8bc47-e5d9-4b09-9d8f-e7b9724d826e"
+        }
+      },
+      "parentId": "Lambda Service",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_eks_cluster.eks_cluster-1",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_eks_cluster",
+        "resource_name": "eks_cluster",
+        "name": "${local.eks_name.value}",
+        "role_arn": "${aws_iam_role.iam_for_eks.arn}",
+        "vpc_config": [
+          {
+            "endpoint_private_access": true,
+            "subnet_ids": [
+              "${aws_subnet.eks_subnet1.id}",
+              "${aws_subnet.eks_subnet2.id}"
+            ]
+          }
+        ],
+        "depends_on": [
+          "aws_iam_role_policy_attachment.policy_attachment-AmazonEKSClusterPolicy",
+          "aws_iam_role_policy_attachment.policy_attachment-AmazonEKSServicePolicy"
+        ],
+        "tags": {
+          "git_commit": "d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0",
+          "git_file": "terraform/aws/eks.tf",
+          "git_last_modified_at": "2020-06-16 14:46:24",
+          "git_last_modified_by": "nimrodkor@gmail.com",
+          "git_modifiers": "nimrodkor",
+          "git_org": "bridgecrewio",
+          "git_repo": "terragoat",
+          "yor_trace": "7fa14261-c18d-4fa2-aec4-746f6e64d2d3"
+        }
+      },
+      "parentId": "aws_subnet.eks_subnet1",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_eks_cluster.eks_cluster-2",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_eks_cluster",
+        "resource_name": "eks_cluster",
+        "name": "${local.eks_name.value}",
+        "role_arn": "${aws_iam_role.iam_for_eks.arn}",
+        "vpc_config": [
+          {
+            "endpoint_private_access": true,
+            "subnet_ids": [
+              "${aws_subnet.eks_subnet1.id}",
+              "${aws_subnet.eks_subnet2.id}"
+            ]
+          }
+        ],
+        "depends_on": [
+          "aws_iam_role_policy_attachment.policy_attachment-AmazonEKSClusterPolicy",
+          "aws_iam_role_policy_attachment.policy_attachment-AmazonEKSServicePolicy"
+        ],
+        "tags": {
+          "git_commit": "d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0",
+          "git_file": "terraform/aws/eks.tf",
+          "git_last_modified_at": "2020-06-16 14:46:24",
+          "git_last_modified_by": "nimrodkor@gmail.com",
+          "git_modifiers": "nimrodkor",
+          "git_org": "bridgecrewio",
+          "git_repo": "terragoat",
+          "yor_trace": "7fa14261-c18d-4fa2-aec4-746f6e64d2d3"
+        }
+      },
+      "parentId": "aws_subnet.eks_subnet2",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_rds_cluster.app1-rds-cluster",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_rds_cluster",
+        "resource_name": "app1-rds-cluster",
+        "cluster_identifier": "app1-rds-cluster",
+        "allocated_storage": 10,
+        "backup_retention_period": 0,
+        "tags": {
+          "git_commit": "079fe74f6b96d887c245664fbd8cf676c92f20e5",
+          "git_file": "terraform/aws/rds.tf",
+          "git_last_modified_at": "2021-12-08 23:26:32",
+          "git_last_modified_by": "tron47@gmail.com",
+          "git_modifiers": "tron47",
+          "git_org": "matansha",
+          "git_repo": "terragoat",
+          "yor_trace": "b6f2c2ec-0715-46a0-83d4-502e588826d1"
+        }
+      },
+      "parentId": "Rds Service",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_rds_cluster.app2-rds-cluster",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_rds_cluster",
+        "resource_name": "app2-rds-cluster",
+        "cluster_identifier": "app2-rds-cluster",
+        "allocated_storage": 10,
+        "backup_retention_period": 1,
+        "tags": {
+          "git_commit": "079fe74f6b96d887c245664fbd8cf676c92f20e5",
+          "git_file": "terraform/aws/rds.tf",
+          "git_last_modified_at": "2021-12-08 23:26:32",
+          "git_last_modified_by": "tron47@gmail.com",
+          "git_modifiers": "tron47",
+          "git_org": "matansha",
+          "git_repo": "terragoat",
+          "yor_trace": "d33c9292-952b-4c1f-9973-b6dbad519461"
+        }
+      },
+      "parentId": "Rds Service",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_rds_cluster.app3-rds-cluster",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_rds_cluster",
+        "resource_name": "app3-rds-cluster",
+        "cluster_identifier": "app3-rds-cluster",
+        "allocated_storage": 10,
+        "backup_retention_period": 15,
+        "tags": {
+          "git_commit": "079fe74f6b96d887c245664fbd8cf676c92f20e5",
+          "git_file": "terraform/aws/rds.tf",
+          "git_last_modified_at": "2021-12-08 23:26:32",
+          "git_last_modified_by": "tron47@gmail.com",
+          "git_modifiers": "tron47",
+          "git_org": "matansha",
+          "git_repo": "terragoat",
+          "yor_trace": "2a8584b1-7e9d-4739-8e37-366620c92027"
+        }
+      },
+      "parentId": "Rds Service",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_rds_cluster.app4-rds-cluster",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_rds_cluster",
+        "resource_name": "app4-rds-cluster",
+        "cluster_identifier": "app4-rds-cluster",
+        "allocated_storage": 10,
+        "backup_retention_period": 15,
+        "tags": {
+          "git_commit": "079fe74f6b96d887c245664fbd8cf676c92f20e5",
+          "git_file": "terraform/aws/rds.tf",
+          "git_last_modified_at": "2021-12-08 23:26:32",
+          "git_last_modified_by": "tron47@gmail.com",
+          "git_modifiers": "tron47",
+          "git_org": "matansha",
+          "git_repo": "terragoat",
+          "yor_trace": "284aaeed-fd3f-4b7a-b5f8-61a8457f4d83"
+        }
+      },
+      "parentId": "Rds Service",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_rds_cluster.app5-rds-cluster",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_rds_cluster",
+        "resource_name": "app5-rds-cluster",
+        "cluster_identifier": "app5-rds-cluster",
+        "allocated_storage": 10,
+        "backup_retention_period": 15,
+        "tags": {
+          "git_commit": "079fe74f6b96d887c245664fbd8cf676c92f20e5",
+          "git_file": "terraform/aws/rds.tf",
+          "git_last_modified_at": "2021-12-08 23:26:32",
+          "git_last_modified_by": "tron47@gmail.com",
+          "git_modifiers": "tron47",
+          "git_org": "matansha",
+          "git_repo": "terragoat",
+          "yor_trace": "0b2bea23-5ca5-4bd1-956e-b9ed978daadf"
+        }
+      },
+      "parentId": "Rds Service",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_rds_cluster.app6-rds-cluster",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_rds_cluster",
+        "resource_name": "app6-rds-cluster",
+        "cluster_identifier": "app6-rds-cluster",
+        "allocated_storage": 10,
+        "backup_retention_period": 15,
+        "tags": {
+          "git_commit": "079fe74f6b96d887c245664fbd8cf676c92f20e5",
+          "git_file": "terraform/aws/rds.tf",
+          "git_last_modified_at": "2021-12-08 23:26:32",
+          "git_last_modified_by": "tron47@gmail.com",
+          "git_modifiers": "tron47",
+          "git_org": "matansha",
+          "git_repo": "terragoat",
+          "yor_trace": "fcffb961-d859-4be5-997f-d51b50665ada"
+        }
+      },
+      "parentId": "Rds Service",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_rds_cluster.app7-rds-cluster",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_rds_cluster",
+        "resource_name": "app7-rds-cluster",
+        "cluster_identifier": "app7-rds-cluster",
+        "allocated_storage": 10,
+        "backup_retention_period": 25,
+        "tags": {
+          "git_commit": "079fe74f6b96d887c245664fbd8cf676c92f20e5",
+          "git_file": "terraform/aws/rds.tf",
+          "git_last_modified_at": "2021-12-08 23:26:32",
+          "git_last_modified_by": "tron47@gmail.com",
+          "git_modifiers": "tron47",
+          "git_org": "matansha",
+          "git_repo": "terragoat",
+          "yor_trace": "ebc2ac20-23a3-4518-a7ef-3a102b003ab6"
+        }
+      },
+      "parentId": "Rds Service",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_rds_cluster.app8-rds-cluster",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_rds_cluster",
+        "resource_name": "app8-rds-cluster",
+        "cluster_identifier": "app8-rds-cluster",
+        "allocated_storage": 10,
+        "backup_retention_period": 25,
+        "tags": {
+          "git_commit": "079fe74f6b96d887c245664fbd8cf676c92f20e5",
+          "git_file": "terraform/aws/rds.tf",
+          "git_last_modified_at": "2021-12-08 23:26:32",
+          "git_last_modified_by": "tron47@gmail.com",
+          "git_modifiers": "tron47",
+          "git_org": "matansha",
+          "git_repo": "terragoat",
+          "yor_trace": "af643747-0967-4251-8645-3b54882c2507"
+        }
+      },
+      "parentId": "Rds Service",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_rds_cluster.app9-rds-cluster",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_rds_cluster",
+        "resource_name": "app9-rds-cluster",
+        "cluster_identifier": "app9-rds-cluster",
+        "allocated_storage": 10,
+        "backup_retention_period": 25,
+        "tags": {
+          "git_commit": "079fe74f6b96d887c245664fbd8cf676c92f20e5",
+          "git_file": "terraform/aws/rds.tf",
+          "git_last_modified_at": "2021-12-08 23:26:32",
+          "git_last_modified_by": "tron47@gmail.com",
+          "git_modifiers": "tron47",
+          "git_org": "matansha",
+          "git_repo": "terragoat",
+          "yor_trace": "a0c98536-c751-4743-92f1-a106ce750249"
+        }
+      },
+      "parentId": "Rds Service",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "aws_db_instance.default-1",
+      "target": "aws_db_instance.default-2",
+      "type": "equality",
+      "id": "equality-aws_db_instance.default-1-aws_db_instance.default-2"
+    },
+    {
+      "source": "aws_db_instance.default-2",
+      "target": "aws_db_instance.default-1",
+      "type": "equality",
+      "id": "equality-aws_db_instance.default-2-aws_db_instance.default-1"
+    },
+    {
+      "source": "aws_instance.db_app",
+      "target": "aws_iam_role.ec2role",
+      "type": "iam",
+      "id": "iam-aws_instance.db_app-aws_iam_role.ec2role"
+    },
+    {
+      "source": "aws_lambda_function.analysis_lambda",
+      "target": "aws_iam_role.iam_for_lambda",
+      "type": "iam",
+      "id": "iam-aws_lambda_function.analysis_lambda-aws_iam_role.iam_for_lambda"
+    },
+    {
+      "source": "aws_eks_cluster.eks_cluster-1",
+      "target": "aws_eks_cluster.eks_cluster-2",
+      "type": "equality",
+      "id": "equality-aws_eks_cluster.eks_cluster-1-aws_eks_cluster.eks_cluster-2"
+    },
+    {
+      "source": "aws_eks_cluster.eks_cluster-2",
+      "target": "aws_eks_cluster.eks_cluster-1",
+      "type": "equality",
+      "id": "equality-aws_eks_cluster.eks_cluster-2-aws_eks_cluster.eks_cluster-1"
+    },
+    {
+      "source": "aws_eks_cluster.eks_cluster-1",
+      "target": "aws_iam_role.iam_for_eks",
+      "type": "iam",
+      "id": "iam-aws_eks_cluster.eks_cluster-1-aws_iam_role.iam_for_eks"
+    },
+    {
+      "source": "aws_eks_cluster.eks_cluster-2",
+      "target": "aws_iam_role.iam_for_eks",
+      "type": "iam",
+      "id": "iam-aws_eks_cluster.eks_cluster-2-aws_iam_role.iam_for_eks"
+    }
+  ]
+}
