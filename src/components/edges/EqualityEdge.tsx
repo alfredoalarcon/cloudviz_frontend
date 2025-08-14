@@ -9,12 +9,21 @@ const EqualityEdge = React.memo(function CustomEdge({
   sourceY,
   targetX,
   targetY,
+  sourcePosition,
+  targetPosition,
 }: EdgeProps) {
+  /**
+   * Returns +1 or -1 indicating which side of the ST segment to bulge toward.
+   * We choose the normal pointing most along the given bias direction.
+   */
+
   const [edgePath] = getBezierPath({
     sourceX,
     sourceY,
     targetX,
     targetY,
+    sourcePosition,
+    targetPosition,
   });
 
   return (

@@ -7,7 +7,6 @@ import {
   Background,
   useReactFlow,
   useNodesInitialized,
-  useNodes,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
@@ -58,28 +57,37 @@ function Flow() {
   }, []);
 
   useEffect(() => {
+    const newEdges = computeHandlers(edges);
+    setEdges(newEdges);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nodesInitialized]);
+
+  function computeHandlers(edges: Edge[]) {
     if (nodesInitialized) {
-      const newEdges = edges.map((e) => {
-        const source = getInternalNode(e.source) as InternalNode;
-        const target = getInternalNode(e.target) as InternalNode;
+      return edges.map((e) => {
+        const edge = { ...e };
+        const source = getInternalNode(edge.source) as InternalNode;
+        const target = getInternalNode(edge.target) as InternalNode;
         const { sourceHandle, targetHandle } = assignClosestHandles(
           source,
           target
         );
 
-        return { ...e, sourceHandle, targetHandle };
+        edge.sourceHandle = sourceHandle;
+        edge.targetHandle = targetHandle;
+
+        return edge;
       });
-
-      setEdges(newEdges);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [nodesInitialized]);
-
-  console.log({ nodes, edges });
+    } else return edges;
+  }
 
   const onNodesChange = useCallback(
-    (changes: NodeChange[]) =>
-      setNodes((nds) => applyNodeChanges(changes, nds)),
+    (changes: NodeChange[]) => {
+      setNodes((nds) => applyNodeChanges(changes, nds));
+      // Update edge handles
+      const newEdges = computeHandlers(edges);
+      setEdges(newEdges);
+    },
     [setNodes]
   );
   const onEdgesChange = useCallback(

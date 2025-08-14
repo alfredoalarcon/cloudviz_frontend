@@ -239,8 +239,6 @@ export async function layoutNodesForReactFlow(
     },
   };
 
-  console.log({ elkGraph });
-
   // Run ELK
   const layouted = (await elk.layout(elkGraph)) as ElkGraph;
 
