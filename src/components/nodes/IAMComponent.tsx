@@ -1,5 +1,5 @@
 import React from "react";
-import { NodeProps, Node } from "@xyflow/react";
+import { NodeProps, Node, Handle, Position } from "@xyflow/react";
 import { Box, Text } from "@chakra-ui/react";
 
 type IAMData = {
@@ -26,6 +26,15 @@ const IAMComponent = React.memo(function IAMComponent({
       }}
     >
       <Text style={{ fontSize: "5px" }}>{id}</Text>
+
+      <Handle id="top" type="source" position={Position.Top} />
+      <Handle id="right" type="source" position={Position.Right} />
+      <Handle id="bottom" type="target" position={Position.Bottom} />
+      <Handle id="left" type="target" position={Position.Left} />
+      <Handle id="top" type="target" position={Position.Top} />
+      <Handle id="right" type="target" position={Position.Right} />
+      <Handle id="bottom" type="source" position={Position.Bottom} />
+      <Handle id="left" type="source" position={Position.Left} />
     </Box>
   );
 });
