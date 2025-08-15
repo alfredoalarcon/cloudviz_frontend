@@ -1,7 +1,7 @@
 import React from "react";
 import { NodeProps, Node } from "@xyflow/react";
-import { Box, Flex, Image } from "@chakra-ui/react";
-import { VPCLayout, S3_ICONS_URL } from "../constants";
+import { S3_ICONS_URL } from "../constants";
+import GroupContainer from "./GroupContainer";
 
 type SubnetData = {
   resource_type: string;
@@ -14,56 +14,15 @@ type SubnetData = {
 type SubnetNode = Node<SubnetData, "resource">;
 
 const Subnet = React.memo(function Subnet({ data }: NodeProps<SubnetNode>) {
-  const color = data.is_public ? "#7AA116" : "#00A4A6";
-  const label =
-    data.resource_name.length > VPCLayout.labelSize
-      ? data.resource_name.slice(0, VPCLayout.labelSize)
-      : data.resource_name;
+  const borderColor = data.is_public ? "#7AA116" : "#00A4A6";
+
   return (
-    <Box
-      style={{
-        border: `1.4px solid ${color}`,
-        height: "100%",
-        width: "100%",
-        borderRadius: "4px",
-      }}
-    >
-      <Flex>
-        {/* Image */}
-        <Box
-          style={{
-            width: VPCLayout.imageSize,
-            height: VPCLayout.imageSize,
-            backgroundColor: color,
-          }}
-        >
-          <Image
-            src={`${S3_ICONS_URL}/${data.resource_icon}`}
-            alt={data.resource_name}
-          />
-        </Box>
-        {/* Label */}
-        <Flex
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-            height: VPCLayout.imageSize,
-          }}
-        >
-          <Box
-            style={{
-              fontSize: "11px",
-              color: "gray",
-              paddingLeft: "5px",
-              overflow: "hidden",
-            }}
-          >
-            {label}
-          </Box>
-        </Flex>
-      </Flex>
-    </Box>
+    <GroupContainer
+      borderColor={borderColor}
+      borderWidth="1.2px"
+      label={data.resource_name}
+      imageUrl={`${S3_ICONS_URL}/${data.resource_icon}`}
+    />
   );
 });
 

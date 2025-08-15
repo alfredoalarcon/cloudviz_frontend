@@ -24,8 +24,8 @@ const IAMComponent = React.memo(function IAMComponent({
 
   // Compute label to display
   let label = data.resource_name;
-  if (data.resource_name.length > resourceLayout.num_chars_label) {
-    label = data.resource_name.slice(0, resourceLayout.num_chars_label);
+  if (data.resource_name.length > resourceLayout.labelSize) {
+    label = data.resource_name.slice(0, resourceLayout.labelSize);
   }
 
   // Define handles
@@ -126,9 +126,10 @@ const IAMComponent = React.memo(function IAMComponent({
         >
           <Box
             style={{
-              fontSize: "9px",
+              fontSize: resourceLayout.labelFontSize,
               flexGrow: 0,
               alignSelf: "center",
+              overflow: "hidden",
             }}
           >
             {label}

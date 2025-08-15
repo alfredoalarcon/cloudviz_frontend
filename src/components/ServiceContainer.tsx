@@ -1,10 +1,12 @@
 import React from "react";
 import { NodeProps, Node } from "@xyflow/react";
-import { Box, Text } from "@chakra-ui/react";
+import GroupContainer from "./GroupContainer";
+import { S3_ICONS_URL } from "../constants";
 
 type ServiceData = {
   resource_type: string;
   resource_name: string;
+  resource_icon: string;
 };
 
 type ServiceNode = Node<ServiceData, "resource">;
@@ -12,18 +14,20 @@ type ServiceNode = Node<ServiceData, "resource">;
 const ServiceComponent = React.memo(function ServiceComponent({
   data,
 }: NodeProps<ServiceNode>) {
+  const borderColor = data.resource_name.toLowerCase().includes("vpc")
+    ? "black"
+    : "gray";
+
+  const borderWidth = data.resource_name.toLowerCase().includes("vpc")
+    ? "1.5px"
+    : "1.2px";
   return (
-    <Box
-      style={{
-        border: "1px solid blue",
-        height: "100%",
-        width: "100%",
-        borderRadius: "8px",
-        padding: "1% 2%",
-      }}
-    >
-      <Text style={{ fontSize: "11px" }}>{data.resource_name}</Text>
-    </Box>
+    <GroupContainer
+      borderColor={borderColor}
+      label={data.resource_name}
+      imageUrl={`${S3_ICONS_URL}/${data.resource_icon}`}
+      borderWidth={borderWidth}
+    />
   );
 });
 

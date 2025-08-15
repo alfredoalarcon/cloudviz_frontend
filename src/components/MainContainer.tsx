@@ -1,28 +1,27 @@
 import React from "react";
 import { NodeProps, Node } from "@xyflow/react";
-import { Box } from "@chakra-ui/react";
+import { Box, Flex, Image } from "@chakra-ui/react";
+import { S3_ICONS_URL, GroupLayout } from "../constants";
+import GroupContainer from "./GroupContainer";
 
 type MainContainerData = {
   resource_type: string;
   resource_name: string;
+  resource_icon: string;
 };
 
 type MainContainerNode = Node<MainContainerData, "resource">;
 
 const MainContainerComponent = React.memo(function MainContainerComponent({
-  id,
+  data,
 }: NodeProps<MainContainerNode>) {
   return (
-    <Box
-      style={{
-        border: "1px solid blue",
-        height: "100%",
-        width: "100%",
-        borderRadius: "8px",
-      }}
-    >
-      {id}
-    </Box>
+    <GroupContainer
+      borderWidth="1.5px"
+      borderColor="#1d1d1dff"
+      label={data.resource_name}
+      imageUrl={`${S3_ICONS_URL}/${data.resource_icon}`}
+    />
   );
 });
 

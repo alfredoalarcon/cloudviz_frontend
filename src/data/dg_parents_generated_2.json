@@ -5,7 +5,8 @@
       "type": "aws_container",
       "data": {
         "resource_name": "AWS Cloud",
-        "resource_type": "aws_container"
+        "resource_type": "aws_container",
+        "resource_icon": "aws/Architecture-Group-Icons_07312025/AWS-Cloud-logo_32.svg"
       },
       "position": {
         "x": 0,
@@ -13,24 +14,25 @@
       }
     },
     {
-      "id": "Kms Service",
+      "id": "VPC Service",
       "type": "service_container",
       "data": {
-        "resource_name": "Kms Service",
-        "resource_type": "service_container"
+        "resource_name": "VPC Service",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Group-Icons_07312025/AWS-Cloud_32.svg"
       },
-      "parentId": "AWS Cloud",
       "position": {
         "x": 0,
         "y": 0
       }
     },
     {
-      "id": "Managed VPCs",
+      "id": "IAM Service",
       "type": "service_container",
       "data": {
-        "resource_name": "Managed VPCs",
-        "resource_type": "service_container"
+        "resource_name": "IAM Service",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg"
       },
       "position": {
         "x": 0,
@@ -42,45 +44,8 @@
       "type": "service_container",
       "data": {
         "resource_name": "Lambda Service",
-        "resource_type": "service_container"
-      },
-      "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "Rds Service",
-      "type": "service_container",
-      "data": {
-        "resource_name": "Rds Service",
-        "resource_type": "service_container"
-      },
-      "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "IAM Service",
-      "type": "service_container",
-      "data": {
-        "resource_name": "IAM Service",
-        "resource_type": "service_container"
-      },
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "Flow Service",
-      "type": "service_container",
-      "data": {
-        "resource_name": "Flow Service",
-        "resource_type": "service_container"
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_AWS-Lambda_48.svg"
       },
       "parentId": "AWS Cloud",
       "position": {
@@ -93,7 +58,22 @@
       "type": "service_container",
       "data": {
         "resource_name": "Neptune Service",
-        "resource_type": "service_container"
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Neptune_48.svg"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "Kms Service",
+      "type": "service_container",
+      "data": {
+        "resource_name": "Kms Service",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Key-Management-Service_48.svg"
       },
       "parentId": "AWS Cloud",
       "position": {
@@ -106,7 +86,22 @@
       "type": "service_container",
       "data": {
         "resource_name": "S3 Service",
-        "resource_type": "service_container"
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "Rds Service",
+      "type": "service_container",
+      "data": {
+        "resource_name": "Rds Service",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Aurora_48.svg"
       },
       "parentId": "AWS Cloud",
       "position": {
@@ -119,7 +114,8 @@
       "type": "service_container",
       "data": {
         "resource_name": "Elasticsearch Service",
-        "resource_type": "service_container"
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Analytics/48/Arch_Amazon-OpenSearch-Service_48.svg"
       },
       "parentId": "AWS Cloud",
       "position": {
@@ -139,7 +135,7 @@
         "enable_dns_support": true,
         "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-vpc\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/ec2.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"9bf2359b-952e-4570-9595-52eba4c20473\"})}"
       },
-      "parentId": "Managed VPCs",
+      "parentId": "VPC Service",
       "position": {
         "x": 0,
         "y": 0
@@ -157,7 +153,7 @@
         "enable_dns_support": true,
         "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-eks-vpc\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/eks.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"1600ca6c-72f6-45c0-a71d-88e117e51d6b\"})}"
       },
-      "parentId": "Managed VPCs",
+      "parentId": "VPC Service",
       "position": {
         "x": 0,
         "y": 0
@@ -971,25 +967,6 @@
         "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-ec2\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/ec2.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"347af3cd-4f70-4632-aca3-4d5e30ffc0b6\"})}"
       },
       "parentId": "aws_subnet.web_subnet",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "aws_flow_log.vpcflowlogs",
-      "type": "resource",
-      "data": {
-        "resource_type": "aws_flow_log",
-        "resource_name": "vpcflowlogs",
-        "resource_icon": "aws/Resource-Icons_07312025/Res_Networking-Content-Delivery/Res_Amazon-VPC_Flow-Logs_48.svg",
-        "log_destination": "${aws_s3_bucket.flowbucket.arn}",
-        "log_destination_type": "s3",
-        "traffic_type": "ALL",
-        "vpc_id": "${aws_vpc.web_vpc.id}",
-        "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-flowlogs\", \"Environment\": \"${local.resource_prefix.value}\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/ec2.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"6808d4b7-45bc-4d1d-9523-96757a3add3a\"})}"
-      },
-      "parentId": "Flow Service",
       "position": {
         "x": 0,
         "y": 0

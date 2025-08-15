@@ -1,7 +1,7 @@
 import React from "react";
 import { NodeProps, Node } from "@xyflow/react";
-import { Box, Flex, Image } from "@chakra-ui/react";
-import { VPCLayout, S3_ICONS_URL } from "../constants";
+import { GroupLayout, S3_ICONS_URL } from "../constants";
+import GroupContainer from "./GroupContainer";
 
 type VPCData = {
   resource_type: string;
@@ -15,48 +15,14 @@ type VPCData = {
 type VPCNode = Node<VPCData, "resource">;
 
 const VPCGroup = React.memo(function VPCGroup({ data }: NodeProps<VPCNode>) {
-  const color = "#8C4FFF";
-  const label =
-    data.resource_name.length > VPCLayout.labelSize
-      ? data.resource_name.slice(0, VPCLayout.labelSize)
-      : data.resource_name;
+  const borderColor = "#8C4FFF";
   return (
-    <Box
-      style={{
-        border: `1.6px solid ${color}`,
-        height: "100%",
-        width: "100%",
-        borderRadius: "4px",
-      }}
-    >
-      <Flex>
-        {/* Image */}
-        <Box
-          style={{
-            width: VPCLayout.imageSize,
-            height: VPCLayout.imageSize,
-            backgroundColor: color,
-          }}
-        >
-          <Image
-            src={`${S3_ICONS_URL}/${data.resource_icon}`}
-            alt={data.resource_name}
-          />
-        </Box>
-        {/* Label */}
-        <Flex style={{ flexDirection: "column", justifyContent: "center" }}>
-          <Box
-            style={{
-              fontSize: "13px",
-              color: "gray",
-              paddingLeft: "5px",
-            }}
-          >
-            {label}
-          </Box>
-        </Flex>
-      </Flex>
-    </Box>
+    <GroupContainer
+      borderColor={borderColor}
+      borderWidth="1.5px"
+      label={data.resource_name}
+      imageUrl={`${S3_ICONS_URL}/${data.resource_icon}`}
+    />
   );
 });
 

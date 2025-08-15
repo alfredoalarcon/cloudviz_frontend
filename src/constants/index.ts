@@ -5,8 +5,8 @@ import ResourceComponent from "../components/ResourceComponent";
 import VPC from "../components/VPC";
 import Subnet from "../components/Subnet";
 
-// Layout of VPC
-export const VPCLayout = {
+// Layout of Group
+export const GroupLayout = {
   imageSize: 24,
   labelSize: 25,
 };
@@ -16,8 +16,9 @@ export const resourceLayout = {
   width: 80,
   height: 75,
   padding: 10,
-  coeff_image: 0.75,
-  num_chars_label: 16,
+  coeff_image: 0.7,
+  labelSize: 15,
+  labelFontSize: "10px",
 };
 
 // Padding within a cluster
