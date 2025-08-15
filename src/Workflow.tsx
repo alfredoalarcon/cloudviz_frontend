@@ -38,24 +38,29 @@ function Flow() {
   const nodesInitialized = useNodesInitialized();
   const { getInternalNode } = useReactFlow();
 
-  // Load and lay out graph data
+  // Load and lay out nodes
   useEffect(() => {
-    async function fetchData() {
+    async function layoutNodes() {
       const { nodes, edges } = await layoutNodesForReactFlow(
         graphData as Graph,
         {
           direction: "DOWN",
           childDefaultSize: { width: 50, height: 50 },
           clusterPadding: "[top=35,left=20,bottom=20,right=20]",
+          viewportSize: {
+            width: window.innerWidth,
+            height: window.innerHeight,
+          },
         }
       );
       setNodes(nodes);
       setEdges(edges);
     }
 
-    fetchData();
+    layoutNodes();
   }, []);
 
+  // Compute edge handles when nodes are initialized
   useEffect(() => {
     const newEdges = computeHandlers(edges);
     setEdges(newEdges);
@@ -88,7 +93,7 @@ function Flow() {
       const newEdges = computeHandlers(edges);
       setEdges(newEdges);
     },
-    [setNodes]
+    [setNodes, edges]
   );
   const onEdgesChange = useCallback(
     (changes: EdgeChange[]) =>

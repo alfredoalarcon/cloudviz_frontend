@@ -128,9 +128,25 @@ export async function layoutNodesForReactFlow(
     sizeByNode,
     clusterPadding,
     elkOptionsOverride,
-  }: LayoutOptions = {}
+    viewportSize,
+  }: LayoutOptions & { viewportSize?: { width: number; height: number } } = {}
 ): Promise<Graph> {
   const elk = new ELK();
+
+  // compute aspect ratio from viewport -------------------------------
+  let aspectRatio: number | undefined;
+  if (viewportSize?.width && viewportSize?.height) {
+    // 1.2 is a magic number to adjust the aspect ratio in order to make the view wider
+    aspectRatio = (1.2 * viewportSize.width) / viewportSize.height;
+    console.log({ aspectRatio });
+  } else if (
+    typeof window !== "undefined" &&
+    window.innerWidth &&
+    window.innerHeight
+  ) {
+    aspectRatio = window.innerWidth / window.innerHeight;
+  }
+  // If user already set it via elkOptionsOverride, we won't overwrite it below.
 
   // Clone to avoid mutating the caller’s arrays.
   const nodes = raw.nodes.map((n) => ({ ...n, position: { ...n.position } }));
@@ -146,7 +162,6 @@ export async function layoutNodesForReactFlow(
     childrenOf.get(key)!.push(n);
   }
 
-  // Helper to get a leaf node’s size, falling back to defaults or provided callback.
   const getLeafSize = (n: Node) => {
     if (sizeByNode) {
       const s = sizeByNode(n);
@@ -158,10 +173,6 @@ export async function layoutNodesForReactFlow(
     };
   };
 
-  // Ports derived from handles (only created on nodes that actually use them)
-  const portsByNode = collectPorts({ nodes, edges }, direction);
-
-  // Recursively convert into ELK graph structure
   const buildElkSubtree = (parentId?: string): ElkNode[] => {
     const kids = childrenOf.get(parentId) ?? [];
     return kids.map<ElkNode>((n) => {
@@ -169,7 +180,7 @@ export async function layoutNodesForReactFlow(
       const isCompound = grandkids.length > 0;
 
       if (isCompound) {
-        const elkNode: ElkNode = {
+        return {
           id: n.id,
           children: buildElkSubtree(n.id),
           layoutOptions: {
@@ -178,96 +189,56 @@ export async function layoutNodesForReactFlow(
               : { "elk.padding": "24" }),
           },
         };
-        if (portsByNode[n.id]?.length) {
-          elkNode.ports = portsByNode[n.id];
-          elkNode.layoutOptions = {
-            ...(elkNode.layoutOptions || {}),
-            "org.eclipse.elk.portConstraints": "FIXED_ORDER",
-          };
-        }
-        return elkNode;
       }
 
       const s = getLeafSize(n);
-      const elkNode: ElkNode = {
-        id: n.id,
-        width: s.width,
-        height: s.height,
-      };
-      if (portsByNode[n.id]?.length) {
-        elkNode.ports = portsByNode[n.id];
-        elkNode.layoutOptions = {
-          "org.eclipse.elk.portConstraints": "FIXED_ORDER",
-        };
-      }
-      return elkNode;
+      return { id: n.id, width: s.width, height: s.height };
     });
   };
 
-  // Convert React Flow edges -> ELK edges
-  const elkEdges: ElkEdge[] = edges.map((e) => {
-    const src = e.sourceHandle ? `${e.source}:${e.sourceHandle}` : e.source;
-    const tgt = e.targetHandle ? `${e.target}:${e.targetHandle}` : e.target;
-    return {
-      id: e.id ?? `${e.source}-${e.target}`,
-      sources: [src],
-      targets: [tgt],
-    };
-  });
+  const elkEdges: ElkEdge[] = edges.map((e) => ({
+    id: e.id ?? `${e.source}-${e.target}`,
+    sources: [e.source],
+    targets: [e.target],
+  }));
 
   const elkGraph: ElkGraph = {
     id: "root",
     children: buildElkSubtree(undefined),
     edges: elkEdges,
     layoutOptions: {
-      // Core algorithm & direction
       "elk.algorithm": "layered",
       "elk.direction": direction,
-      // Spacing heuristics
+
+      ...(aspectRatio && !("elk.aspectRatio" in (elkOptionsOverride ?? {}))
+        ? { "elk.aspectRatio": String(aspectRatio) }
+        : {}),
       "elk.spacing.nodeNode": "80",
       "elk.layered.spacing.nodeNodeBetweenLayers": "80",
       "elk.spacing.edgeEdge": "15",
       "elk.spacing.componentComponent": "90",
-      // Routing & niceties
       "elk.edgeRouting": "ORTHOGONAL",
       "elk.layered.mergeEdges": "true",
       "elk.layered.nodePlacement.strategy": "NETWORK_SIMPLEX",
-      // Optionally stabilize results if you keep original order meaningful:
-      // "elk.layered.considerModelOrder": "NODES_AND_EDGES",
       ...(clusterPadding ? { "elk.padding": clusterPadding } : {}),
       ...(elkOptionsOverride ?? {}),
     },
   };
 
-  // Run ELK
   const layouted = (await elk.layout(elkGraph)) as ElkGraph;
 
-  // Write back positions and sizes.
-  // IMPORTANT: React Flow expects:
-  // - top-level node positions: absolute (root-relative) -> ELK gives that already
-  // - child node positions (with parentId): RELATIVE to their parent -> ELK also gives that already
-  // So we *do not* add parent offsets here.
   const applyPositions = (elkNode: ElkNode) => {
     const n = nodeById.get(elkNode.id);
-
     if (n) {
       n.position = { x: elkNode.x ?? 0, y: elkNode.y ?? 0 };
-
-      // ELK may compute sizes (esp. for compounds). Keep them if present.
       if (elkNode.width != null) n.width = elkNode.width;
       if (elkNode.height != null) n.height = elkNode.height;
     }
-
-    if (elkNode.children?.length) {
-      for (const c of elkNode.children) applyPositions(c);
-    }
+    elkNode.children?.forEach(applyPositions);
   };
 
-  for (const child of layouted.children ?? []) {
-    applyPositions(child);
-  }
+  for (const child of layouted.children ?? []) applyPositions(child);
 
-  // Return updated graph; edges unchanged (RF renders them)
   return { nodes, edges };
 }
 
@@ -343,125 +314,3 @@ export function assignClosestHandles(
 
   return { sourceHandle: best!.sId, targetHandle: best!.tId };
 }
-
-// ----------------- v2
-/**
- * For every edge, pick the source/target handle pair (top/right/bottom/left)
- * whose anchor points are closest (Manhattan distance), using absolute node
- * coordinates only. If a node lacks absolute pos or size, the edge is left unchanged.
- */
-// export function assignClosestHandles(
-//   source: InternalNode,
-//   target: InternalNode
-// ): { sourceHandle: string; targetHandle: string } {
-//   console.log({ source, target });
-
-//   // Compute rect around an internal node
-//   const rect = (n: InternalNode) => {
-//     const x = n.internals.positionAbsolute.x;
-//     const y = n.internals.positionAbsolute.y;
-//     const w = n.width || 0;
-//     const h = n.height || 0;
-
-//     return { x, y, w, h, cx: x + w / 2, cy: y + h / 2 };
-//   };
-
-//   function nearestSide(
-//     fromRect: { x: number; y: number; w: number; h: number },
-//     toPoint: { x: number; y: number }
-//   ) {
-//     // distances from point to each rectangle side (positive values)
-//     const dLeft = Math.abs(toPoint.x - fromRect.x);
-//     const dRight = Math.abs(fromRect.x + fromRect.w - toPoint.x);
-//     const dTop = Math.abs(toPoint.y - fromRect.y);
-//     const dBottom = Math.abs(fromRect.y + fromRect.h - toPoint.y);
-
-//     // choose minimal distance; stable tie-breaker order favors left/right
-//     let side = "left",
-//       d = dLeft;
-//     if (dRight < d) {
-//       side = "right";
-//       d = dRight;
-//     }
-//     if (dTop < d) {
-//       side = "top";
-//       d = dTop;
-//     }
-//     if (dBottom < d) {
-//       side = "bottom";
-//       d = dBottom;
-//     }
-//     return side as "left" | "right" | "top" | "bottom";
-//   }
-
-//   const sr = rect(source);
-//   const tr = rect(target);
-
-//   const sourceHandle = nearestSide(sr, { x: tr.cx, y: tr.cy });
-//   const targetHandle = nearestSide(tr, { x: sr.cx, y: sr.cy });
-
-//   return { sourceHandle, targetHandle };
-// }
-
-// --------------- v1
-
-// export function assignClosestHandles(nodes: Node[], edges: Edge[]): Edge[] {
-//   const byId = new Map(nodes.map((n) => [n.id, n]));
-
-//   const rect = (n: Node) => {
-//     const x = n.positionAbsolute?.x;
-//     const y = n.positionAbsolute?.y;
-//     const w = n.width,
-//       h = n.height;
-
-//     if (x == null || y == null || w == null || h == null) return null;
-//     return { x, y, w, h, cx: x + w / 2, cy: y + h / 2 };
-//   };
-
-//   function nearestSide(
-//     fromRect: { x: number; y: number; w: number; h: number },
-//     toPoint: { x: number; y: number }
-//   ) {
-//     // distances from point to each rectangle side (positive values)
-//     const dLeft = Math.abs(toPoint.x - fromRect.x);
-//     const dRight = Math.abs(fromRect.x + fromRect.w - toPoint.x);
-//     const dTop = Math.abs(toPoint.y - fromRect.y);
-//     const dBottom = Math.abs(fromRect.y + fromRect.h - toPoint.y);
-
-//     // choose minimal distance; stable tie-breaker order favors left/right
-//     let side = "left",
-//       d = dLeft;
-//     if (dRight < d) {
-//       side = "right";
-//       d = dRight;
-//     }
-//     if (dTop < d) {
-//       side = "top";
-//       d = dTop;
-//     }
-//     if (dBottom < d) {
-//       side = "bottom";
-//       d = dBottom;
-//     }
-//     return side as "left" | "right" | "top" | "bottom";
-//   }
-
-//   const newEdges = edges.map((e) => {
-//     const s = byId.get(e.source);
-//     const t = byId.get(e.target);
-//     if (!s || !t) return e;
-
-//     const sr = rect(s);
-//     const tr = rect(t);
-//     if (!sr || !tr) return e;
-
-//     // Source handle: side of source closest to target center.
-//     const sourceHandle = nearestSide(sr, { x: tr.cx, y: tr.cy });
-//     // Target handle: side of target closest to source center.
-//     const targetHandle = nearestSide(tr, { x: sr.cx, y: sr.cy });
-
-//     return { ...e, sourceHandle, targetHandle };
-//   });
-
-//   return newEdges;
-// }
