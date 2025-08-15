@@ -5,6 +5,7 @@ import { ReactFlowProvider } from "@xyflow/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { FormProvider, useForm } from "react-hook-form";
 import { AppProvider } from "./context/AppContext";
+import DetailsDrawer from "./components/DetailsDrawer";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,6 +27,7 @@ function App() {
         <QueryClientProvider client={queryClient}>
           <ReactFlowProvider>
             <FormProvider {...form}>
+              <DetailsDrawer />
               <Workflow />
             </FormProvider>
           </ReactFlowProvider>
