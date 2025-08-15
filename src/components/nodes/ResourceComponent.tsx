@@ -1,11 +1,12 @@
 import React from "react";
 import { NodeProps, Node, Handle, Position } from "@xyflow/react";
-import { Box, Text } from "@chakra-ui/react";
-import { handleStyle } from "../../constants";
+import { Box, Text, Image, Flex } from "@chakra-ui/react";
+import { handleStyle, S3_ICONS_URL, resourceLayout } from "../../constants";
 
 type ResourceData = {
   resource_type: string;
   resource_name: string;
+  resource_icon: string;
 };
 
 type ResourceNode = Node<ResourceData, "resource">;
@@ -13,18 +14,68 @@ type ResourceNode = Node<ResourceData, "resource">;
 const ResourceComponent = React.memo(function ResourceComponent({
   data,
 }: NodeProps<ResourceNode>) {
+  // Compute image size
+  const imageSize = resourceLayout.width * resourceLayout.coeff_image;
+  const labelHeight = resourceLayout.height - imageSize;
+
+  // Compute label to display
+  let label = data.resource_name;
+  if (data.resource_name.length > resourceLayout.num_chars_label) {
+    label = data.resource_name.slice(0, resourceLayout.num_chars_label);
+  }
   return (
     <Box
       style={{
-        border: "1px solid green",
         height: "100%",
         width: "100%",
-        borderRadius: "8px",
       }}
     >
-      <Text style={{ fontSize: "8px", padding: "1% 2%" }}>
-        {data.resource_name}
-      </Text>
+      <Flex
+        style={{
+          height: "100%",
+          width: "100%",
+          flexDirection: "column",
+        }}
+      >
+        {/* Box holding image */}
+        <Box
+          style={{
+            flexGrow: 0,
+            height: imageSize,
+            width: imageSize,
+            alignSelf: "center",
+            flexShrink: 0,
+          }}
+        >
+          <Image
+            src={`${S3_ICONS_URL}/${data.resource_icon}`}
+            alt={data.resource_name}
+          />
+        </Box>
+        {/* Box holding label */}
+        <Flex
+          style={{
+            flexGrow: 0,
+            flexShrink: 0,
+            height: labelHeight,
+            width: "100%",
+            overflow: "hidden",
+            alignItems: "center",
+            flexDirection: "column",
+            justifyContent: "center",
+          }}
+        >
+          <Box
+            style={{
+              fontSize: "9px",
+              flexGrow: 0,
+              alignSelf: "center",
+            }}
+          >
+            {label}
+          </Box>
+        </Flex>
+      </Flex>
 
       <Handle
         id="top"

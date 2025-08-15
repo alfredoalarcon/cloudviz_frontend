@@ -16,14 +16,13 @@ import type {
   Connection,
   Node,
   Edge,
-  InternalNode,
 } from "@xyflow/react";
 import { Box } from "@chakra-ui/react";
 import graphData from "./data/dg_parents_generated_2.json";
 import { layoutNodesForReactFlow } from "./layout";
 import { updateEdges } from "./utils";
 import { Graph } from "./types";
-import { nodeTypes } from "./constants";
+import { nodeTypes, resourceLayout, clusterPadding } from "./constants";
 const rfStyle = {
   backgroundColor: "#f2f1f1ff",
 };
@@ -41,8 +40,11 @@ function Flow() {
         graphData as Graph,
         {
           direction: "DOWN",
-          childDefaultSize: { width: 50, height: 50 },
-          clusterPadding: "[top=35,left=20,bottom=20,right=20]",
+          childDefaultSize: {
+            width: resourceLayout.width,
+            height: resourceLayout.height,
+          },
+          clusterPadding: `[top=${clusterPadding.top},left=${clusterPadding.left},bottom=${clusterPadding.bottom},right=${clusterPadding.right}]`,
           viewportSize: {
             width: window.innerWidth,
             height: window.innerHeight,
