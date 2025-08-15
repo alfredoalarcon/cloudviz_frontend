@@ -59,52 +59,6 @@ type ElkGraph = {
 
 const DEFAULT_CHILD_SIZE = { width: 160, height: 40 };
 
-function sideFor(
-  direction: Direction,
-  role: "source" | "target"
-): "LEFT" | "RIGHT" | "TOP" | "BOTTOM" {
-  switch (direction) {
-    case "RIGHT":
-      return role === "source" ? "RIGHT" : "LEFT";
-    case "LEFT":
-      return role === "source" ? "LEFT" : "RIGHT";
-    case "DOWN":
-      return role === "source" ? "BOTTOM" : "TOP";
-    case "UP":
-      return role === "source" ? "TOP" : "BOTTOM";
-  }
-}
-
-/**
- * Build a map of nodeId -> ELK ports derived from React Flow edges' sourceHandle/targetHandle.
- * Ports help ELK respect multiple handles per node and reduce crossings.
- */
-function collectPorts(raw: Graph, direction: Direction) {
-  const byNode: Record<
-    string,
-    { id: string; properties: Record<string, string> }[]
-  > = {};
-  const add = (nodeId: string, handleId: string, role: "source" | "target") => {
-    if (!handleId) return;
-    byNode[nodeId] ||= [];
-    const exists = byNode[nodeId].some((p) => p.id === handleId);
-    if (!exists) {
-      byNode[nodeId].push({
-        id: handleId,
-        properties: {
-          "org.eclipse.elk.port.side": sideFor(direction, role),
-        },
-      });
-    }
-  };
-
-  for (const e of raw.edges) {
-    if (e.sourceHandle) add(e.source, e.sourceHandle, "source");
-    if (e.targetHandle) add(e.target, e.targetHandle, "target");
-  }
-  return byNode;
-}
-
 function mapById<T extends { id: string }>(arr: T[]): Map<string, T> {
   const m = new Map<string, T>();
   for (const it of arr) m.set(it.id, it);
@@ -137,14 +91,14 @@ export async function layoutNodesForReactFlow(
   let aspectRatio: number | undefined;
   if (viewportSize?.width && viewportSize?.height) {
     // 1.2 is a magic number to adjust the aspect ratio in order to make the view wider
-    aspectRatio = (1.2 * viewportSize.width) / viewportSize.height;
+    aspectRatio = (1.6 * viewportSize.width) / viewportSize.height;
     console.log({ aspectRatio });
   } else if (
     typeof window !== "undefined" &&
     window.innerWidth &&
     window.innerHeight
   ) {
-    aspectRatio = window.innerWidth / window.innerHeight;
+    aspectRatio = (1.6 * window.innerWidth) / window.innerHeight;
   }
   // If user already set it via elkOptionsOverride, we won't overwrite it below.
 
@@ -216,7 +170,7 @@ export async function layoutNodesForReactFlow(
       "elk.spacing.nodeNode": "80",
       "elk.layered.spacing.nodeNodeBetweenLayers": "80",
       "elk.spacing.edgeEdge": "15",
-      "elk.spacing.componentComponent": "90",
+      "elk.spacing.componentComponent": "50",
       "elk.edgeRouting": "ORTHOGONAL",
       "elk.layered.mergeEdges": "true",
       "elk.layered.nodePlacement.strategy": "NETWORK_SIMPLEX",

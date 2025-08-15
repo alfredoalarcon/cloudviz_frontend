@@ -20,14 +20,10 @@ import type {
 } from "@xyflow/react";
 import { Box } from "@chakra-ui/react";
 import graphData from "./data/dg_parents_generated_2.json";
-import { layoutNodesForReactFlow, assignClosestHandles } from "./layout";
+import { layoutNodesForReactFlow } from "./layout";
+import { updateEdges } from "./utils";
 import { Graph } from "./types";
-import MainContainerComponent from "./components/nodes/MainContainer";
-import ServiceComponent from "./components/nodes/ServiceContainer";
-import IAMComponent from "./components/nodes/IAMComponent";
-import ResourceComponent from "./components/nodes/ResourceComponent";
-import EqualityEdge from "./components/edges/EqualityEdge";
-
+import { nodeTypes } from "./constants";
 const rfStyle = {
   backgroundColor: "#f2f1f1ff",
 };
@@ -62,35 +58,16 @@ function Flow() {
 
   // Compute edge handles when nodes are initialized
   useEffect(() => {
-    const newEdges = computeHandlers(edges);
+    const newEdges = updateEdges(edges, nodesInitialized, getInternalNode);
     setEdges(newEdges);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nodesInitialized]);
-
-  function computeHandlers(edges: Edge[]) {
-    if (nodesInitialized) {
-      return edges.map((e) => {
-        const edge = { ...e };
-        const source = getInternalNode(edge.source) as InternalNode;
-        const target = getInternalNode(edge.target) as InternalNode;
-        const { sourceHandle, targetHandle } = assignClosestHandles(
-          source,
-          target
-        );
-
-        edge.sourceHandle = sourceHandle;
-        edge.targetHandle = targetHandle;
-
-        return edge;
-      });
-    } else return edges;
-  }
 
   const onNodesChange = useCallback(
     (changes: NodeChange[]) => {
       setNodes((nds) => applyNodeChanges(changes, nds));
       // Update edge handles
-      const newEdges = computeHandlers(edges);
+      const newEdges = updateEdges(edges, nodesInitialized, getInternalNode);
       setEdges(newEdges);
     },
     [setNodes, edges]
@@ -105,22 +82,6 @@ function Flow() {
     [setEdges]
   );
 
-  // Definition of nodeTypes
-  const nodeTypes = {
-    aws_container: MainContainerComponent,
-    service_container: ServiceComponent,
-    iam: IAMComponent,
-    resource: ResourceComponent,
-    vpc: ServiceComponent, // Assuming VPC uses the same component as Service
-    subnet: ServiceComponent, // Assuming Subnet uses the same component as Service
-  };
-
-  // Definition of edgeTypes
-  const edgeTypes = {
-    equality: EqualityEdge,
-    iam: EqualityEdge,
-  };
-
   return (
     <Box height="100vh" width="100%">
       <ReactFlow
@@ -133,7 +94,6 @@ function Flow() {
         style={rfStyle}
         attributionPosition="top-right"
         nodeTypes={nodeTypes}
-        edgeTypes={edgeTypes}
       >
         <Background />
       </ReactFlow>
