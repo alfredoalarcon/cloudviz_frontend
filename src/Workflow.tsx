@@ -51,7 +51,14 @@ function Flow() {
           },
         }
       );
-      setNodes(nodes);
+
+      // Add attributes to nodes before setting state
+      const updatedNodes = nodes.map((node) => ({
+        ...node,
+        extent: "parent",
+      }));
+      // @ts-expect-error: Unreachable code error
+      setNodes(updatedNodes);
       setEdges(edges);
     }
 

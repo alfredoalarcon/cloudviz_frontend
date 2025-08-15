@@ -1,5 +1,5 @@
 import React from "react";
-import { NodeProps, Node, Handle, Position } from "@xyflow/react";
+import { NodeProps, Node, Handle, Position, NodeToolbar } from "@xyflow/react";
 import { Box, Image, Flex } from "@chakra-ui/react";
 import { handleStyle, S3_ICONS_URL, resourceLayout } from "../constants";
 
@@ -12,8 +12,11 @@ type ResourceData = {
 type ResourceNode = Node<ResourceData, "resource">;
 
 const ResourceComponent = React.memo(function ResourceComponent({
+  id,
   data,
 }: NodeProps<ResourceNode>) {
+  const [hovered, setHovered] = React.useState(false);
+
   // Compute image size
   const imageSize = resourceLayout.width * resourceLayout.coeff_image;
   const labelHeight = resourceLayout.height - imageSize;
@@ -79,61 +82,91 @@ const ResourceComponent = React.memo(function ResourceComponent({
   );
 
   return (
-    <Box
-      style={{
-        height: "100%",
-        width: "100%",
-      }}
-    >
-      <Flex
+    <>
+      <NodeToolbar
+        isVisible={hovered}
+        nodeId={id}
+        position={Position.Top}
+        offset={8}
+      >
+        <Box
+          px="2"
+          py="1"
+          fontSize="sm"
+          borderRadius="md"
+          boxShadow="md"
+          bg="white"
+        >
+          <Box fontWeight="bold" fontSize="10px">
+            {data.resource_name}
+          </Box>
+          <Box opacity={0.8} fontSize="9px">
+            {data.resource_type}
+          </Box>
+        </Box>
+      </NodeToolbar>
+
+      <Box
         style={{
           height: "100%",
           width: "100%",
-          flexDirection: "column",
         }}
       >
-        {/* Box holding image */}
-        <Box
-          style={{
-            flexGrow: 0,
-            height: imageSize,
-            width: imageSize,
-            alignSelf: "center",
-            flexShrink: 0,
-          }}
-        >
-          <Image
-            src={`${S3_ICONS_URL}/${data.resource_icon}`}
-            alt={data.resource_name}
-          />
-        </Box>
-        {/* Box holding label */}
         <Flex
           style={{
-            flexGrow: 0,
-            flexShrink: 0,
-            height: labelHeight,
+            height: "100%",
             width: "100%",
-            overflow: "hidden",
-            alignItems: "center",
             flexDirection: "column",
-            justifyContent: "center",
           }}
         >
+          {/* Box holding image */}
           <Box
             style={{
-              fontSize: resourceLayout.labelFontSize,
               flexGrow: 0,
+              height: imageSize,
+              width: imageSize,
               alignSelf: "center",
-              overflow: "hidden",
+              flexShrink: 0,
+            }}
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+            _hover={{
+              border: "3px solid black",
             }}
           >
-            {label}
+            <Image
+              src={`${S3_ICONS_URL}/${data.resource_icon}`}
+              alt={data.resource_name}
+            />
           </Box>
+          {/* Box holding label */}
+          <Flex
+            style={{
+              flexGrow: 0,
+              flexShrink: 0,
+              height: labelHeight,
+              width: "100%",
+              overflow: "hidden",
+              alignItems: "center",
+              flexDirection: "column",
+              justifyContent: "center",
+            }}
+          >
+            <Box
+              style={{
+                fontSize: resourceLayout.labelFontSize,
+                flexGrow: 0,
+                alignSelf: "center",
+                overflow: "hidden",
+              }}
+            >
+              {label}
+            </Box>
+          </Flex>
         </Flex>
-      </Flex>
-      {handles}
-    </Box>
+        {handles}
+      </Box>
+    </>
   );
 });
 
