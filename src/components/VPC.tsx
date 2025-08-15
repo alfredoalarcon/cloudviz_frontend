@@ -1,6 +1,6 @@
 import React from "react";
 import { NodeProps, Node } from "@xyflow/react";
-import { GroupLayout, S3_ICONS_URL } from "../constants";
+import { S3_ICONS_URL } from "../constants";
 import GroupContainer from "./GroupContainer";
 
 type VPCData = {
@@ -14,7 +14,10 @@ type VPCData = {
 
 type VPCNode = Node<VPCData, "resource">;
 
-const VPCGroup = React.memo(function VPCGroup({ data }: NodeProps<VPCNode>) {
+const VPCGroup = React.memo(function VPCGroup({
+  data,
+  id,
+}: NodeProps<VPCNode>) {
   const borderColor = "#8C4FFF";
   return (
     <GroupContainer
@@ -22,6 +25,7 @@ const VPCGroup = React.memo(function VPCGroup({ data }: NodeProps<VPCNode>) {
       borderWidth="1.5px"
       label={data.resource_name}
       imageUrl={`${S3_ICONS_URL}/${data.resource_icon}`}
+      id={id}
     />
   );
 });

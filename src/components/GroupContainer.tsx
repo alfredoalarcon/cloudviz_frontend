@@ -1,7 +1,8 @@
 import React from "react";
-import { NodeProps, Node } from "@xyflow/react";
+import { Node } from "@xyflow/react";
 import { Box, Flex, Image } from "@chakra-ui/react";
-import { S3_ICONS_URL, GroupLayout } from "../constants";
+import { GroupLayout } from "../constants";
+import { useAppContext } from "../context/AppContext";
 
 type MainContainerData = {
   resource_type: string;
@@ -16,16 +17,25 @@ const GroupContainer = React.memo(function GroupContainer({
   label,
   imageUrl,
   borderWidth,
+  id,
+  isService = false,
 }: {
   borderColor: string;
   label: string;
   imageUrl: string;
   borderWidth: string;
+  isService?: boolean;
+  id: string;
 }) {
+  const [hovered, setHovered] = React.useState(false);
+  const { selectedNodeId, setSelectedNodeId } = useAppContext();
+
+  const borderWidthHover =
+    (hovered || selectedNodeId === id) && !isService ? "2px" : borderWidth;
   return (
     <Box
       style={{
-        border: `${borderWidth} solid ${borderColor}`,
+        border: `${borderWidthHover} solid ${borderColor}`,
         height: "100%",
         width: "100%",
         borderRadius: "4px",
@@ -39,6 +49,11 @@ const GroupContainer = React.memo(function GroupContainer({
             height: GroupLayout.imageSize,
             flexShrink: 0,
           }}
+          onMouseEnter={() => setHovered(isService ? false : true)}
+          onMouseLeave={() => setHovered(false)}
+          onClick={() =>
+            isService ? setSelectedNodeId(null) : setSelectedNodeId(id)
+          }
         >
           <Image src={imageUrl} alt={label} />
         </Box>

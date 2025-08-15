@@ -2,6 +2,7 @@ import React from "react";
 import { NodeProps, Node, Handle, Position, NodeToolbar } from "@xyflow/react";
 import { Box, Image, Flex } from "@chakra-ui/react";
 import { handleStyle, S3_ICONS_URL, resourceLayout } from "../constants";
+import { useAppContext } from "../context/AppContext";
 
 type ResourceData = {
   resource_type: string;
@@ -16,6 +17,7 @@ const ResourceComponent = React.memo(function ResourceComponent({
   data,
 }: NodeProps<ResourceNode>) {
   const [hovered, setHovered] = React.useState(false);
+  const { setSelectedNodeId, selectedNodeId } = useAppContext();
 
   // Compute image size
   const imageSize = resourceLayout.width * resourceLayout.coeff_image;
@@ -81,6 +83,8 @@ const ResourceComponent = React.memo(function ResourceComponent({
     </>
   );
 
+  const selStyle = selectedNodeId === id ? { border: "3px solid black" } : {};
+
   return (
     <>
       <NodeToolbar
@@ -97,10 +101,10 @@ const ResourceComponent = React.memo(function ResourceComponent({
           boxShadow="md"
           bg="white"
         >
-          <Box fontWeight="bold" fontSize="10px">
+          <Box fontWeight="bold" fontSize="8px">
             {data.resource_name}
           </Box>
-          <Box opacity={0.8} fontSize="9px">
+          <Box opacity={0.8} fontSize="7px">
             {data.resource_type}
           </Box>
         </Box>
@@ -127,9 +131,11 @@ const ResourceComponent = React.memo(function ResourceComponent({
               width: imageSize,
               alignSelf: "center",
               flexShrink: 0,
+              ...selStyle,
             }}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
+            onClick={() => setSelectedNodeId(id)}
             _hover={{
               border: "3px solid black",
             }}

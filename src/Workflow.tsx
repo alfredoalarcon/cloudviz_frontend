@@ -9,6 +9,7 @@ import {
   useNodesInitialized,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
+import { useAppContext } from "./context/AppContext";
 
 import type {
   NodeChange,
@@ -32,6 +33,7 @@ function Flow() {
   const [edges, setEdges] = useState<Edge[]>([]);
   const nodesInitialized = useNodesInitialized();
   const { getInternalNode } = useReactFlow();
+  const { setSelectedNodeId, selectedNodeId } = useAppContext();
 
   // Load and lay out nodes
   useEffect(() => {
@@ -72,6 +74,17 @@ function Flow() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nodesInitialized]);
 
+  // Handle ESC key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setSelectedNodeId(null);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [setSelectedNodeId]);
+
   const onNodesChange = useCallback(
     (changes: NodeChange[]) => {
       setNodes((nds) => applyNodeChanges(changes, nds));
@@ -103,6 +116,7 @@ function Flow() {
         style={rfStyle}
         attributionPosition="top-right"
         nodeTypes={nodeTypes}
+        onPaneClick={() => setSelectedNodeId(null)}
       >
         <Background />
       </ReactFlow>

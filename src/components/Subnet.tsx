@@ -13,7 +13,7 @@ type SubnetData = {
 
 type SubnetNode = Node<SubnetData, "resource">;
 
-const Subnet = React.memo(function Subnet({ data }: NodeProps<SubnetNode>) {
+const Subnet = React.memo(function Subnet({ data, id }: NodeProps<SubnetNode>) {
   const borderColor = data.is_public ? "#7AA116" : "#00A4A6";
 
   return (
@@ -22,6 +22,7 @@ const Subnet = React.memo(function Subnet({ data }: NodeProps<SubnetNode>) {
       borderWidth="1.2px"
       label={data.resource_name}
       imageUrl={`${S3_ICONS_URL}/${data.resource_icon}`}
+      id={id}
     />
   );
 });

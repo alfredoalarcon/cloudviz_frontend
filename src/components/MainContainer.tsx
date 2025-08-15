@@ -13,6 +13,7 @@ type MainContainerData = {
 type MainContainerNode = Node<MainContainerData, "resource">;
 
 const MainContainerComponent = React.memo(function MainContainerComponent({
+  id,
   data,
 }: NodeProps<MainContainerNode>) {
   return (
@@ -21,6 +22,7 @@ const MainContainerComponent = React.memo(function MainContainerComponent({
       borderColor="#1d1d1dff"
       label={data.resource_name}
       imageUrl={`${S3_ICONS_URL}/${data.resource_icon}`}
+      id={id}
     />
   );
 });

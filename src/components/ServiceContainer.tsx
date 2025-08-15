@@ -13,6 +13,7 @@ type ServiceNode = Node<ServiceData, "resource">;
 
 const ServiceComponent = React.memo(function ServiceComponent({
   data,
+  id,
 }: NodeProps<ServiceNode>) {
   const borderColor = data.resource_name.toLowerCase().includes("vpc")
     ? "black"
@@ -27,6 +28,8 @@ const ServiceComponent = React.memo(function ServiceComponent({
       label={data.resource_name}
       imageUrl={`${S3_ICONS_URL}/${data.resource_icon}`}
       borderWidth={borderWidth}
+      id={id}
+      isService={true}
     />
   );
 });
