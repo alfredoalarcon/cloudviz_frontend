@@ -1,7 +1,7 @@
 import React from "react";
 import { NodeProps, Node, Handle, Position } from "@xyflow/react";
-import { Box, Text, Image, Flex } from "@chakra-ui/react";
-import { handleStyle, S3_ICONS_URL, resourceLayout } from "../../constants";
+import { Box, Image, Flex } from "@chakra-ui/react";
+import { handleStyle, S3_ICONS_URL, resourceLayout } from "../constants";
 
 type ResourceData = {
   resource_type: string;
@@ -23,6 +23,61 @@ const ResourceComponent = React.memo(function ResourceComponent({
   if (data.resource_name.length > resourceLayout.num_chars_label) {
     label = data.resource_name.slice(0, resourceLayout.num_chars_label);
   }
+
+  // Handles definition
+  const handles = (
+    <>
+      <Handle
+        id="top"
+        type="source"
+        position={Position.Top}
+        style={handleStyle}
+      />
+      <Handle
+        id="right"
+        type="source"
+        position={Position.Right}
+        style={handleStyle}
+      />
+      <Handle
+        id="bottom"
+        type="target"
+        position={Position.Bottom}
+        style={handleStyle}
+      />
+      <Handle
+        id="left"
+        type="target"
+        position={Position.Left}
+        style={handleStyle}
+      />
+      <Handle
+        id="top"
+        type="target"
+        position={Position.Top}
+        style={handleStyle}
+      />
+      <Handle
+        id="right"
+        type="target"
+        position={Position.Right}
+        style={handleStyle}
+      />
+      <Handle
+        id="bottom"
+        type="source"
+        position={Position.Bottom}
+        style={handleStyle}
+      />
+      <Handle
+        id="left"
+        type="source"
+        position={Position.Left}
+        style={handleStyle}
+      />
+    </>
+  );
+
   return (
     <Box
       style={{
@@ -76,55 +131,7 @@ const ResourceComponent = React.memo(function ResourceComponent({
           </Box>
         </Flex>
       </Flex>
-
-      <Handle
-        id="top"
-        type="source"
-        position={Position.Top}
-        style={handleStyle}
-      />
-      <Handle
-        id="right"
-        type="source"
-        position={Position.Right}
-        style={handleStyle}
-      />
-      <Handle
-        id="bottom"
-        type="target"
-        position={Position.Bottom}
-        style={handleStyle}
-      />
-      <Handle
-        id="left"
-        type="target"
-        position={Position.Left}
-        style={handleStyle}
-      />
-      <Handle
-        id="top"
-        type="target"
-        position={Position.Top}
-        style={handleStyle}
-      />
-      <Handle
-        id="right"
-        type="target"
-        position={Position.Right}
-        style={handleStyle}
-      />
-      <Handle
-        id="bottom"
-        type="source"
-        position={Position.Bottom}
-        style={handleStyle}
-      />
-      <Handle
-        id="left"
-        type="source"
-        position={Position.Left}
-        style={handleStyle}
-      />
+      {handles}
     </Box>
   );
 });

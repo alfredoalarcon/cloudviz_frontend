@@ -1,7 +1,15 @@
-import MainContainerComponent from "../components/nodes/MainContainer";
-import ServiceComponent from "../components/nodes/ServiceContainer";
-import IAMComponent from "../components/nodes/IAMComponent";
-import ResourceComponent from "../components/nodes/ResourceComponent";
+import MainContainerComponent from "../components/MainContainer";
+import ServiceComponent from "../components/ServiceContainer";
+import IAMComponent from "../components/IAMComponent";
+import ResourceComponent from "../components/ResourceComponent";
+import VPC from "../components/VPC";
+import Subnet from "../components/Subnet";
+
+// Layout of VPC
+export const VPCLayout = {
+  imageSize: 24,
+  labelSize: 25,
+};
 
 // Layout of resources
 export const resourceLayout = {
@@ -14,7 +22,7 @@ export const resourceLayout = {
 
 // Padding within a cluster
 export const clusterPadding = {
-  top: 35,
+  top: 38,
   left: 20,
   bottom: 20,
   right: 20,
@@ -37,6 +45,6 @@ export const nodeTypes = {
   service_container: ServiceComponent,
   iam: IAMComponent,
   resource: ResourceComponent,
-  vpc: ServiceComponent, // Assuming VPC uses the same component as Service
-  subnet: ServiceComponent, // Assuming Subnet uses the same component as Service
+  vpc: VPC,
+  subnet: Subnet,
 };

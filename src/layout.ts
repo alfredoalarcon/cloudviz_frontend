@@ -92,7 +92,6 @@ export async function layoutNodesForReactFlow(
   if (viewportSize?.width && viewportSize?.height) {
     // 1.2 is a magic number to adjust the aspect ratio in order to make the view wider
     aspectRatio = (1.6 * viewportSize.width) / viewportSize.height;
-    console.log({ aspectRatio });
   } else if (
     typeof window !== "undefined" &&
     window.innerWidth &&

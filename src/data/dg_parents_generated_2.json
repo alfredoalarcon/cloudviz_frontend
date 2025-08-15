@@ -13,10 +13,10 @@
       }
     },
     {
-      "id": "S3 Service",
+      "id": "Kms Service",
       "type": "service_container",
       "data": {
-        "resource_name": "S3 Service",
+        "resource_name": "Kms Service",
         "resource_type": "service_container"
       },
       "parentId": "AWS Cloud",
@@ -26,26 +26,12 @@
       }
     },
     {
-      "id": "Neptune Service",
+      "id": "Managed VPCs",
       "type": "service_container",
       "data": {
-        "resource_name": "Neptune Service",
+        "resource_name": "Managed VPCs",
         "resource_type": "service_container"
       },
-      "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "Flow Service",
-      "type": "service_container",
-      "data": {
-        "resource_name": "Flow Service",
-        "resource_type": "service_container"
-      },
-      "parentId": "AWS Cloud",
       "position": {
         "x": 0,
         "y": 0
@@ -78,6 +64,57 @@
       }
     },
     {
+      "id": "IAM Service",
+      "type": "service_container",
+      "data": {
+        "resource_name": "IAM Service",
+        "resource_type": "service_container"
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "Flow Service",
+      "type": "service_container",
+      "data": {
+        "resource_name": "Flow Service",
+        "resource_type": "service_container"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "Neptune Service",
+      "type": "service_container",
+      "data": {
+        "resource_name": "Neptune Service",
+        "resource_type": "service_container"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "S3 Service",
+      "type": "service_container",
+      "data": {
+        "resource_name": "S3 Service",
+        "resource_type": "service_container"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
       "id": "Elasticsearch Service",
       "type": "service_container",
       "data": {
@@ -91,49 +128,12 @@
       }
     },
     {
-      "id": "Managed VPCs",
-      "type": "service_container",
-      "data": {
-        "resource_name": "Managed VPCs",
-        "resource_type": "service_container"
-      },
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "Kms Service",
-      "type": "service_container",
-      "data": {
-        "resource_name": "Kms Service",
-        "resource_type": "service_container"
-      },
-      "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "IAM Service",
-      "type": "service_container",
-      "data": {
-        "resource_name": "IAM Service",
-        "resource_type": "service_container"
-      },
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
       "id": "aws_vpc.web_vpc",
       "type": "vpc",
       "data": {
         "resource_type": "aws_vpc",
         "resource_name": "web_vpc",
-        "has_internet_gateway": true,
+        "resource_icon": "aws/Architecture-Group-Icons_07312025/Virtual-private-cloud-VPC_32.svg",
         "cidr_block": "172.16.0.0/16",
         "enable_dns_hostnames": true,
         "enable_dns_support": true,
@@ -151,7 +151,7 @@
       "data": {
         "resource_type": "aws_vpc",
         "resource_name": "eks_vpc",
-        "has_internet_gateway": false,
+        "resource_icon": "aws/Architecture-Group-Icons_07312025/Virtual-private-cloud-VPC_32.svg",
         "cidr_block": "10.10.0.0/16",
         "enable_dns_hostnames": true,
         "enable_dns_support": true,
@@ -169,6 +169,7 @@
       "data": {
         "resource_type": "aws_subnet",
         "resource_name": "web_subnet",
+        "resource_icon": "aws/Architecture-Group-Icons_07312025/Public-subnet_32.svg",
         "is_public": true,
         "vpc_id": "${aws_vpc.web_vpc.id}",
         "cidr_block": "172.16.10.0/24",
@@ -188,6 +189,7 @@
       "data": {
         "resource_type": "aws_subnet",
         "resource_name": "web_subnet2",
+        "resource_icon": "aws/Architecture-Group-Icons_07312025/Public-subnet_32.svg",
         "is_public": true,
         "vpc_id": "${aws_vpc.web_vpc.id}",
         "cidr_block": "172.16.11.0/24",
@@ -207,6 +209,7 @@
       "data": {
         "resource_type": "aws_subnet",
         "resource_name": "eks_subnet1",
+        "resource_icon": "aws/Architecture-Group-Icons_07312025/Private-subnet_32.svg",
         "is_public": false,
         "vpc_id": "${aws_vpc.eks_vpc.id}",
         "cidr_block": "10.10.10.0/24",
@@ -226,6 +229,7 @@
       "data": {
         "resource_type": "aws_subnet",
         "resource_name": "eks_subnet2",
+        "resource_icon": "aws/Architecture-Group-Icons_07312025/Private-subnet_32.svg",
         "is_public": false,
         "vpc_id": "${aws_vpc.eks_vpc.id}",
         "cidr_block": "10.10.11.0/24",
@@ -246,7 +250,7 @@
       "data": {
         "resource_type": "aws_iam_role",
         "resource_name": "ec2role",
-        "resource_icon": "analysis/aws/Resource-Icons_07312025/Res_Security-Identity-Compliance/Res_AWS-Identity-Access-Management_Role_48.svg",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
         "policies": {
           "aws_iam_role_policy.ec2policy": {
             "Version": "2012-10-17",
@@ -292,7 +296,7 @@
       "data": {
         "resource_type": "aws_iam_role",
         "resource_name": "iam_for_lambda",
-        "resource_icon": "analysis/aws/Resource-Icons_07312025/Res_Security-Identity-Compliance/Res_AWS-Identity-Access-Management_Role_48.svg",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
         "policies": {},
         "name": "${local.resource_prefix.value}-analysis-lambda",
         "assume_role_policy": {
@@ -331,7 +335,7 @@
       "data": {
         "resource_type": "aws_iam_user",
         "resource_name": "user",
-        "resource_icon": "analysis/aws/Resource-Icons_07312025/Res_General-Icons/Res_48_Light/Res_Authenticated-User_48_Light.svg",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
         "policies": {
           "aws_iam_user_policy.userpolicy": {
             "Version": "2012-10-17",
@@ -365,7 +369,7 @@
       "data": {
         "resource_type": "aws_iam_role",
         "resource_name": "iam_for_eks",
-        "resource_icon": "analysis/aws/Resource-Icons_07312025/Res_Security-Identity-Compliance/Res_AWS-Identity-Access-Management_Role_48.svg",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
         "policies": {
           "aws_iam_role_policy_attachment.policy_attachment-AmazonEKSClusterPolicy": {
             "Version": "2012-10-17",
