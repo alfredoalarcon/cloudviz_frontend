@@ -5,6 +5,21 @@ import ResourceComponent from "../components/ResourceComponent";
 import VPC from "../components/VPC";
 import Subnet from "../components/Subnet";
 
+// Layout of edges
+export const edgeLayout = {
+  stroke: {
+    iam: "#9ac5e4ff",
+    r2r: "#f6b93bff",
+    equality: "#787878ff",
+  },
+  strokeWidth: {
+    iam: 1.4,
+    r2r: 1.4,
+    equality: 1.65,
+  },
+  arrowSize: 12,
+};
+
 // Layout of Group
 export const GroupLayout = {
   imageSize: 24,
@@ -21,7 +36,7 @@ export const resourceLayout = {
   labelFontSize: "10px",
 };
 
-// Padding within a cluster
+// Padding within a cluster for elkjs layout
 export const clusterPadding = {
   top: 38,
   left: 20,
@@ -36,8 +51,8 @@ export const S3_ICONS_URL =
 // For handler layout
 export const handleStyle = {
   opacity: 0,
-  height: 0,
-  width: 0,
+  // height: 0,
+  // width: 0,
 };
 
 // Definition of nodeTypes

@@ -1,8 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import {
   ReactFlow,
-  addEdge,
-  applyEdgeChanges,
   applyNodeChanges,
   Background,
   useReactFlow,
@@ -11,13 +9,7 @@ import {
 import "@xyflow/react/dist/style.css";
 import { useAppContext } from "./context/AppContext";
 
-import type {
-  NodeChange,
-  EdgeChange,
-  Connection,
-  Node,
-  Edge,
-} from "@xyflow/react";
+import type { NodeChange } from "@xyflow/react";
 import { Box } from "@chakra-ui/react";
 import graphData from "./data/dg_parents_generated_2.json";
 import { layoutNodesForReactFlow } from "./layout";
@@ -29,11 +21,16 @@ const rfStyle = {
 };
 
 function Flow() {
-  const [nodes, setNodes] = useState<Node[]>([]);
-  const [edges, setEdges] = useState<Edge[]>([]);
+  const {
+    nodes,
+    setNodes,
+    edges,
+    setEdges,
+    setSelectedNodeId,
+    selectedNodeId,
+  } = useAppContext();
   const nodesInitialized = useNodesInitialized();
   const { getInternalNode } = useReactFlow();
-  const { setSelectedNodeId, selectedNodeId } = useAppContext();
 
   // Load and lay out nodes
   useEffect(() => {
@@ -87,21 +84,13 @@ function Flow() {
 
   const onNodesChange = useCallback(
     (changes: NodeChange[]) => {
+      // @ts-ignore
       setNodes((nds) => applyNodeChanges(changes, nds));
       // Update edge handles
       const newEdges = updateEdges(edges, nodesInitialized, getInternalNode);
       setEdges(newEdges);
     },
     [setNodes, edges]
-  );
-  const onEdgesChange = useCallback(
-    (changes: EdgeChange[]) =>
-      setEdges((eds) => applyEdgeChanges(changes, eds)),
-    [setEdges]
-  );
-  const onConnect = useCallback(
-    (connection: Connection) => setEdges((eds) => addEdge(connection, eds)),
-    [setEdges]
   );
 
   return (
@@ -110,8 +99,6 @@ function Flow() {
         nodes={nodes}
         edges={edges}
         onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
         fitView
         style={rfStyle}
         attributionPosition="top-right"

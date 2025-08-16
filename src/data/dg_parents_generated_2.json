@@ -14,13 +14,28 @@
       }
     },
     {
-      "id": "VPC Service",
+      "id": "Rds",
       "type": "service_container",
       "data": {
-        "resource_name": "VPC Service",
+        "resource_name": "Rds",
         "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Group-Icons_07312025/AWS-Cloud_32.svg"
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Aurora_48.svg"
       },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "Elasticsearch",
+      "type": "service_container",
+      "data": {
+        "resource_name": "Elasticsearch",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Analytics/48/Arch_Amazon-OpenSearch-Service_48.svg"
+      },
+      "parentId": "AWS Cloud",
       "position": {
         "x": 0,
         "y": 0
@@ -40,38 +55,10 @@
       }
     },
     {
-      "id": "Lambda Service",
+      "id": "Kms",
       "type": "service_container",
       "data": {
-        "resource_name": "Lambda Service",
-        "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_AWS-Lambda_48.svg"
-      },
-      "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "Neptune Service",
-      "type": "service_container",
-      "data": {
-        "resource_name": "Neptune Service",
-        "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Neptune_48.svg"
-      },
-      "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "Kms Service",
-      "type": "service_container",
-      "data": {
-        "resource_name": "Kms Service",
+        "resource_name": "Kms",
         "resource_type": "service_container",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Key-Management-Service_48.svg"
       },
@@ -82,10 +69,10 @@
       }
     },
     {
-      "id": "S3 Service",
+      "id": "S3",
       "type": "service_container",
       "data": {
-        "resource_name": "S3 Service",
+        "resource_name": "S3",
         "resource_type": "service_container",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg"
       },
@@ -96,12 +83,25 @@
       }
     },
     {
-      "id": "Rds Service",
+      "id": "VPC Service",
       "type": "service_container",
       "data": {
-        "resource_name": "Rds Service",
+        "resource_name": "VPC Service",
         "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Aurora_48.svg"
+        "resource_icon": "aws/Architecture-Group-Icons_07312025/AWS-Cloud_32.svg"
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "Lambda",
+      "type": "service_container",
+      "data": {
+        "resource_name": "Lambda",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_AWS-Lambda_48.svg"
       },
       "parentId": "AWS Cloud",
       "position": {
@@ -110,12 +110,12 @@
       }
     },
     {
-      "id": "Elasticsearch Service",
+      "id": "Neptune",
       "type": "service_container",
       "data": {
-        "resource_name": "Elasticsearch Service",
+        "resource_name": "Neptune",
         "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Analytics/48/Arch_Amazon-OpenSearch-Service_48.svg"
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Neptune_48.svg"
       },
       "parentId": "AWS Cloud",
       "position": {
@@ -570,6 +570,8 @@
         "resource_type": "aws_neptune_cluster",
         "resource_name": "default",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Neptune_48.svg",
+        "has_security_groups": false,
+        "sg_rules": [],
         "cluster_identifier": "${var.neptune-dbname}",
         "engine": "neptune",
         "backup_retention_period": 5,
@@ -589,7 +591,7 @@
           "yor_trace": "0d4cbb85-73ed-4ca0-b1da-296e4185f34e"
         }
       },
-      "parentId": "Neptune Service",
+      "parentId": "Neptune",
       "position": {
         "x": 0,
         "y": 0
@@ -602,11 +604,13 @@
         "resource_type": "aws_s3_bucket",
         "resource_name": "data",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg",
+        "has_security_groups": false,
+        "sg_rules": [],
         "bucket": "${local.resource_prefix.value}-data",
         "force_destroy": true,
         "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-data\", \"Environment\": \"${local.resource_prefix.value}\"}, {\"git_commit\": \"4d57f83ca4d3a78a44fb36d1dcf0d23983fa44f5\", \"git_file\": \"terraform/aws/s3.tf\", \"git_last_modified_at\": \"2022-05-18 07:08:06\", \"git_last_modified_by\": \"nimrod@bridgecrew.io\", \"git_modifiers\": \"34870196+LironElbaz/nimrod/nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"0874007d-903a-4b4c-945f-c9c233e13243\"})}"
       },
-      "parentId": "S3 Service",
+      "parentId": "S3",
       "position": {
         "x": 0,
         "y": 0
@@ -619,12 +623,14 @@
         "resource_type": "aws_s3_bucket",
         "resource_name": "financials",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg",
+        "has_security_groups": false,
+        "sg_rules": [],
         "bucket": "${local.resource_prefix.value}-financials",
         "acl": "private",
         "force_destroy": true,
         "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-financials\", \"Environment\": \"${local.resource_prefix.value}\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/s3.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"0e012640-b597-4e5d-9378-d4b584aea913\"})}"
       },
-      "parentId": "S3 Service",
+      "parentId": "S3",
       "position": {
         "x": 0,
         "y": 0
@@ -637,6 +643,8 @@
         "resource_type": "aws_s3_bucket",
         "resource_name": "operations",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg",
+        "has_security_groups": false,
+        "sg_rules": [],
         "bucket": "${local.resource_prefix.value}-operations",
         "acl": "private",
         "versioning": [
@@ -647,7 +655,7 @@
         "force_destroy": true,
         "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-operations\", \"Environment\": \"${local.resource_prefix.value}\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/s3.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"29efcf7b-22a8-4bd6-8e14-1f55b3a2d743\"})}"
       },
-      "parentId": "S3 Service",
+      "parentId": "S3",
       "position": {
         "x": 0,
         "y": 0
@@ -660,6 +668,8 @@
         "resource_type": "aws_s3_bucket",
         "resource_name": "data_science",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg",
+        "has_security_groups": false,
+        "sg_rules": [],
         "bucket": "${local.resource_prefix.value}-data-science",
         "acl": "private",
         "versioning": [
@@ -685,7 +695,7 @@
           "yor_trace": "9a7c8788-5655-4708-bbc3-64ead9847f64"
         }
       },
-      "parentId": "S3 Service",
+      "parentId": "S3",
       "position": {
         "x": 0,
         "y": 0
@@ -698,6 +708,8 @@
         "resource_type": "aws_s3_bucket",
         "resource_name": "logs",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg",
+        "has_security_groups": false,
+        "sg_rules": [],
         "bucket": "${local.resource_prefix.value}-logs",
         "acl": "log-delivery-write",
         "versioning": [
@@ -722,7 +734,7 @@
         "force_destroy": true,
         "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-logs\", \"Environment\": \"${local.resource_prefix.value}\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/s3.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"01946fe9-aae2-4c99-a975-e9b0d3a4696c\"})}"
       },
-      "parentId": "S3 Service",
+      "parentId": "S3",
       "position": {
         "x": 0,
         "y": 0
@@ -735,6 +747,8 @@
         "resource_type": "aws_kms_key",
         "resource_name": "logs_key",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Key-Management-Service_48.svg",
+        "has_security_groups": false,
+        "sg_rules": [],
         "description": "${local.resource_prefix.value}-logs bucket key",
         "deletion_window_in_days": 7,
         "tags": {
@@ -748,7 +762,7 @@
           "yor_trace": "cd8fa2a7-4868-4cd1-993d-da4644808ce5"
         }
       },
-      "parentId": "Kms Service",
+      "parentId": "Kms",
       "position": {
         "x": 0,
         "y": 0
@@ -761,6 +775,33 @@
         "resource_type": "aws_db_instance",
         "resource_name": "default",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-RDS_48.svg",
+        "has_security_groups": true,
+        "sg_rules": [
+          {
+            "type": "ingress",
+            "from_port": "3306",
+            "to_port": "3306",
+            "protocol": "tcp",
+            "cidr_blocks": [
+              "${aws_vpc.web_vpc.cidr_block}"
+            ],
+            "sg_id": "aws_security_group.default",
+            "security_group_id": "${aws_security_group.default.id}",
+            "rule_name": "aws_security_group_rule.ingress"
+          },
+          {
+            "type": "egress",
+            "from_port": 0,
+            "to_port": 0,
+            "protocol": "-1",
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ],
+            "sg_id": "aws_security_group.default",
+            "security_group_id": "${aws_security_group.default.id}",
+            "rule_name": "aws_security_group_rule.egress"
+          }
+        ],
         "name": "${var.dbname}",
         "engine": "mysql",
         "option_group_name": "${aws_db_option_group.default.name}",
@@ -804,6 +845,33 @@
         "resource_type": "aws_db_instance",
         "resource_name": "default",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-RDS_48.svg",
+        "has_security_groups": true,
+        "sg_rules": [
+          {
+            "type": "ingress",
+            "from_port": "3306",
+            "to_port": "3306",
+            "protocol": "tcp",
+            "cidr_blocks": [
+              "${aws_vpc.web_vpc.cidr_block}"
+            ],
+            "sg_id": "aws_security_group.default",
+            "security_group_id": "${aws_security_group.default.id}",
+            "rule_name": "aws_security_group_rule.ingress"
+          },
+          {
+            "type": "egress",
+            "from_port": 0,
+            "to_port": 0,
+            "protocol": "-1",
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ],
+            "sg_id": "aws_security_group.default",
+            "security_group_id": "${aws_security_group.default.id}",
+            "rule_name": "aws_security_group_rule.egress"
+          }
+        ],
         "name": "${var.dbname}",
         "engine": "mysql",
         "option_group_name": "${aws_db_option_group.default.name}",
@@ -847,6 +915,39 @@
         "resource_type": "aws_instance",
         "resource_name": "db_app",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_Amazon-EC2_48.svg",
+        "has_security_groups": true,
+        "sg_rules": [
+          {
+            "type": "ingress",
+            "from_port": 80,
+            "to_port": 80,
+            "protocol": "tcp",
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ],
+            "sg_id": "aws_security_group.web-node"
+          },
+          {
+            "type": "ingress",
+            "from_port": 22,
+            "to_port": 22,
+            "protocol": "tcp",
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ],
+            "sg_id": "aws_security_group.web-node"
+          },
+          {
+            "type": "egress",
+            "from_port": 0,
+            "to_port": 0,
+            "protocol": "-1",
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ],
+            "sg_id": "aws_security_group.web-node"
+          }
+        ],
         "ami": "${data.aws_ami.amazon-linux-2.id}",
         "instance_type": "t2.nano",
         "iam_instance_profile": "${aws_iam_instance_profile.ec2profile.name}",
@@ -870,6 +971,8 @@
         "resource_type": "aws_elasticsearch_domain",
         "resource_name": "monitoring-framework",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Analytics/48/Arch_Amazon-OpenSearch-Service_48.svg",
+        "has_security_groups": false,
+        "sg_rules": [],
         "domain_name": "tg-${var.environment}-es",
         "elasticsearch_version": "2.3",
         "cluster_config": [
@@ -898,7 +1001,7 @@
           "yor_trace": "95131dec-d7c9-49bb-9aff-eb0e2736603b"
         }
       },
-      "parentId": "Elasticsearch Service",
+      "parentId": "Elasticsearch",
       "position": {
         "x": 0,
         "y": 0
@@ -911,6 +1014,39 @@
         "resource_type": "aws_elb",
         "resource_name": "weblb",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Elastic-Block-Store_48.svg",
+        "has_security_groups": true,
+        "sg_rules": [
+          {
+            "type": "ingress",
+            "from_port": 80,
+            "to_port": 80,
+            "protocol": "tcp",
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ],
+            "sg_id": "aws_security_group.web-node"
+          },
+          {
+            "type": "ingress",
+            "from_port": 22,
+            "to_port": 22,
+            "protocol": "tcp",
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ],
+            "sg_id": "aws_security_group.web-node"
+          },
+          {
+            "type": "egress",
+            "from_port": 0,
+            "to_port": 0,
+            "protocol": "-1",
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ],
+            "sg_id": "aws_security_group.web-node"
+          }
+        ],
         "name": "weblb-terraform-elb",
         "listener": [
           {
@@ -957,6 +1093,39 @@
         "resource_type": "aws_instance",
         "resource_name": "web_host",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_Amazon-EC2_48.svg",
+        "has_security_groups": true,
+        "sg_rules": [
+          {
+            "type": "ingress",
+            "from_port": 80,
+            "to_port": 80,
+            "protocol": "tcp",
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ],
+            "sg_id": "aws_security_group.web-node"
+          },
+          {
+            "type": "ingress",
+            "from_port": 22,
+            "to_port": 22,
+            "protocol": "tcp",
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ],
+            "sg_id": "aws_security_group.web-node"
+          },
+          {
+            "type": "egress",
+            "from_port": 0,
+            "to_port": 0,
+            "protocol": "-1",
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ],
+            "sg_id": "aws_security_group.web-node"
+          }
+        ],
         "ami": "${var.ami}",
         "instance_type": "t2.nano",
         "vpc_security_group_ids": [
@@ -979,11 +1148,13 @@
         "resource_type": "aws_s3_bucket",
         "resource_name": "flowbucket",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg",
+        "has_security_groups": false,
+        "sg_rules": [],
         "bucket": "${local.resource_prefix.value}-flowlogs",
         "force_destroy": true,
         "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-flowlogs\", \"Environment\": \"${local.resource_prefix.value}\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/ec2.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"f058838a-b1e0-4383-b965-7e06e987ffb1\"})}"
       },
-      "parentId": "S3 Service",
+      "parentId": "S3",
       "position": {
         "x": 0,
         "y": 0
@@ -996,6 +1167,8 @@
         "resource_type": "aws_lambda_function",
         "resource_name": "analysis_lambda",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_AWS-Lambda_48.svg",
+        "has_security_groups": false,
+        "sg_rules": [],
         "filename": "resources/lambda_function_payload.zip",
         "function_name": "${local.resource_prefix.value}-analysis",
         "role": "${aws_iam_role.iam_for_lambda.arn}",
@@ -1021,7 +1194,7 @@
           "yor_trace": "f7d8bc47-e5d9-4b09-9d8f-e7b9724d826e"
         }
       },
-      "parentId": "Lambda Service",
+      "parentId": "Lambda",
       "position": {
         "x": 0,
         "y": 0
@@ -1034,6 +1207,8 @@
         "resource_type": "aws_eks_cluster",
         "resource_name": "eks_cluster",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Containers/48/Arch_Amazon-EKS-Distro_48.svg",
+        "has_security_groups": false,
+        "sg_rules": [],
         "name": "${local.eks_name.value}",
         "role_arn": "${aws_iam_role.iam_for_eks.arn}",
         "vpc_config": [
@@ -1073,6 +1248,8 @@
         "resource_type": "aws_eks_cluster",
         "resource_name": "eks_cluster",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Containers/48/Arch_Amazon-EKS-Distro_48.svg",
+        "has_security_groups": false,
+        "sg_rules": [],
         "name": "${local.eks_name.value}",
         "role_arn": "${aws_iam_role.iam_for_eks.arn}",
         "vpc_config": [
@@ -1112,6 +1289,8 @@
         "resource_type": "aws_rds_cluster",
         "resource_name": "app1-rds-cluster",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Aurora_48.svg",
+        "has_security_groups": false,
+        "sg_rules": [],
         "cluster_identifier": "app1-rds-cluster",
         "allocated_storage": 10,
         "backup_retention_period": 0,
@@ -1126,7 +1305,7 @@
           "yor_trace": "b6f2c2ec-0715-46a0-83d4-502e588826d1"
         }
       },
-      "parentId": "Rds Service",
+      "parentId": "Rds",
       "position": {
         "x": 0,
         "y": 0
@@ -1139,6 +1318,8 @@
         "resource_type": "aws_rds_cluster",
         "resource_name": "app2-rds-cluster",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Aurora_48.svg",
+        "has_security_groups": false,
+        "sg_rules": [],
         "cluster_identifier": "app2-rds-cluster",
         "allocated_storage": 10,
         "backup_retention_period": 1,
@@ -1153,7 +1334,7 @@
           "yor_trace": "d33c9292-952b-4c1f-9973-b6dbad519461"
         }
       },
-      "parentId": "Rds Service",
+      "parentId": "Rds",
       "position": {
         "x": 0,
         "y": 0
@@ -1166,6 +1347,8 @@
         "resource_type": "aws_rds_cluster",
         "resource_name": "app3-rds-cluster",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Aurora_48.svg",
+        "has_security_groups": false,
+        "sg_rules": [],
         "cluster_identifier": "app3-rds-cluster",
         "allocated_storage": 10,
         "backup_retention_period": 15,
@@ -1180,7 +1363,7 @@
           "yor_trace": "2a8584b1-7e9d-4739-8e37-366620c92027"
         }
       },
-      "parentId": "Rds Service",
+      "parentId": "Rds",
       "position": {
         "x": 0,
         "y": 0
@@ -1193,6 +1376,8 @@
         "resource_type": "aws_rds_cluster",
         "resource_name": "app4-rds-cluster",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Aurora_48.svg",
+        "has_security_groups": false,
+        "sg_rules": [],
         "cluster_identifier": "app4-rds-cluster",
         "allocated_storage": 10,
         "backup_retention_period": 15,
@@ -1207,7 +1392,7 @@
           "yor_trace": "284aaeed-fd3f-4b7a-b5f8-61a8457f4d83"
         }
       },
-      "parentId": "Rds Service",
+      "parentId": "Rds",
       "position": {
         "x": 0,
         "y": 0
@@ -1220,6 +1405,8 @@
         "resource_type": "aws_rds_cluster",
         "resource_name": "app5-rds-cluster",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Aurora_48.svg",
+        "has_security_groups": false,
+        "sg_rules": [],
         "cluster_identifier": "app5-rds-cluster",
         "allocated_storage": 10,
         "backup_retention_period": 15,
@@ -1234,7 +1421,7 @@
           "yor_trace": "0b2bea23-5ca5-4bd1-956e-b9ed978daadf"
         }
       },
-      "parentId": "Rds Service",
+      "parentId": "Rds",
       "position": {
         "x": 0,
         "y": 0
@@ -1247,6 +1434,8 @@
         "resource_type": "aws_rds_cluster",
         "resource_name": "app6-rds-cluster",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Aurora_48.svg",
+        "has_security_groups": false,
+        "sg_rules": [],
         "cluster_identifier": "app6-rds-cluster",
         "allocated_storage": 10,
         "backup_retention_period": 15,
@@ -1261,7 +1450,7 @@
           "yor_trace": "fcffb961-d859-4be5-997f-d51b50665ada"
         }
       },
-      "parentId": "Rds Service",
+      "parentId": "Rds",
       "position": {
         "x": 0,
         "y": 0
@@ -1274,6 +1463,8 @@
         "resource_type": "aws_rds_cluster",
         "resource_name": "app7-rds-cluster",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Aurora_48.svg",
+        "has_security_groups": false,
+        "sg_rules": [],
         "cluster_identifier": "app7-rds-cluster",
         "allocated_storage": 10,
         "backup_retention_period": 25,
@@ -1288,7 +1479,7 @@
           "yor_trace": "ebc2ac20-23a3-4518-a7ef-3a102b003ab6"
         }
       },
-      "parentId": "Rds Service",
+      "parentId": "Rds",
       "position": {
         "x": 0,
         "y": 0
@@ -1301,6 +1492,8 @@
         "resource_type": "aws_rds_cluster",
         "resource_name": "app8-rds-cluster",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Aurora_48.svg",
+        "has_security_groups": false,
+        "sg_rules": [],
         "cluster_identifier": "app8-rds-cluster",
         "allocated_storage": 10,
         "backup_retention_period": 25,
@@ -1315,7 +1508,7 @@
           "yor_trace": "af643747-0967-4251-8645-3b54882c2507"
         }
       },
-      "parentId": "Rds Service",
+      "parentId": "Rds",
       "position": {
         "x": 0,
         "y": 0
@@ -1328,6 +1521,8 @@
         "resource_type": "aws_rds_cluster",
         "resource_name": "app9-rds-cluster",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Aurora_48.svg",
+        "has_security_groups": false,
+        "sg_rules": [],
         "cluster_identifier": "app9-rds-cluster",
         "allocated_storage": 10,
         "backup_retention_period": 25,
@@ -1342,7 +1537,7 @@
           "yor_trace": "a0c98536-c751-4743-92f1-a106ce750249"
         }
       },
-      "parentId": "Rds Service",
+      "parentId": "Rds",
       "position": {
         "x": 0,
         "y": 0
@@ -1350,6 +1545,36 @@
     }
   ],
   "edges": [
+    {
+      "source": "aws_s3_bucket.data_science",
+      "target": "aws_s3_bucket.logs",
+      "data": {
+        "type": "r2r",
+        "label": [
+          "logging",
+          "0",
+          "target_bucket"
+        ]
+      },
+      "id": "r2r-aws_s3_bucket.data_science-aws_s3_bucket.logs"
+    },
+    {
+      "source": "aws_s3_bucket.logs",
+      "target": "aws_kms_key.logs_key",
+      "data": {
+        "type": "r2r",
+        "label": [
+          "server_side_encryption_configuration",
+          "0",
+          "rule",
+          "0",
+          "apply_server_side_encryption_by_default",
+          "0",
+          "kms_master_key_id"
+        ]
+      },
+      "id": "r2r-aws_s3_bucket.logs-aws_kms_key.logs_key"
+    },
     {
       "source": "aws_db_instance.default-1",
       "target": "aws_db_instance.default-2",
@@ -1365,6 +1590,39 @@
         "type": "iam"
       },
       "id": "iam-aws_instance.db_app-aws_iam_role.ec2role"
+    },
+    {
+      "source": "aws_instance.db_app",
+      "target": "aws_db_instance.default-1",
+      "data": {
+        "type": "r2r",
+        "label": [
+          "user_data"
+        ]
+      },
+      "id": "r2r-aws_instance.db_app-aws_db_instance.default-1"
+    },
+    {
+      "source": "aws_instance.db_app",
+      "target": "aws_db_instance.default-2",
+      "data": {
+        "type": "r2r",
+        "label": [
+          "user_data"
+        ]
+      },
+      "id": "r2r-aws_instance.db_app-aws_db_instance.default-2"
+    },
+    {
+      "source": "aws_elb.weblb",
+      "target": "aws_instance.web_host",
+      "data": {
+        "type": "r2r",
+        "label": [
+          "instances"
+        ]
+      },
+      "id": "r2r-aws_elb.weblb-aws_instance.web_host"
     },
     {
       "source": "aws_lambda_function.analysis_lambda",

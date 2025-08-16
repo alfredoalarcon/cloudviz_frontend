@@ -3,11 +3,14 @@ import { NodeProps, Node, Handle, Position, NodeToolbar } from "@xyflow/react";
 import { Box, Image, Flex } from "@chakra-ui/react";
 import { handleStyle, S3_ICONS_URL, resourceLayout } from "../constants";
 import { useAppContext } from "../context/AppContext";
+import { SgRule } from "../types";
 
 type ResourceData = {
   resource_type: string;
   resource_name: string;
   resource_icon: string;
+  has_security_groups?: boolean;
+  sg_rules?: SgRule[];
 };
 
 type ResourceNode = Node<ResourceData, "resource">;
@@ -83,10 +86,15 @@ const ResourceComponent = React.memo(function ResourceComponent({
     </>
   );
 
+  // Style for selected node
   const selStyle = selectedNodeId === id ? { border: "3px solid black" } : {};
+
+  // Style if it has a security group
+  const sgStyle = data.has_security_groups ? { border: "0.5px solid red" } : {};
 
   return (
     <>
+      {/* Tooltip definition */}
       <NodeToolbar
         isVisible={hovered}
         nodeId={id}
@@ -101,19 +109,24 @@ const ResourceComponent = React.memo(function ResourceComponent({
           boxShadow="md"
           bg="white"
         >
-          <Box fontWeight="bold" fontSize="8px">
+          <Box fontWeight="bold" fontSize="10px">
             {data.resource_name}
           </Box>
-          <Box opacity={0.8} fontSize="7px">
+          <Box opacity={0.8} fontSize="9px">
             {data.resource_type}
+          </Box>
+          <Box style={{ fontSize: "9px", marginTop: "4px", opacity: 0.8 }}>
+            {data.has_security_groups ? "✓ Security Groups" : null}
           </Box>
         </Box>
       </NodeToolbar>
 
+      {/* Main definition of resource */}
       <Box
         style={{
           height: "100%",
           width: "100%",
+          ...sgStyle,
         }}
       >
         <Flex

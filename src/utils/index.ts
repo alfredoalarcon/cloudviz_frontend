@@ -1,5 +1,6 @@
 import { Edge, InternalNode, Node, MarkerType } from "@xyflow/react";
 import { assignClosestHandles } from "../layout";
+import { edgeLayout } from "../constants";
 
 // Update edge handles based on node positions, adds an animated property for equality edges
 export function updateEdges(
@@ -25,23 +26,35 @@ export function updateEdges(
         edge.animated = true;
 
         edge.style = {
-          stroke: "#787878ff",
-          strokeWidth: 1.1,
+          stroke: edgeLayout.stroke.equality,
+          strokeWidth: edgeLayout.strokeWidth.equality,
         };
       }
 
       //   Add arrows for iam edges
-      if (edge.data && edge.data.type == "iam") {
+      else if (edge.data && edge.data.type == "iam") {
         edge.markerEnd = {
-          type: MarkerType.Arrow,
-          color: "#9ac5e4ff",
-          height: 18,
-          width: 18,
+          type: MarkerType.ArrowClosed,
+          color: edgeLayout.stroke.iam,
+          height: edgeLayout.arrowSize,
+          width: edgeLayout.arrowSize,
         };
 
         edge.style = {
-          stroke: "#9ac5e4ff",
-          strokeWidth: 0.8,
+          stroke: edgeLayout.stroke.iam,
+          strokeWidth: edgeLayout.strokeWidth.iam,
+        };
+      } else if (edge.data && edge.data.type == "r2r") {
+        edge.markerEnd = {
+          type: MarkerType.ArrowClosed,
+          color: edgeLayout.stroke.r2r,
+          height: edgeLayout.arrowSize,
+          width: edgeLayout.arrowSize,
+        };
+
+        edge.style = {
+          stroke: edgeLayout.stroke.r2r,
+          strokeWidth: edgeLayout.strokeWidth.r2r,
         };
       }
 
