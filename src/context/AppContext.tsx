@@ -11,6 +11,8 @@ type AppContextType = {
   edges: Edge[];
   setEdges: (edges: Edge[]) => void;
   selectedNode: Node | undefined;
+  displayIam: "res-res" | "res-role" | "off";
+  setDisplayIam: (value: "res-res" | "res-role" | "off") => void;
 };
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -28,6 +30,13 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
   // Get currently selected node
   const selectedNode = nodes.find((node) => node.id === selectedNodeId);
 
+  //  --------------- Panel Options -----------------
+  // Values for iam display
+  const [displayIam, setDisplayIam] = useState<"res-res" | "res-role" | "off">(
+    "res-res"
+  );
+
+  // ----------------------------
   // Export values for context
   const value = {
     selectedNodeId,
@@ -37,6 +46,8 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
     edges,
     setEdges,
     selectedNode,
+    displayIam,
+    setDisplayIam,
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

@@ -5,32 +5,37 @@ import {
   Background,
   useReactFlow,
   useNodesInitialized,
+  Controls,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { useAppContext } from "./context/AppContext";
 
 import type { NodeChange } from "@xyflow/react";
-import { Box } from "@chakra-ui/react";
+import { Box, Stack, Radio, RadioGroup } from "@chakra-ui/react";
 import graphData from "./data/dg_parents_generated_2.json";
 import { layoutNodesForReactFlow } from "./layout";
 import { updateEdges } from "./utils";
 import { Graph } from "./types";
 import { nodeTypes, resourceLayout, clusterPadding } from "./constants";
+import HoverDock from "./components/HoverDock";
+
 const rfStyle = {
   backgroundColor: "#f2f1f1ff",
 };
 
 function Flow() {
+  // Get context values
   const {
     nodes,
     setNodes,
     edges,
     setEdges,
     setSelectedNodeId,
-    selectedNodeId,
+    displayIam,
+    setDisplayIam,
   } = useAppContext();
   const nodesInitialized = useNodesInitialized();
-  const { getInternalNode } = useReactFlow();
+  const { getInternalNode, fitView } = useReactFlow();
 
   // Load and lay out nodes
   useEffect(() => {
@@ -52,24 +57,41 @@ function Flow() {
       );
 
       // Add attributes to nodes before setting state
-      const updatedNodes = nodes.map((node) => ({
-        ...node,
-        extent: "parent",
-      }));
+      const updatedNodes = nodes.map((node) => {
+        // take into account display IAM
+        if (node.type === "iam" && displayIam !== "res-role") {
+          node.hidden = true;
+        }
+
+        if (node.id === "IAM Service" && displayIam !== "res-role") {
+          node.hidden = true;
+        }
+
+        return {
+          ...node,
+          extent: "parent",
+        };
+      });
+
       // @ts-expect-error: Unreachable code error
       setNodes(updatedNodes);
       setEdges(edges);
     }
 
     layoutNodes();
-  }, []);
+  }, [displayIam]);
 
-  // Compute edge handles when nodes are initialized
+  // Update edges by computing handles and adding attributes
   useEffect(() => {
-    const newEdges = updateEdges(edges, nodesInitialized, getInternalNode);
+    const newEdges = updateEdges(
+      edges,
+      nodesInitialized,
+      getInternalNode,
+      displayIam
+    );
     setEdges(newEdges);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [nodesInitialized]);
+  }, [nodesInitialized, nodes, displayIam]);
 
   // Handle ESC key
   useEffect(() => {
@@ -86,9 +108,6 @@ function Flow() {
     (changes: NodeChange[]) => {
       // @ts-ignore
       setNodes((nds) => applyNodeChanges(changes, nds));
-      // Update edge handles
-      const newEdges = updateEdges(edges, nodesInitialized, getInternalNode);
-      setEdges(newEdges);
     },
     [setNodes, edges]
   );
@@ -105,8 +124,13 @@ function Flow() {
         nodeTypes={nodeTypes}
         onPaneClick={() => setSelectedNodeId(null)}
       >
+        <Controls />
         <Background />
       </ReactFlow>
+
+      {/* Add the Hover Dock */}
+      {/* Pin to top-left */}
+      <HoverDock position={{ top: 5, left: 5 }} initialPinned={false} />
     </Box>
   );
 }

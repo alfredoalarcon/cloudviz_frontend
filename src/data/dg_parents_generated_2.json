@@ -14,26 +14,12 @@
       }
     },
     {
-      "id": "S3",
+      "id": "Lambda",
       "type": "service_container",
       "data": {
-        "resource_name": "S3",
+        "resource_name": "Lambda",
         "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg"
-      },
-      "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "Kms",
-      "type": "service_container",
-      "data": {
-        "resource_name": "Kms",
-        "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Key-Management-Service_48.svg"
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_AWS-Lambda_48.svg"
       },
       "parentId": "AWS Cloud",
       "position": {
@@ -56,6 +42,33 @@
       }
     },
     {
+      "id": "IAM Service",
+      "type": "service_container",
+      "data": {
+        "resource_name": "IAM Service",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg"
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "S3",
+      "type": "service_container",
+      "data": {
+        "resource_name": "S3",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
       "id": "VPC Service",
       "type": "service_container",
       "data": {
@@ -69,26 +82,12 @@
       }
     },
     {
-      "id": "Lambda",
+      "id": "Ebs",
       "type": "service_container",
       "data": {
-        "resource_name": "Lambda",
+        "resource_name": "Ebs",
         "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_AWS-Lambda_48.svg"
-      },
-      "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "Elasticsearch",
-      "type": "service_container",
-      "data": {
-        "resource_name": "Elasticsearch",
-        "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Analytics/48/Arch_Amazon-OpenSearch-Service_48.svg"
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Elastic-Block-Store_48.svg"
       },
       "parentId": "AWS Cloud",
       "position": {
@@ -103,6 +102,34 @@
         "resource_name": "Neptune",
         "resource_type": "service_container",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Neptune_48.svg"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "Kms",
+      "type": "service_container",
+      "data": {
+        "resource_name": "Kms",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Key-Management-Service_48.svg"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "Elasticsearch",
+      "type": "service_container",
+      "data": {
+        "resource_name": "Elasticsearch",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Analytics/48/Arch_Amazon-OpenSearch-Service_48.svg"
       },
       "parentId": "AWS Cloud",
       "position": {
@@ -221,6 +248,330 @@
         "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-eks-subnet2\", \"\"kubernetes.io/cluster/${local.eks_name.value}\"\": \"shared\"}, {\"git_commit\": \"6e62522d2ab8f63740e53752b84a6e99cd65696a\", \"git_file\": \"terraform/aws/eks.tf\", \"git_last_modified_at\": \"2021-05-02 11:16:31\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"\\\"kubernetes.io/cluster/$${local.eks_name.value}\"\": \"shared\", \"yor_trace\": \"9ce04af2-5321-4e6c-a262-e4d7c1f69525\"}, {\"\\\"kubernetes.io/cluster/$$${local.eks_name.value}\"\": \"shared\", \"\"kubernetes.io/cluster/$${local.eks_name.value}\"\": \"shared\"}, {\"\\\"kubernetes.io/cluster/$$$${local.eks_name.value}\"\": \"shared\", \"\"kubernetes.io/cluster/$$${local.eks_name.value}\"\": \"shared\", \"\"kubernetes.io/cluster/$${local.eks_name.value}\"\": \"shared\"})}"
       },
       "parentId": "aws_vpc.eks_vpc",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.ec2role",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "ec2role",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "policies": {
+          "aws_iam_role_policy.ec2policy": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Action": [
+                  "s3:*",
+                  "ec2:*",
+                  "rds:*"
+                ],
+                "Effect": "Allow",
+                "Resource": "*"
+              }
+            ]
+          }
+        },
+        "name": "${local.resource_prefix.value}-role",
+        "path": "/",
+        "assume_role_policy": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Principal": {
+                "Service": "ec2.amazonaws.com"
+              },
+              "Effect": "Allow",
+              "Sid": ""
+            }
+          ]
+        },
+        "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-role\", \"Environment\": \"${local.resource_prefix.value}\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/db-app.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"d4b631c1-c1d0-4986-affb-fb8b94a6a7a5\"})}"
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.iam_for_lambda",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "iam_for_lambda",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "policies": {},
+        "name": "${local.resource_prefix.value}-analysis-lambda",
+        "assume_role_policy": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              },
+              "Effect": "Allow",
+              "Sid": ""
+            }
+          ]
+        },
+        "tags": {
+          "git_commit": "e6d83b21346fe85d4fe28b16c0b2f1e0662eb1d7",
+          "git_file": "terraform/aws/lambda.tf",
+          "git_last_modified_at": "2023-04-27 12:47:51",
+          "git_last_modified_by": "nadler@paloaltonetworks.com",
+          "git_modifiers": "nadler/nimrodkor",
+          "git_org": "bridgecrewio",
+          "git_repo": "terragoat",
+          "yor_trace": "93cfa6f9-a257-40c3-b7dc-3c3686929734"
+        }
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_user.user",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_user",
+        "resource_name": "user",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "policies": {
+          "aws_iam_user_policy.userpolicy": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Action": [
+                  "ec2:*",
+                  "s3:*",
+                  "lambda:*",
+                  "cloudwatch:*"
+                ],
+                "Effect": "Allow",
+                "Resource": "*"
+              }
+            ]
+          }
+        },
+        "name": "${local.resource_prefix.value}-user",
+        "force_destroy": true,
+        "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-user\", \"Environment\": \"${local.resource_prefix.value}\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/iam.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"9b45b298-c1ea-426a-9644-610780021eaa\"})}"
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.iam_for_eks",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "iam_for_eks",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "policies": {
+          "aws_iam_role_policy_attachment.policy_attachment-AmazonEKSClusterPolicy": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Sid": "AmazonEKSClusterPolicy",
+                "Effect": "Allow",
+                "Action": [
+                  "autoscaling:DescribeAutoScalingGroups",
+                  "autoscaling:UpdateAutoScalingGroup",
+                  "ec2:AttachVolume",
+                  "ec2:AuthorizeSecurityGroupIngress",
+                  "ec2:CreateRoute",
+                  "ec2:CreateSecurityGroup",
+                  "ec2:CreateTags",
+                  "ec2:CreateVolume",
+                  "ec2:DeleteRoute",
+                  "ec2:DeleteSecurityGroup",
+                  "ec2:DeleteVolume",
+                  "ec2:DescribeInstances",
+                  "ec2:DescribeRouteTables",
+                  "ec2:DescribeSecurityGroups",
+                  "ec2:DescribeSubnets",
+                  "ec2:DescribeVolumes",
+                  "ec2:DescribeVolumesModifications",
+                  "ec2:DescribeVpcs",
+                  "ec2:DescribeDhcpOptions",
+                  "ec2:DescribeNetworkInterfaces",
+                  "ec2:DescribeAvailabilityZones",
+                  "ec2:DetachVolume",
+                  "ec2:ModifyInstanceAttribute",
+                  "ec2:ModifyVolume",
+                  "ec2:RevokeSecurityGroupIngress",
+                  "ec2:DescribeAccountAttributes",
+                  "ec2:DescribeAddresses",
+                  "ec2:DescribeInternetGateways",
+                  "ec2:DescribeInstanceTopology",
+                  "elasticloadbalancing:AddTags",
+                  "elasticloadbalancing:ApplySecurityGroupsToLoadBalancer",
+                  "elasticloadbalancing:AttachLoadBalancerToSubnets",
+                  "elasticloadbalancing:ConfigureHealthCheck",
+                  "elasticloadbalancing:CreateListener",
+                  "elasticloadbalancing:CreateLoadBalancer",
+                  "elasticloadbalancing:CreateLoadBalancerListeners",
+                  "elasticloadbalancing:CreateLoadBalancerPolicy",
+                  "elasticloadbalancing:CreateTargetGroup",
+                  "elasticloadbalancing:DeleteListener",
+                  "elasticloadbalancing:DeleteLoadBalancer",
+                  "elasticloadbalancing:DeleteLoadBalancerListeners",
+                  "elasticloadbalancing:DeleteTargetGroup",
+                  "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
+                  "elasticloadbalancing:DeregisterTargets",
+                  "elasticloadbalancing:DescribeListeners",
+                  "elasticloadbalancing:DescribeLoadBalancerAttributes",
+                  "elasticloadbalancing:DescribeLoadBalancerPolicies",
+                  "elasticloadbalancing:DescribeLoadBalancers",
+                  "elasticloadbalancing:DescribeTargetGroupAttributes",
+                  "elasticloadbalancing:DescribeTargetGroups",
+                  "elasticloadbalancing:DescribeTargetHealth",
+                  "elasticloadbalancing:DetachLoadBalancerFromSubnets",
+                  "elasticloadbalancing:ModifyListener",
+                  "elasticloadbalancing:ModifyLoadBalancerAttributes",
+                  "elasticloadbalancing:ModifyTargetGroup",
+                  "elasticloadbalancing:ModifyTargetGroupAttributes",
+                  "elasticloadbalancing:RegisterInstancesWithLoadBalancer",
+                  "elasticloadbalancing:RegisterTargets",
+                  "elasticloadbalancing:SetLoadBalancerPoliciesForBackendServer",
+                  "elasticloadbalancing:SetLoadBalancerPoliciesOfListener",
+                  "kms:DescribeKey"
+                ],
+                "Resource": "*"
+              },
+              {
+                "Sid": "AmazonEKSClusterPolicySLRCreate",
+                "Effect": "Allow",
+                "Action": "iam:CreateServiceLinkedRole",
+                "Resource": "*",
+                "Condition": {
+                  "StringEquals": {
+                    "iam:AWSServiceName": "elasticloadbalancing.amazonaws.com"
+                  }
+                }
+              },
+              {
+                "Sid": "AmazonEKSClusterPolicyENIDelete",
+                "Effect": "Allow",
+                "Action": "ec2:DeleteNetworkInterface",
+                "Resource": "*",
+                "Condition": {
+                  "StringEquals": {
+                    "ec2:ResourceTag/eks:eni:owner": "amazon-vpc-cni"
+                  }
+                }
+              }
+            ]
+          },
+          "aws_iam_role_policy_attachment.policy_attachment-AmazonEKSServicePolicy": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "ec2:CreateNetworkInterface",
+                  "ec2:CreateNetworkInterfacePermission",
+                  "ec2:DeleteNetworkInterface",
+                  "ec2:DescribeInstances",
+                  "ec2:DescribeNetworkInterfaces",
+                  "ec2:DetachNetworkInterface",
+                  "ec2:DescribeSecurityGroups",
+                  "ec2:DescribeSubnets",
+                  "ec2:DescribeVpcs",
+                  "ec2:ModifyNetworkInterfaceAttribute",
+                  "iam:ListAttachedRolePolicies",
+                  "eks:UpdateClusterVersion",
+                  "ec2:GetSecurityGroupsForVpc"
+                ],
+                "Resource": "*"
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "ec2:CreateTags",
+                  "ec2:DeleteTags"
+                ],
+                "Resource": [
+                  "arn:aws:ec2:*:*:vpc/*",
+                  "arn:aws:ec2:*:*:subnet/*"
+                ]
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "ec2:CreateTags"
+                ],
+                "Resource": [
+                  "arn:aws:ec2:*:*:network-interface/*"
+                ],
+                "Condition": {
+                  "StringLike": {
+                    "aws:RequestTag/Name": "eks-cluster-*"
+                  }
+                }
+              },
+              {
+                "Effect": "Allow",
+                "Action": "route53:AssociateVPCWithHostedZone",
+                "Resource": "*"
+              },
+              {
+                "Effect": "Allow",
+                "Action": "logs:CreateLogGroup",
+                "Resource": "*"
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "logs:CreateLogStream",
+                  "logs:DescribeLogStreams"
+                ],
+                "Resource": "arn:aws:logs:*:*:log-group:/aws/eks/*:*"
+              },
+              {
+                "Effect": "Allow",
+                "Action": "logs:PutLogEvents",
+                "Resource": "arn:aws:logs:*:*:log-group:/aws/eks/*:*:*"
+              },
+              {
+                "Effect": "Allow",
+                "Action": "iam:CreateServiceLinkedRole",
+                "Resource": "arn:aws:iam::*:role/aws-service-role/eks.amazonaws.com/AWSServiceRoleForAmazonEKS",
+                "Condition": {
+                  "StringLike": {
+                    "iam:AWSServiceName": "eks.amazonaws.com"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "name": "${local.resource_prefix.value}-iam-for-eks",
+        "assume_role_policy": "${data.aws_iam_policy_document.iam_policy_eks.json}",
+        "tags": {
+          "git_commit": "d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0",
+          "git_file": "terraform/aws/eks.tf",
+          "git_last_modified_at": "2020-06-16 14:46:24",
+          "git_last_modified_by": "nimrodkor@gmail.com",
+          "git_modifiers": "nimrodkor",
+          "git_org": "bridgecrewio",
+          "git_repo": "terragoat",
+          "yor_trace": "de052596-21a0-43de-8153-469add277b18"
+        }
+      },
       "position": {
         "x": 0,
         "y": 0
@@ -687,7 +1038,7 @@
       "data": {
         "resource_type": "aws_elb",
         "resource_name": "weblb",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Elastic-Block-Store_48.svg",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Networking-Content-Delivery/48/Arch_Elastic-Load-Balancing_48.svg",
         "has_security_groups": true,
         "sg_rules": [
           {
@@ -812,6 +1163,26 @@
         "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-ec2\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/ec2.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"347af3cd-4f70-4632-aca3-4d5e30ffc0b6\"})}"
       },
       "parentId": "aws_subnet.web_subnet",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_ebs_volume.web_host_storage",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_ebs_volume",
+        "resource_name": "web_host_storage",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Elastic-Block-Store_48.svg",
+        "has_security_groups": false,
+        "sg_rules": [],
+        "iam_role_id": null,
+        "availability_zone": "${var.region}a",
+        "size": 1,
+        "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-ebs\"}, {\"git_commit\": \"d3439f0f2af62f6fa3521e14d6c27819ef8f12e1\", \"git_file\": \"terraform/aws/ec2.tf\", \"git_last_modified_at\": \"2021-05-02 11:17:26\", \"git_last_modified_by\": \"nimrodkor@users.noreply.github.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"c5509daf-10f0-46af-9e03-41989212521d\"})}"
+      },
+      "parentId": "Ebs",
       "position": {
         "x": 0,
         "y": 0
@@ -1238,20 +1609,20 @@
       "source": "aws_s3_bucket.data_science",
       "target": "aws_s3_bucket.logs",
       "data": {
-        "type": "r2r",
+        "type": "other-res-res",
         "label": [
           "logging",
           "0",
           "target_bucket"
         ]
       },
-      "id": "r2r-aws_s3_bucket.data_science-aws_s3_bucket.logs"
+      "id": "other-res-res-aws_s3_bucket.data_science-aws_s3_bucket.logs"
     },
     {
       "source": "aws_s3_bucket.logs",
       "target": "aws_kms_key.logs_key",
       "data": {
-        "type": "r2r",
+        "type": "other-res-res",
         "label": [
           "server_side_encryption_configuration",
           "0",
@@ -1262,7 +1633,7 @@
           "kms_master_key_id"
         ]
       },
-      "id": "r2r-aws_s3_bucket.logs-aws_kms_key.logs_key"
+      "id": "other-res-res-aws_s3_bucket.logs-aws_kms_key.logs_key"
     },
     {
       "source": "aws_db_instance.default-1",
@@ -1274,36 +1645,52 @@
     },
     {
       "source": "aws_instance.db_app",
+      "target": "aws_iam_role.ec2role",
+      "data": {
+        "type": "iam-res-role"
+      },
+      "id": "iam-res-role-aws_instance.db_app-aws_iam_role.ec2role"
+    },
+    {
+      "source": "aws_instance.db_app",
       "target": "aws_db_instance.default-1",
       "data": {
-        "type": "r2r",
+        "type": "other-res-res",
         "label": [
           "user_data"
         ]
       },
-      "id": "r2r-aws_instance.db_app-aws_db_instance.default-1"
+      "id": "other-res-res-aws_instance.db_app-aws_db_instance.default-1"
     },
     {
       "source": "aws_instance.db_app",
       "target": "aws_db_instance.default-2",
       "data": {
-        "type": "r2r",
+        "type": "other-res-res",
         "label": [
           "user_data"
         ]
       },
-      "id": "r2r-aws_instance.db_app-aws_db_instance.default-2"
+      "id": "other-res-res-aws_instance.db_app-aws_db_instance.default-2"
     },
     {
       "source": "aws_elb.weblb",
       "target": "aws_instance.web_host",
       "data": {
-        "type": "r2r",
+        "type": "other-res-res",
         "label": [
           "instances"
         ]
       },
-      "id": "r2r-aws_elb.weblb-aws_instance.web_host"
+      "id": "other-res-res-aws_elb.weblb-aws_instance.web_host"
+    },
+    {
+      "source": "aws_lambda_function.analysis_lambda",
+      "target": "aws_iam_role.iam_for_lambda",
+      "data": {
+        "type": "iam-res-role"
+      },
+      "id": "iam-res-role-aws_lambda_function.analysis_lambda-aws_iam_role.iam_for_lambda"
     },
     {
       "source": "aws_eks_cluster.eks_cluster-1",
@@ -1314,10 +1701,26 @@
       "id": "equality-aws_eks_cluster.eks_cluster-1-aws_eks_cluster.eks_cluster-2"
     },
     {
+      "source": "aws_eks_cluster.eks_cluster-1",
+      "target": "aws_iam_role.iam_for_eks",
+      "data": {
+        "type": "iam-res-role"
+      },
+      "id": "iam-res-role-aws_eks_cluster.eks_cluster-1-aws_iam_role.iam_for_eks"
+    },
+    {
+      "source": "aws_eks_cluster.eks_cluster-2",
+      "target": "aws_iam_role.iam_for_eks",
+      "data": {
+        "type": "iam-res-role"
+      },
+      "id": "iam-res-role-aws_eks_cluster.eks_cluster-2-aws_iam_role.iam_for_eks"
+    },
+    {
       "source": "aws_instance.db_app",
       "target": "aws_s3_bucket.data",
       "data": {
-        "type": "iam",
+        "type": "iam-res-res",
         "permissions": [
           {
             "effect": "Allow",
@@ -1329,13 +1732,13 @@
         ],
         "iam_role_id": "aws_iam_role.ec2role"
       },
-      "id": "iam-aws_instance.db_app-aws_s3_bucket.data"
+      "id": "iam-res-res-aws_instance.db_app-aws_s3_bucket.data"
     },
     {
       "source": "aws_instance.db_app",
       "target": "aws_s3_bucket.financials",
       "data": {
-        "type": "iam",
+        "type": "iam-res-res",
         "permissions": [
           {
             "effect": "Allow",
@@ -1347,13 +1750,13 @@
         ],
         "iam_role_id": "aws_iam_role.ec2role"
       },
-      "id": "iam-aws_instance.db_app-aws_s3_bucket.financials"
+      "id": "iam-res-res-aws_instance.db_app-aws_s3_bucket.financials"
     },
     {
       "source": "aws_instance.db_app",
       "target": "aws_s3_bucket.operations",
       "data": {
-        "type": "iam",
+        "type": "iam-res-res",
         "permissions": [
           {
             "effect": "Allow",
@@ -1365,13 +1768,13 @@
         ],
         "iam_role_id": "aws_iam_role.ec2role"
       },
-      "id": "iam-aws_instance.db_app-aws_s3_bucket.operations"
+      "id": "iam-res-res-aws_instance.db_app-aws_s3_bucket.operations"
     },
     {
       "source": "aws_instance.db_app",
       "target": "aws_s3_bucket.data_science",
       "data": {
-        "type": "iam",
+        "type": "iam-res-res",
         "permissions": [
           {
             "effect": "Allow",
@@ -1383,13 +1786,13 @@
         ],
         "iam_role_id": "aws_iam_role.ec2role"
       },
-      "id": "iam-aws_instance.db_app-aws_s3_bucket.data_science"
+      "id": "iam-res-res-aws_instance.db_app-aws_s3_bucket.data_science"
     },
     {
       "source": "aws_instance.db_app",
       "target": "aws_s3_bucket.logs",
       "data": {
-        "type": "iam",
+        "type": "iam-res-res",
         "permissions": [
           {
             "effect": "Allow",
@@ -1401,13 +1804,13 @@
         ],
         "iam_role_id": "aws_iam_role.ec2role"
       },
-      "id": "iam-aws_instance.db_app-aws_s3_bucket.logs"
+      "id": "iam-res-res-aws_instance.db_app-aws_s3_bucket.logs"
     },
     {
       "source": "aws_instance.db_app",
       "target": "aws_db_instance.default-1",
       "data": {
-        "type": "iam",
+        "type": "iam-res-res",
         "permissions": [
           {
             "effect": "Allow",
@@ -1419,13 +1822,13 @@
         ],
         "iam_role_id": "aws_iam_role.ec2role"
       },
-      "id": "iam-aws_instance.db_app-aws_db_instance.default-1"
+      "id": "iam-res-res-aws_instance.db_app-aws_db_instance.default-1"
     },
     {
       "source": "aws_instance.db_app",
       "target": "aws_db_instance.default-2",
       "data": {
-        "type": "iam",
+        "type": "iam-res-res",
         "permissions": [
           {
             "effect": "Allow",
@@ -1437,13 +1840,13 @@
         ],
         "iam_role_id": "aws_iam_role.ec2role"
       },
-      "id": "iam-aws_instance.db_app-aws_db_instance.default-2"
+      "id": "iam-res-res-aws_instance.db_app-aws_db_instance.default-2"
     },
     {
       "source": "aws_instance.db_app",
       "target": "aws_instance.web_host",
       "data": {
-        "type": "iam",
+        "type": "iam-res-res",
         "permissions": [
           {
             "effect": "Allow",
@@ -1455,13 +1858,13 @@
         ],
         "iam_role_id": "aws_iam_role.ec2role"
       },
-      "id": "iam-aws_instance.db_app-aws_instance.web_host"
+      "id": "iam-res-res-aws_instance.db_app-aws_instance.web_host"
     },
     {
       "source": "aws_instance.db_app",
       "target": "aws_s3_bucket.flowbucket",
       "data": {
-        "type": "iam",
+        "type": "iam-res-res",
         "permissions": [
           {
             "effect": "Allow",
@@ -1473,13 +1876,13 @@
         ],
         "iam_role_id": "aws_iam_role.ec2role"
       },
-      "id": "iam-aws_instance.db_app-aws_s3_bucket.flowbucket"
+      "id": "iam-res-res-aws_instance.db_app-aws_s3_bucket.flowbucket"
     },
     {
       "source": "aws_instance.db_app",
       "target": "aws_rds_cluster.app1-rds-cluster",
       "data": {
-        "type": "iam",
+        "type": "iam-res-res",
         "permissions": [
           {
             "effect": "Allow",
@@ -1491,13 +1894,13 @@
         ],
         "iam_role_id": "aws_iam_role.ec2role"
       },
-      "id": "iam-aws_instance.db_app-aws_rds_cluster.app1-rds-cluster"
+      "id": "iam-res-res-aws_instance.db_app-aws_rds_cluster.app1-rds-cluster"
     },
     {
       "source": "aws_instance.db_app",
       "target": "aws_rds_cluster.app2-rds-cluster",
       "data": {
-        "type": "iam",
+        "type": "iam-res-res",
         "permissions": [
           {
             "effect": "Allow",
@@ -1509,13 +1912,13 @@
         ],
         "iam_role_id": "aws_iam_role.ec2role"
       },
-      "id": "iam-aws_instance.db_app-aws_rds_cluster.app2-rds-cluster"
+      "id": "iam-res-res-aws_instance.db_app-aws_rds_cluster.app2-rds-cluster"
     },
     {
       "source": "aws_instance.db_app",
       "target": "aws_rds_cluster.app3-rds-cluster",
       "data": {
-        "type": "iam",
+        "type": "iam-res-res",
         "permissions": [
           {
             "effect": "Allow",
@@ -1527,13 +1930,13 @@
         ],
         "iam_role_id": "aws_iam_role.ec2role"
       },
-      "id": "iam-aws_instance.db_app-aws_rds_cluster.app3-rds-cluster"
+      "id": "iam-res-res-aws_instance.db_app-aws_rds_cluster.app3-rds-cluster"
     },
     {
       "source": "aws_instance.db_app",
       "target": "aws_rds_cluster.app4-rds-cluster",
       "data": {
-        "type": "iam",
+        "type": "iam-res-res",
         "permissions": [
           {
             "effect": "Allow",
@@ -1545,13 +1948,13 @@
         ],
         "iam_role_id": "aws_iam_role.ec2role"
       },
-      "id": "iam-aws_instance.db_app-aws_rds_cluster.app4-rds-cluster"
+      "id": "iam-res-res-aws_instance.db_app-aws_rds_cluster.app4-rds-cluster"
     },
     {
       "source": "aws_instance.db_app",
       "target": "aws_rds_cluster.app5-rds-cluster",
       "data": {
-        "type": "iam",
+        "type": "iam-res-res",
         "permissions": [
           {
             "effect": "Allow",
@@ -1563,13 +1966,13 @@
         ],
         "iam_role_id": "aws_iam_role.ec2role"
       },
-      "id": "iam-aws_instance.db_app-aws_rds_cluster.app5-rds-cluster"
+      "id": "iam-res-res-aws_instance.db_app-aws_rds_cluster.app5-rds-cluster"
     },
     {
       "source": "aws_instance.db_app",
       "target": "aws_rds_cluster.app6-rds-cluster",
       "data": {
-        "type": "iam",
+        "type": "iam-res-res",
         "permissions": [
           {
             "effect": "Allow",
@@ -1581,13 +1984,13 @@
         ],
         "iam_role_id": "aws_iam_role.ec2role"
       },
-      "id": "iam-aws_instance.db_app-aws_rds_cluster.app6-rds-cluster"
+      "id": "iam-res-res-aws_instance.db_app-aws_rds_cluster.app6-rds-cluster"
     },
     {
       "source": "aws_instance.db_app",
       "target": "aws_rds_cluster.app7-rds-cluster",
       "data": {
-        "type": "iam",
+        "type": "iam-res-res",
         "permissions": [
           {
             "effect": "Allow",
@@ -1599,13 +2002,13 @@
         ],
         "iam_role_id": "aws_iam_role.ec2role"
       },
-      "id": "iam-aws_instance.db_app-aws_rds_cluster.app7-rds-cluster"
+      "id": "iam-res-res-aws_instance.db_app-aws_rds_cluster.app7-rds-cluster"
     },
     {
       "source": "aws_instance.db_app",
       "target": "aws_rds_cluster.app8-rds-cluster",
       "data": {
-        "type": "iam",
+        "type": "iam-res-res",
         "permissions": [
           {
             "effect": "Allow",
@@ -1617,13 +2020,13 @@
         ],
         "iam_role_id": "aws_iam_role.ec2role"
       },
-      "id": "iam-aws_instance.db_app-aws_rds_cluster.app8-rds-cluster"
+      "id": "iam-res-res-aws_instance.db_app-aws_rds_cluster.app8-rds-cluster"
     },
     {
       "source": "aws_instance.db_app",
       "target": "aws_rds_cluster.app9-rds-cluster",
       "data": {
-        "type": "iam",
+        "type": "iam-res-res",
         "permissions": [
           {
             "effect": "Allow",
@@ -1635,13 +2038,13 @@
         ],
         "iam_role_id": "aws_iam_role.ec2role"
       },
-      "id": "iam-aws_instance.db_app-aws_rds_cluster.app9-rds-cluster"
+      "id": "iam-res-res-aws_instance.db_app-aws_rds_cluster.app9-rds-cluster"
     },
     {
       "source": "aws_eks_cluster.eks_cluster-1",
       "target": "aws_kms_key.logs_key",
       "data": {
-        "type": "iam",
+        "type": "iam-res-res",
         "permissions": [
           {
             "effect": "Allow",
@@ -1653,13 +2056,13 @@
         ],
         "iam_role_id": "aws_iam_role.iam_for_eks"
       },
-      "id": "iam-aws_eks_cluster.eks_cluster-1-aws_kms_key.logs_key"
+      "id": "iam-res-res-aws_eks_cluster.eks_cluster-1-aws_kms_key.logs_key"
     },
     {
       "source": "aws_eks_cluster.eks_cluster-2",
       "target": "aws_kms_key.logs_key",
       "data": {
-        "type": "iam",
+        "type": "iam-res-res",
         "permissions": [
           {
             "effect": "Allow",
@@ -1671,13 +2074,13 @@
         ],
         "iam_role_id": "aws_iam_role.iam_for_eks"
       },
-      "id": "iam-aws_eks_cluster.eks_cluster-2-aws_kms_key.logs_key"
+      "id": "iam-res-res-aws_eks_cluster.eks_cluster-2-aws_kms_key.logs_key"
     },
     {
       "source": "aws_eks_cluster.eks_cluster-1",
       "target": "aws_instance.db_app",
       "data": {
-        "type": "iam",
+        "type": "iam-res-res",
         "permissions": [
           {
             "effect": "Allow",
@@ -1984,13 +2387,13 @@
         ],
         "iam_role_id": "aws_iam_role.iam_for_eks"
       },
-      "id": "iam-aws_eks_cluster.eks_cluster-1-aws_instance.db_app"
+      "id": "iam-res-res-aws_eks_cluster.eks_cluster-1-aws_instance.db_app"
     },
     {
       "source": "aws_eks_cluster.eks_cluster-2",
       "target": "aws_instance.db_app",
       "data": {
-        "type": "iam",
+        "type": "iam-res-res",
         "permissions": [
           {
             "effect": "Allow",
@@ -2297,13 +2700,13 @@
         ],
         "iam_role_id": "aws_iam_role.iam_for_eks"
       },
-      "id": "iam-aws_eks_cluster.eks_cluster-2-aws_instance.db_app"
+      "id": "iam-res-res-aws_eks_cluster.eks_cluster-2-aws_instance.db_app"
     },
     {
       "source": "aws_eks_cluster.eks_cluster-1",
       "target": "aws_elb.weblb",
       "data": {
-        "type": "iam",
+        "type": "iam-res-res",
         "permissions": [
           {
             "effect": "Allow",
@@ -2525,13 +2928,13 @@
         ],
         "iam_role_id": "aws_iam_role.iam_for_eks"
       },
-      "id": "iam-aws_eks_cluster.eks_cluster-1-aws_elb.weblb"
+      "id": "iam-res-res-aws_eks_cluster.eks_cluster-1-aws_elb.weblb"
     },
     {
       "source": "aws_eks_cluster.eks_cluster-2",
       "target": "aws_elb.weblb",
       "data": {
-        "type": "iam",
+        "type": "iam-res-res",
         "permissions": [
           {
             "effect": "Allow",
@@ -2753,13 +3156,13 @@
         ],
         "iam_role_id": "aws_iam_role.iam_for_eks"
       },
-      "id": "iam-aws_eks_cluster.eks_cluster-2-aws_elb.weblb"
+      "id": "iam-res-res-aws_eks_cluster.eks_cluster-2-aws_elb.weblb"
     },
     {
       "source": "aws_eks_cluster.eks_cluster-1",
       "target": "aws_instance.web_host",
       "data": {
-        "type": "iam",
+        "type": "iam-res-res",
         "permissions": [
           {
             "effect": "Allow",
@@ -3066,13 +3469,13 @@
         ],
         "iam_role_id": "aws_iam_role.iam_for_eks"
       },
-      "id": "iam-aws_eks_cluster.eks_cluster-1-aws_instance.web_host"
+      "id": "iam-res-res-aws_eks_cluster.eks_cluster-1-aws_instance.web_host"
     },
     {
       "source": "aws_eks_cluster.eks_cluster-2",
       "target": "aws_instance.web_host",
       "data": {
-        "type": "iam",
+        "type": "iam-res-res",
         "permissions": [
           {
             "effect": "Allow",
@@ -3379,7 +3782,7 @@
         ],
         "iam_role_id": "aws_iam_role.iam_for_eks"
       },
-      "id": "iam-aws_eks_cluster.eks_cluster-2-aws_instance.web_host"
+      "id": "iam-res-res-aws_eks_cluster.eks_cluster-2-aws_instance.web_host"
     }
   ]
 }

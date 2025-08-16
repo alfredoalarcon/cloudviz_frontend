@@ -6,7 +6,8 @@ import { edgeLayout } from "../constants";
 export function updateEdges(
   edges: Edge[],
   nodesInitialized: boolean,
-  getInternalNode: (nodeId: string) => InternalNode<Node> | undefined
+  getInternalNode: (nodeId: string) => InternalNode<Node> | undefined,
+  iamDisplay: "res-res" | "res-role" | "off"
 ) {
   if (nodesInitialized) {
     return edges.map((e) => {
@@ -32,19 +33,26 @@ export function updateEdges(
       }
 
       //   Add arrows for iam edges
-      else if (edge.data && edge.data.type == "iam") {
-        edge.markerEnd = {
-          type: MarkerType.ArrowClosed,
-          color: edgeLayout.stroke.iam,
-          height: edgeLayout.arrowSize,
-          width: edgeLayout.arrowSize,
-        };
+      else if (edge.data && (edge.data.type as string).includes("iam")) {
+        if ((edge.data.type as string).includes(iamDisplay)) {
+          edge.markerEnd = {
+            type: MarkerType.ArrowClosed,
+            color: edgeLayout.stroke.iam,
+            height: edgeLayout.arrowSize,
+            width: edgeLayout.arrowSize,
+          };
 
-        edge.style = {
-          stroke: edgeLayout.stroke.iam,
-          strokeWidth: edgeLayout.strokeWidth.iam,
-        };
-      } else if (edge.data && edge.data.type == "r2r") {
+          edge.style = {
+            stroke: edgeLayout.stroke.iam,
+            strokeWidth: edgeLayout.strokeWidth.iam,
+          };
+        } else {
+          edge.hidden = true;
+        }
+      }
+
+      // Edges of type resource
+      else if (edge.data && edge.data.type == "other-res-res") {
         edge.markerEnd = {
           type: MarkerType.ArrowClosed,
           color: edgeLayout.stroke.r2r,

@@ -6,6 +6,18 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { FormProvider, useForm } from "react-hook-form";
 import { AppProvider } from "./context/AppContext";
 import DetailsDrawer from "./components/DetailsDrawer";
+import { extendTheme } from "@chakra-ui/react";
+
+// Define Chakra UI theme
+const theme = extendTheme({
+  styles: {
+    global: {
+      "html, body": {
+        fontSize: "10px", // <- absolute base font size
+      },
+    },
+  },
+});
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,7 +35,7 @@ function App() {
 
   return (
     <AppProvider>
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
         <QueryClientProvider client={queryClient}>
           <ReactFlowProvider>
             <FormProvider {...form}>
