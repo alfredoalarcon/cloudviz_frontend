@@ -31,22 +31,20 @@ export default function DetailsDrawer() {
   };
 
   // --- helpers for sg rules json display ---
-  let rulesJson = null;
+  let dataJson = null;
 
-  if (selectedNode && selectedNode.data.has_security_groups) {
-    rulesJson = (
-      <Box>
-        <h2>Security Group Rules:</h2>
-        <Box borderWidth="1px" borderRadius="md" p={2}>
-          <JsonViewer
-            value={selectedNode.data.sg_rules}
-            rootName={false}
-            enableClipboard={false}
-            quotesOnKeys={false}
-            displayDataTypes={false}
-            displaySize={false}
-          />
-        </Box>
+  if (selectedNode && selectedNode.data) {
+    dataJson = (
+      <Box borderWidth="1px" borderRadius="md" p={2}>
+        <JsonViewer
+          style={{ fontSize: "10px" }}
+          value={selectedNode.data}
+          rootName={false}
+          enableClipboard={false}
+          quotesOnKeys={false}
+          displayDataTypes={false}
+          displaySize={false}
+        />
       </Box>
     );
   }
@@ -58,14 +56,10 @@ export default function DetailsDrawer() {
         <DrawerCloseButton />
         <DrawerHeader>Node details</DrawerHeader>
         <DrawerBody>
-          {selectedNodeId ? (
-            <div>
-              <b>ID:</b> {selectedNodeId}
-              {/* Fetch/render more info about the node here */}
-            </div>
-          ) : null}
-
-          {rulesJson}
+          <Box style={{ fontSize: "13px", marginBottom: "10px" }}>
+            ID: <strong>{selectedNodeId}</strong>
+          </Box>
+          {dataJson}
         </DrawerBody>
       </DrawerContent>
     </Drawer>

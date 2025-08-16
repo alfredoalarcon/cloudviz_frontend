@@ -14,41 +14,14 @@
       }
     },
     {
-      "id": "Rds",
+      "id": "S3",
       "type": "service_container",
       "data": {
-        "resource_name": "Rds",
+        "resource_name": "S3",
         "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Aurora_48.svg"
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg"
       },
       "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "Elasticsearch",
-      "type": "service_container",
-      "data": {
-        "resource_name": "Elasticsearch",
-        "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Analytics/48/Arch_Amazon-OpenSearch-Service_48.svg"
-      },
-      "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "IAM Service",
-      "type": "service_container",
-      "data": {
-        "resource_name": "IAM Service",
-        "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg"
-      },
       "position": {
         "x": 0,
         "y": 0
@@ -69,12 +42,12 @@
       }
     },
     {
-      "id": "S3",
+      "id": "Rds",
       "type": "service_container",
       "data": {
-        "resource_name": "S3",
+        "resource_name": "Rds",
         "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg"
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Aurora_48.svg"
       },
       "parentId": "AWS Cloud",
       "position": {
@@ -102,6 +75,20 @@
         "resource_name": "Lambda",
         "resource_type": "service_container",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_AWS-Lambda_48.svg"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "Elasticsearch",
+      "type": "service_container",
+      "data": {
+        "resource_name": "Elasticsearch",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Analytics/48/Arch_Amazon-OpenSearch-Service_48.svg"
       },
       "parentId": "AWS Cloud",
       "position": {
@@ -240,330 +227,6 @@
       }
     },
     {
-      "id": "aws_iam_role.ec2role",
-      "type": "iam",
-      "parentId": "IAM Service",
-      "data": {
-        "resource_type": "aws_iam_role",
-        "resource_name": "ec2role",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
-        "policies": {
-          "aws_iam_role_policy.ec2policy": {
-            "Version": "2012-10-17",
-            "Statement": [
-              {
-                "Action": [
-                  "s3:*",
-                  "ec2:*",
-                  "rds:*"
-                ],
-                "Effect": "Allow",
-                "Resource": "*"
-              }
-            ]
-          }
-        },
-        "name": "${local.resource_prefix.value}-role",
-        "path": "/",
-        "assume_role_policy": {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Action": "sts:AssumeRole",
-              "Principal": {
-                "Service": "ec2.amazonaws.com"
-              },
-              "Effect": "Allow",
-              "Sid": ""
-            }
-          ]
-        },
-        "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-role\", \"Environment\": \"${local.resource_prefix.value}\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/db-app.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"d4b631c1-c1d0-4986-affb-fb8b94a6a7a5\"})}"
-      },
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "aws_iam_role.iam_for_lambda",
-      "type": "iam",
-      "parentId": "IAM Service",
-      "data": {
-        "resource_type": "aws_iam_role",
-        "resource_name": "iam_for_lambda",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
-        "policies": {},
-        "name": "${local.resource_prefix.value}-analysis-lambda",
-        "assume_role_policy": {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Action": "sts:AssumeRole",
-              "Principal": {
-                "Service": "lambda.amazonaws.com"
-              },
-              "Effect": "Allow",
-              "Sid": ""
-            }
-          ]
-        },
-        "tags": {
-          "git_commit": "e6d83b21346fe85d4fe28b16c0b2f1e0662eb1d7",
-          "git_file": "terraform/aws/lambda.tf",
-          "git_last_modified_at": "2023-04-27 12:47:51",
-          "git_last_modified_by": "nadler@paloaltonetworks.com",
-          "git_modifiers": "nadler/nimrodkor",
-          "git_org": "bridgecrewio",
-          "git_repo": "terragoat",
-          "yor_trace": "93cfa6f9-a257-40c3-b7dc-3c3686929734"
-        }
-      },
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "aws_iam_user.user",
-      "type": "iam",
-      "parentId": "IAM Service",
-      "data": {
-        "resource_type": "aws_iam_user",
-        "resource_name": "user",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
-        "policies": {
-          "aws_iam_user_policy.userpolicy": {
-            "Version": "2012-10-17",
-            "Statement": [
-              {
-                "Action": [
-                  "ec2:*",
-                  "s3:*",
-                  "lambda:*",
-                  "cloudwatch:*"
-                ],
-                "Effect": "Allow",
-                "Resource": "*"
-              }
-            ]
-          }
-        },
-        "name": "${local.resource_prefix.value}-user",
-        "force_destroy": true,
-        "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-user\", \"Environment\": \"${local.resource_prefix.value}\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/iam.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"9b45b298-c1ea-426a-9644-610780021eaa\"})}"
-      },
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "aws_iam_role.iam_for_eks",
-      "type": "iam",
-      "parentId": "IAM Service",
-      "data": {
-        "resource_type": "aws_iam_role",
-        "resource_name": "iam_for_eks",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
-        "policies": {
-          "aws_iam_role_policy_attachment.policy_attachment-AmazonEKSClusterPolicy": {
-            "Version": "2012-10-17",
-            "Statement": [
-              {
-                "Sid": "AmazonEKSClusterPolicy",
-                "Effect": "Allow",
-                "Action": [
-                  "autoscaling:DescribeAutoScalingGroups",
-                  "autoscaling:UpdateAutoScalingGroup",
-                  "ec2:AttachVolume",
-                  "ec2:AuthorizeSecurityGroupIngress",
-                  "ec2:CreateRoute",
-                  "ec2:CreateSecurityGroup",
-                  "ec2:CreateTags",
-                  "ec2:CreateVolume",
-                  "ec2:DeleteRoute",
-                  "ec2:DeleteSecurityGroup",
-                  "ec2:DeleteVolume",
-                  "ec2:DescribeInstances",
-                  "ec2:DescribeRouteTables",
-                  "ec2:DescribeSecurityGroups",
-                  "ec2:DescribeSubnets",
-                  "ec2:DescribeVolumes",
-                  "ec2:DescribeVolumesModifications",
-                  "ec2:DescribeVpcs",
-                  "ec2:DescribeDhcpOptions",
-                  "ec2:DescribeNetworkInterfaces",
-                  "ec2:DescribeAvailabilityZones",
-                  "ec2:DetachVolume",
-                  "ec2:ModifyInstanceAttribute",
-                  "ec2:ModifyVolume",
-                  "ec2:RevokeSecurityGroupIngress",
-                  "ec2:DescribeAccountAttributes",
-                  "ec2:DescribeAddresses",
-                  "ec2:DescribeInternetGateways",
-                  "ec2:DescribeInstanceTopology",
-                  "elasticloadbalancing:AddTags",
-                  "elasticloadbalancing:ApplySecurityGroupsToLoadBalancer",
-                  "elasticloadbalancing:AttachLoadBalancerToSubnets",
-                  "elasticloadbalancing:ConfigureHealthCheck",
-                  "elasticloadbalancing:CreateListener",
-                  "elasticloadbalancing:CreateLoadBalancer",
-                  "elasticloadbalancing:CreateLoadBalancerListeners",
-                  "elasticloadbalancing:CreateLoadBalancerPolicy",
-                  "elasticloadbalancing:CreateTargetGroup",
-                  "elasticloadbalancing:DeleteListener",
-                  "elasticloadbalancing:DeleteLoadBalancer",
-                  "elasticloadbalancing:DeleteLoadBalancerListeners",
-                  "elasticloadbalancing:DeleteTargetGroup",
-                  "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
-                  "elasticloadbalancing:DeregisterTargets",
-                  "elasticloadbalancing:DescribeListeners",
-                  "elasticloadbalancing:DescribeLoadBalancerAttributes",
-                  "elasticloadbalancing:DescribeLoadBalancerPolicies",
-                  "elasticloadbalancing:DescribeLoadBalancers",
-                  "elasticloadbalancing:DescribeTargetGroupAttributes",
-                  "elasticloadbalancing:DescribeTargetGroups",
-                  "elasticloadbalancing:DescribeTargetHealth",
-                  "elasticloadbalancing:DetachLoadBalancerFromSubnets",
-                  "elasticloadbalancing:ModifyListener",
-                  "elasticloadbalancing:ModifyLoadBalancerAttributes",
-                  "elasticloadbalancing:ModifyTargetGroup",
-                  "elasticloadbalancing:ModifyTargetGroupAttributes",
-                  "elasticloadbalancing:RegisterInstancesWithLoadBalancer",
-                  "elasticloadbalancing:RegisterTargets",
-                  "elasticloadbalancing:SetLoadBalancerPoliciesForBackendServer",
-                  "elasticloadbalancing:SetLoadBalancerPoliciesOfListener",
-                  "kms:DescribeKey"
-                ],
-                "Resource": "*"
-              },
-              {
-                "Sid": "AmazonEKSClusterPolicySLRCreate",
-                "Effect": "Allow",
-                "Action": "iam:CreateServiceLinkedRole",
-                "Resource": "*",
-                "Condition": {
-                  "StringEquals": {
-                    "iam:AWSServiceName": "elasticloadbalancing.amazonaws.com"
-                  }
-                }
-              },
-              {
-                "Sid": "AmazonEKSClusterPolicyENIDelete",
-                "Effect": "Allow",
-                "Action": "ec2:DeleteNetworkInterface",
-                "Resource": "*",
-                "Condition": {
-                  "StringEquals": {
-                    "ec2:ResourceTag/eks:eni:owner": "amazon-vpc-cni"
-                  }
-                }
-              }
-            ]
-          },
-          "aws_iam_role_policy_attachment.policy_attachment-AmazonEKSServicePolicy": {
-            "Version": "2012-10-17",
-            "Statement": [
-              {
-                "Effect": "Allow",
-                "Action": [
-                  "ec2:CreateNetworkInterface",
-                  "ec2:CreateNetworkInterfacePermission",
-                  "ec2:DeleteNetworkInterface",
-                  "ec2:DescribeInstances",
-                  "ec2:DescribeNetworkInterfaces",
-                  "ec2:DetachNetworkInterface",
-                  "ec2:DescribeSecurityGroups",
-                  "ec2:DescribeSubnets",
-                  "ec2:DescribeVpcs",
-                  "ec2:ModifyNetworkInterfaceAttribute",
-                  "iam:ListAttachedRolePolicies",
-                  "eks:UpdateClusterVersion",
-                  "ec2:GetSecurityGroupsForVpc"
-                ],
-                "Resource": "*"
-              },
-              {
-                "Effect": "Allow",
-                "Action": [
-                  "ec2:CreateTags",
-                  "ec2:DeleteTags"
-                ],
-                "Resource": [
-                  "arn:aws:ec2:*:*:vpc/*",
-                  "arn:aws:ec2:*:*:subnet/*"
-                ]
-              },
-              {
-                "Effect": "Allow",
-                "Action": [
-                  "ec2:CreateTags"
-                ],
-                "Resource": [
-                  "arn:aws:ec2:*:*:network-interface/*"
-                ],
-                "Condition": {
-                  "StringLike": {
-                    "aws:RequestTag/Name": "eks-cluster-*"
-                  }
-                }
-              },
-              {
-                "Effect": "Allow",
-                "Action": "route53:AssociateVPCWithHostedZone",
-                "Resource": "*"
-              },
-              {
-                "Effect": "Allow",
-                "Action": "logs:CreateLogGroup",
-                "Resource": "*"
-              },
-              {
-                "Effect": "Allow",
-                "Action": [
-                  "logs:CreateLogStream",
-                  "logs:DescribeLogStreams"
-                ],
-                "Resource": "arn:aws:logs:*:*:log-group:/aws/eks/*:*"
-              },
-              {
-                "Effect": "Allow",
-                "Action": "logs:PutLogEvents",
-                "Resource": "arn:aws:logs:*:*:log-group:/aws/eks/*:*:*"
-              },
-              {
-                "Effect": "Allow",
-                "Action": "iam:CreateServiceLinkedRole",
-                "Resource": "arn:aws:iam::*:role/aws-service-role/eks.amazonaws.com/AWSServiceRoleForAmazonEKS",
-                "Condition": {
-                  "StringLike": {
-                    "iam:AWSServiceName": "eks.amazonaws.com"
-                  }
-                }
-              }
-            ]
-          }
-        },
-        "name": "${local.resource_prefix.value}-iam-for-eks",
-        "assume_role_policy": "${data.aws_iam_policy_document.iam_policy_eks.json}",
-        "tags": {
-          "git_commit": "d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0",
-          "git_file": "terraform/aws/eks.tf",
-          "git_last_modified_at": "2020-06-16 14:46:24",
-          "git_last_modified_by": "nimrodkor@gmail.com",
-          "git_modifiers": "nimrodkor",
-          "git_org": "bridgecrewio",
-          "git_repo": "terragoat",
-          "yor_trace": "de052596-21a0-43de-8153-469add277b18"
-        }
-      },
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
       "id": "aws_neptune_cluster.default",
       "type": "resource",
       "data": {
@@ -572,6 +235,7 @@
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Neptune_48.svg",
         "has_security_groups": false,
         "sg_rules": [],
+        "iam_role_id": null,
         "cluster_identifier": "${var.neptune-dbname}",
         "engine": "neptune",
         "backup_retention_period": 5,
@@ -606,6 +270,7 @@
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg",
         "has_security_groups": false,
         "sg_rules": [],
+        "iam_role_id": null,
         "bucket": "${local.resource_prefix.value}-data",
         "force_destroy": true,
         "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-data\", \"Environment\": \"${local.resource_prefix.value}\"}, {\"git_commit\": \"4d57f83ca4d3a78a44fb36d1dcf0d23983fa44f5\", \"git_file\": \"terraform/aws/s3.tf\", \"git_last_modified_at\": \"2022-05-18 07:08:06\", \"git_last_modified_by\": \"nimrod@bridgecrew.io\", \"git_modifiers\": \"34870196+LironElbaz/nimrod/nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"0874007d-903a-4b4c-945f-c9c233e13243\"})}"
@@ -625,6 +290,7 @@
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg",
         "has_security_groups": false,
         "sg_rules": [],
+        "iam_role_id": null,
         "bucket": "${local.resource_prefix.value}-financials",
         "acl": "private",
         "force_destroy": true,
@@ -645,6 +311,7 @@
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg",
         "has_security_groups": false,
         "sg_rules": [],
+        "iam_role_id": null,
         "bucket": "${local.resource_prefix.value}-operations",
         "acl": "private",
         "versioning": [
@@ -670,6 +337,7 @@
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg",
         "has_security_groups": false,
         "sg_rules": [],
+        "iam_role_id": null,
         "bucket": "${local.resource_prefix.value}-data-science",
         "acl": "private",
         "versioning": [
@@ -710,6 +378,7 @@
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg",
         "has_security_groups": false,
         "sg_rules": [],
+        "iam_role_id": null,
         "bucket": "${local.resource_prefix.value}-logs",
         "acl": "log-delivery-write",
         "versioning": [
@@ -749,6 +418,7 @@
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Key-Management-Service_48.svg",
         "has_security_groups": false,
         "sg_rules": [],
+        "iam_role_id": null,
         "description": "${local.resource_prefix.value}-logs bucket key",
         "deletion_window_in_days": 7,
         "tags": {
@@ -802,6 +472,7 @@
             "rule_name": "aws_security_group_rule.egress"
           }
         ],
+        "iam_role_id": null,
         "name": "${var.dbname}",
         "engine": "mysql",
         "option_group_name": "${aws_db_option_group.default.name}",
@@ -872,6 +543,7 @@
             "rule_name": "aws_security_group_rule.egress"
           }
         ],
+        "iam_role_id": null,
         "name": "${var.dbname}",
         "engine": "mysql",
         "option_group_name": "${aws_db_option_group.default.name}",
@@ -948,6 +620,7 @@
             "sg_id": "aws_security_group.web-node"
           }
         ],
+        "iam_role_id": "aws_iam_role.ec2role",
         "ami": "${data.aws_ami.amazon-linux-2.id}",
         "instance_type": "t2.nano",
         "iam_instance_profile": "${aws_iam_instance_profile.ec2profile.name}",
@@ -973,6 +646,7 @@
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Analytics/48/Arch_Amazon-OpenSearch-Service_48.svg",
         "has_security_groups": false,
         "sg_rules": [],
+        "iam_role_id": null,
         "domain_name": "tg-${var.environment}-es",
         "elasticsearch_version": "2.3",
         "cluster_config": [
@@ -1047,6 +721,7 @@
             "sg_id": "aws_security_group.web-node"
           }
         ],
+        "iam_role_id": null,
         "name": "weblb-terraform-elb",
         "listener": [
           {
@@ -1126,6 +801,7 @@
             "sg_id": "aws_security_group.web-node"
           }
         ],
+        "iam_role_id": null,
         "ami": "${var.ami}",
         "instance_type": "t2.nano",
         "vpc_security_group_ids": [
@@ -1150,6 +826,7 @@
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg",
         "has_security_groups": false,
         "sg_rules": [],
+        "iam_role_id": null,
         "bucket": "${local.resource_prefix.value}-flowlogs",
         "force_destroy": true,
         "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-flowlogs\", \"Environment\": \"${local.resource_prefix.value}\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/ec2.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"f058838a-b1e0-4383-b965-7e06e987ffb1\"})}"
@@ -1169,6 +846,7 @@
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_AWS-Lambda_48.svg",
         "has_security_groups": false,
         "sg_rules": [],
+        "iam_role_id": "aws_iam_role.iam_for_lambda",
         "filename": "resources/lambda_function_payload.zip",
         "function_name": "${local.resource_prefix.value}-analysis",
         "role": "${aws_iam_role.iam_for_lambda.arn}",
@@ -1209,6 +887,7 @@
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Containers/48/Arch_Amazon-EKS-Distro_48.svg",
         "has_security_groups": false,
         "sg_rules": [],
+        "iam_role_id": "aws_iam_role.iam_for_eks",
         "name": "${local.eks_name.value}",
         "role_arn": "${aws_iam_role.iam_for_eks.arn}",
         "vpc_config": [
@@ -1250,6 +929,7 @@
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Containers/48/Arch_Amazon-EKS-Distro_48.svg",
         "has_security_groups": false,
         "sg_rules": [],
+        "iam_role_id": "aws_iam_role.iam_for_eks",
         "name": "${local.eks_name.value}",
         "role_arn": "${aws_iam_role.iam_for_eks.arn}",
         "vpc_config": [
@@ -1291,6 +971,7 @@
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Aurora_48.svg",
         "has_security_groups": false,
         "sg_rules": [],
+        "iam_role_id": null,
         "cluster_identifier": "app1-rds-cluster",
         "allocated_storage": 10,
         "backup_retention_period": 0,
@@ -1320,6 +1001,7 @@
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Aurora_48.svg",
         "has_security_groups": false,
         "sg_rules": [],
+        "iam_role_id": null,
         "cluster_identifier": "app2-rds-cluster",
         "allocated_storage": 10,
         "backup_retention_period": 1,
@@ -1349,6 +1031,7 @@
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Aurora_48.svg",
         "has_security_groups": false,
         "sg_rules": [],
+        "iam_role_id": null,
         "cluster_identifier": "app3-rds-cluster",
         "allocated_storage": 10,
         "backup_retention_period": 15,
@@ -1378,6 +1061,7 @@
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Aurora_48.svg",
         "has_security_groups": false,
         "sg_rules": [],
+        "iam_role_id": null,
         "cluster_identifier": "app4-rds-cluster",
         "allocated_storage": 10,
         "backup_retention_period": 15,
@@ -1407,6 +1091,7 @@
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Aurora_48.svg",
         "has_security_groups": false,
         "sg_rules": [],
+        "iam_role_id": null,
         "cluster_identifier": "app5-rds-cluster",
         "allocated_storage": 10,
         "backup_retention_period": 15,
@@ -1436,6 +1121,7 @@
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Aurora_48.svg",
         "has_security_groups": false,
         "sg_rules": [],
+        "iam_role_id": null,
         "cluster_identifier": "app6-rds-cluster",
         "allocated_storage": 10,
         "backup_retention_period": 15,
@@ -1465,6 +1151,7 @@
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Aurora_48.svg",
         "has_security_groups": false,
         "sg_rules": [],
+        "iam_role_id": null,
         "cluster_identifier": "app7-rds-cluster",
         "allocated_storage": 10,
         "backup_retention_period": 25,
@@ -1494,6 +1181,7 @@
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Aurora_48.svg",
         "has_security_groups": false,
         "sg_rules": [],
+        "iam_role_id": null,
         "cluster_identifier": "app8-rds-cluster",
         "allocated_storage": 10,
         "backup_retention_period": 25,
@@ -1523,6 +1211,7 @@
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Aurora_48.svg",
         "has_security_groups": false,
         "sg_rules": [],
+        "iam_role_id": null,
         "cluster_identifier": "app9-rds-cluster",
         "allocated_storage": 10,
         "backup_retention_period": 25,
@@ -1585,14 +1274,6 @@
     },
     {
       "source": "aws_instance.db_app",
-      "target": "aws_iam_role.ec2role",
-      "data": {
-        "type": "iam"
-      },
-      "id": "iam-aws_instance.db_app-aws_iam_role.ec2role"
-    },
-    {
-      "source": "aws_instance.db_app",
       "target": "aws_db_instance.default-1",
       "data": {
         "type": "r2r",
@@ -1625,14 +1306,6 @@
       "id": "r2r-aws_elb.weblb-aws_instance.web_host"
     },
     {
-      "source": "aws_lambda_function.analysis_lambda",
-      "target": "aws_iam_role.iam_for_lambda",
-      "data": {
-        "type": "iam"
-      },
-      "id": "iam-aws_lambda_function.analysis_lambda-aws_iam_role.iam_for_lambda"
-    },
-    {
       "source": "aws_eks_cluster.eks_cluster-1",
       "target": "aws_eks_cluster.eks_cluster-2",
       "data": {
@@ -1641,20 +1314,2072 @@
       "id": "equality-aws_eks_cluster.eks_cluster-1-aws_eks_cluster.eks_cluster-2"
     },
     {
-      "source": "aws_eks_cluster.eks_cluster-1",
-      "target": "aws_iam_role.iam_for_eks",
+      "source": "aws_instance.db_app",
+      "target": "aws_s3_bucket.data",
       "data": {
-        "type": "iam"
+        "type": "iam",
+        "permissions": [
+          {
+            "effect": "Allow",
+            "action": "s3:*",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          }
+        ],
+        "iam_role_id": "aws_iam_role.ec2role"
       },
-      "id": "iam-aws_eks_cluster.eks_cluster-1-aws_iam_role.iam_for_eks"
+      "id": "iam-aws_instance.db_app-aws_s3_bucket.data"
+    },
+    {
+      "source": "aws_instance.db_app",
+      "target": "aws_s3_bucket.financials",
+      "data": {
+        "type": "iam",
+        "permissions": [
+          {
+            "effect": "Allow",
+            "action": "s3:*",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          }
+        ],
+        "iam_role_id": "aws_iam_role.ec2role"
+      },
+      "id": "iam-aws_instance.db_app-aws_s3_bucket.financials"
+    },
+    {
+      "source": "aws_instance.db_app",
+      "target": "aws_s3_bucket.operations",
+      "data": {
+        "type": "iam",
+        "permissions": [
+          {
+            "effect": "Allow",
+            "action": "s3:*",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          }
+        ],
+        "iam_role_id": "aws_iam_role.ec2role"
+      },
+      "id": "iam-aws_instance.db_app-aws_s3_bucket.operations"
+    },
+    {
+      "source": "aws_instance.db_app",
+      "target": "aws_s3_bucket.data_science",
+      "data": {
+        "type": "iam",
+        "permissions": [
+          {
+            "effect": "Allow",
+            "action": "s3:*",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          }
+        ],
+        "iam_role_id": "aws_iam_role.ec2role"
+      },
+      "id": "iam-aws_instance.db_app-aws_s3_bucket.data_science"
+    },
+    {
+      "source": "aws_instance.db_app",
+      "target": "aws_s3_bucket.logs",
+      "data": {
+        "type": "iam",
+        "permissions": [
+          {
+            "effect": "Allow",
+            "action": "s3:*",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          }
+        ],
+        "iam_role_id": "aws_iam_role.ec2role"
+      },
+      "id": "iam-aws_instance.db_app-aws_s3_bucket.logs"
+    },
+    {
+      "source": "aws_instance.db_app",
+      "target": "aws_db_instance.default-1",
+      "data": {
+        "type": "iam",
+        "permissions": [
+          {
+            "effect": "Allow",
+            "action": "rds:*",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          }
+        ],
+        "iam_role_id": "aws_iam_role.ec2role"
+      },
+      "id": "iam-aws_instance.db_app-aws_db_instance.default-1"
+    },
+    {
+      "source": "aws_instance.db_app",
+      "target": "aws_db_instance.default-2",
+      "data": {
+        "type": "iam",
+        "permissions": [
+          {
+            "effect": "Allow",
+            "action": "rds:*",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          }
+        ],
+        "iam_role_id": "aws_iam_role.ec2role"
+      },
+      "id": "iam-aws_instance.db_app-aws_db_instance.default-2"
+    },
+    {
+      "source": "aws_instance.db_app",
+      "target": "aws_instance.web_host",
+      "data": {
+        "type": "iam",
+        "permissions": [
+          {
+            "effect": "Allow",
+            "action": "ec2:*",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          }
+        ],
+        "iam_role_id": "aws_iam_role.ec2role"
+      },
+      "id": "iam-aws_instance.db_app-aws_instance.web_host"
+    },
+    {
+      "source": "aws_instance.db_app",
+      "target": "aws_s3_bucket.flowbucket",
+      "data": {
+        "type": "iam",
+        "permissions": [
+          {
+            "effect": "Allow",
+            "action": "s3:*",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          }
+        ],
+        "iam_role_id": "aws_iam_role.ec2role"
+      },
+      "id": "iam-aws_instance.db_app-aws_s3_bucket.flowbucket"
+    },
+    {
+      "source": "aws_instance.db_app",
+      "target": "aws_rds_cluster.app1-rds-cluster",
+      "data": {
+        "type": "iam",
+        "permissions": [
+          {
+            "effect": "Allow",
+            "action": "rds:*",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          }
+        ],
+        "iam_role_id": "aws_iam_role.ec2role"
+      },
+      "id": "iam-aws_instance.db_app-aws_rds_cluster.app1-rds-cluster"
+    },
+    {
+      "source": "aws_instance.db_app",
+      "target": "aws_rds_cluster.app2-rds-cluster",
+      "data": {
+        "type": "iam",
+        "permissions": [
+          {
+            "effect": "Allow",
+            "action": "rds:*",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          }
+        ],
+        "iam_role_id": "aws_iam_role.ec2role"
+      },
+      "id": "iam-aws_instance.db_app-aws_rds_cluster.app2-rds-cluster"
+    },
+    {
+      "source": "aws_instance.db_app",
+      "target": "aws_rds_cluster.app3-rds-cluster",
+      "data": {
+        "type": "iam",
+        "permissions": [
+          {
+            "effect": "Allow",
+            "action": "rds:*",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          }
+        ],
+        "iam_role_id": "aws_iam_role.ec2role"
+      },
+      "id": "iam-aws_instance.db_app-aws_rds_cluster.app3-rds-cluster"
+    },
+    {
+      "source": "aws_instance.db_app",
+      "target": "aws_rds_cluster.app4-rds-cluster",
+      "data": {
+        "type": "iam",
+        "permissions": [
+          {
+            "effect": "Allow",
+            "action": "rds:*",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          }
+        ],
+        "iam_role_id": "aws_iam_role.ec2role"
+      },
+      "id": "iam-aws_instance.db_app-aws_rds_cluster.app4-rds-cluster"
+    },
+    {
+      "source": "aws_instance.db_app",
+      "target": "aws_rds_cluster.app5-rds-cluster",
+      "data": {
+        "type": "iam",
+        "permissions": [
+          {
+            "effect": "Allow",
+            "action": "rds:*",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          }
+        ],
+        "iam_role_id": "aws_iam_role.ec2role"
+      },
+      "id": "iam-aws_instance.db_app-aws_rds_cluster.app5-rds-cluster"
+    },
+    {
+      "source": "aws_instance.db_app",
+      "target": "aws_rds_cluster.app6-rds-cluster",
+      "data": {
+        "type": "iam",
+        "permissions": [
+          {
+            "effect": "Allow",
+            "action": "rds:*",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          }
+        ],
+        "iam_role_id": "aws_iam_role.ec2role"
+      },
+      "id": "iam-aws_instance.db_app-aws_rds_cluster.app6-rds-cluster"
+    },
+    {
+      "source": "aws_instance.db_app",
+      "target": "aws_rds_cluster.app7-rds-cluster",
+      "data": {
+        "type": "iam",
+        "permissions": [
+          {
+            "effect": "Allow",
+            "action": "rds:*",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          }
+        ],
+        "iam_role_id": "aws_iam_role.ec2role"
+      },
+      "id": "iam-aws_instance.db_app-aws_rds_cluster.app7-rds-cluster"
+    },
+    {
+      "source": "aws_instance.db_app",
+      "target": "aws_rds_cluster.app8-rds-cluster",
+      "data": {
+        "type": "iam",
+        "permissions": [
+          {
+            "effect": "Allow",
+            "action": "rds:*",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          }
+        ],
+        "iam_role_id": "aws_iam_role.ec2role"
+      },
+      "id": "iam-aws_instance.db_app-aws_rds_cluster.app8-rds-cluster"
+    },
+    {
+      "source": "aws_instance.db_app",
+      "target": "aws_rds_cluster.app9-rds-cluster",
+      "data": {
+        "type": "iam",
+        "permissions": [
+          {
+            "effect": "Allow",
+            "action": "rds:*",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          }
+        ],
+        "iam_role_id": "aws_iam_role.ec2role"
+      },
+      "id": "iam-aws_instance.db_app-aws_rds_cluster.app9-rds-cluster"
+    },
+    {
+      "source": "aws_eks_cluster.eks_cluster-1",
+      "target": "aws_kms_key.logs_key",
+      "data": {
+        "type": "iam",
+        "permissions": [
+          {
+            "effect": "Allow",
+            "action": "kms:DescribeKey",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          }
+        ],
+        "iam_role_id": "aws_iam_role.iam_for_eks"
+      },
+      "id": "iam-aws_eks_cluster.eks_cluster-1-aws_kms_key.logs_key"
     },
     {
       "source": "aws_eks_cluster.eks_cluster-2",
-      "target": "aws_iam_role.iam_for_eks",
+      "target": "aws_kms_key.logs_key",
       "data": {
-        "type": "iam"
+        "type": "iam",
+        "permissions": [
+          {
+            "effect": "Allow",
+            "action": "kms:DescribeKey",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          }
+        ],
+        "iam_role_id": "aws_iam_role.iam_for_eks"
       },
-      "id": "iam-aws_eks_cluster.eks_cluster-2-aws_iam_role.iam_for_eks"
+      "id": "iam-aws_eks_cluster.eks_cluster-2-aws_kms_key.logs_key"
+    },
+    {
+      "source": "aws_eks_cluster.eks_cluster-1",
+      "target": "aws_instance.db_app",
+      "data": {
+        "type": "iam",
+        "permissions": [
+          {
+            "effect": "Allow",
+            "action": "ec2:AttachVolume",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:AuthorizeSecurityGroupIngress",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateRoute",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateSecurityGroup",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateTags",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateVolume",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DeleteRoute",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DeleteSecurityGroup",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DeleteVolume",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeInstances",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeRouteTables",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeSecurityGroups",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeSubnets",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeVolumes",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeVolumesModifications",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeVpcs",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeDhcpOptions",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeNetworkInterfaces",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeAvailabilityZones",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DetachVolume",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:ModifyInstanceAttribute",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:ModifyVolume",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:RevokeSecurityGroupIngress",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeAccountAttributes",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeAddresses",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeInternetGateways",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeInstanceTopology",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DeleteNetworkInterface",
+            "condition": "{\"StringEquals\": {\"ec2:ResourceTag/eks:eni:owner\": \"amazon-vpc-cni\"}}",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicyENIDelete"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateNetworkInterface",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateNetworkInterfacePermission",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DeleteNetworkInterface",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeInstances",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeNetworkInterfaces",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DetachNetworkInterface",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeSecurityGroups",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeSubnets",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeVpcs",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:ModifyNetworkInterfaceAttribute",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:GetSecurityGroupsForVpc",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateTags",
+            "condition": "null",
+            "resource": [
+              "arn:aws:ec2:*:*:vpc/*",
+              "arn:aws:ec2:*:*:subnet/*"
+            ],
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DeleteTags",
+            "condition": "null",
+            "resource": [
+              "arn:aws:ec2:*:*:vpc/*",
+              "arn:aws:ec2:*:*:subnet/*"
+            ],
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateTags",
+            "condition": "{\"StringLike\": {\"aws:RequestTag/Name\": \"eks-cluster-*\"}}",
+            "resource": [
+              "arn:aws:ec2:*:*:network-interface/*"
+            ],
+            "statement_sid": null
+          }
+        ],
+        "iam_role_id": "aws_iam_role.iam_for_eks"
+      },
+      "id": "iam-aws_eks_cluster.eks_cluster-1-aws_instance.db_app"
+    },
+    {
+      "source": "aws_eks_cluster.eks_cluster-2",
+      "target": "aws_instance.db_app",
+      "data": {
+        "type": "iam",
+        "permissions": [
+          {
+            "effect": "Allow",
+            "action": "ec2:AttachVolume",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:AuthorizeSecurityGroupIngress",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateRoute",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateSecurityGroup",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateTags",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateVolume",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DeleteRoute",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DeleteSecurityGroup",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DeleteVolume",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeInstances",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeRouteTables",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeSecurityGroups",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeSubnets",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeVolumes",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeVolumesModifications",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeVpcs",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeDhcpOptions",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeNetworkInterfaces",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeAvailabilityZones",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DetachVolume",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:ModifyInstanceAttribute",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:ModifyVolume",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:RevokeSecurityGroupIngress",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeAccountAttributes",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeAddresses",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeInternetGateways",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeInstanceTopology",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DeleteNetworkInterface",
+            "condition": "{\"StringEquals\": {\"ec2:ResourceTag/eks:eni:owner\": \"amazon-vpc-cni\"}}",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicyENIDelete"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateNetworkInterface",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateNetworkInterfacePermission",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DeleteNetworkInterface",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeInstances",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeNetworkInterfaces",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DetachNetworkInterface",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeSecurityGroups",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeSubnets",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeVpcs",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:ModifyNetworkInterfaceAttribute",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:GetSecurityGroupsForVpc",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateTags",
+            "condition": "null",
+            "resource": [
+              "arn:aws:ec2:*:*:vpc/*",
+              "arn:aws:ec2:*:*:subnet/*"
+            ],
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DeleteTags",
+            "condition": "null",
+            "resource": [
+              "arn:aws:ec2:*:*:vpc/*",
+              "arn:aws:ec2:*:*:subnet/*"
+            ],
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateTags",
+            "condition": "{\"StringLike\": {\"aws:RequestTag/Name\": \"eks-cluster-*\"}}",
+            "resource": [
+              "arn:aws:ec2:*:*:network-interface/*"
+            ],
+            "statement_sid": null
+          }
+        ],
+        "iam_role_id": "aws_iam_role.iam_for_eks"
+      },
+      "id": "iam-aws_eks_cluster.eks_cluster-2-aws_instance.db_app"
+    },
+    {
+      "source": "aws_eks_cluster.eks_cluster-1",
+      "target": "aws_elb.weblb",
+      "data": {
+        "type": "iam",
+        "permissions": [
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:AddTags",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:ApplySecurityGroupsToLoadBalancer",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:AttachLoadBalancerToSubnets",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:ConfigureHealthCheck",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:CreateListener",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:CreateLoadBalancer",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:CreateLoadBalancerListeners",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:CreateLoadBalancerPolicy",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:CreateTargetGroup",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:DeleteListener",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:DeleteLoadBalancer",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:DeleteLoadBalancerListeners",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:DeleteTargetGroup",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:DeregisterTargets",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:DescribeListeners",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:DescribeLoadBalancerAttributes",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:DescribeLoadBalancerPolicies",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:DescribeLoadBalancers",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:DescribeTargetGroupAttributes",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:DescribeTargetGroups",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:DescribeTargetHealth",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:DetachLoadBalancerFromSubnets",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:ModifyListener",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:ModifyLoadBalancerAttributes",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:ModifyTargetGroup",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:ModifyTargetGroupAttributes",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:RegisterInstancesWithLoadBalancer",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:RegisterTargets",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:SetLoadBalancerPoliciesForBackendServer",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:SetLoadBalancerPoliciesOfListener",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          }
+        ],
+        "iam_role_id": "aws_iam_role.iam_for_eks"
+      },
+      "id": "iam-aws_eks_cluster.eks_cluster-1-aws_elb.weblb"
+    },
+    {
+      "source": "aws_eks_cluster.eks_cluster-2",
+      "target": "aws_elb.weblb",
+      "data": {
+        "type": "iam",
+        "permissions": [
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:AddTags",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:ApplySecurityGroupsToLoadBalancer",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:AttachLoadBalancerToSubnets",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:ConfigureHealthCheck",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:CreateListener",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:CreateLoadBalancer",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:CreateLoadBalancerListeners",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:CreateLoadBalancerPolicy",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:CreateTargetGroup",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:DeleteListener",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:DeleteLoadBalancer",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:DeleteLoadBalancerListeners",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:DeleteTargetGroup",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:DeregisterTargets",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:DescribeListeners",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:DescribeLoadBalancerAttributes",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:DescribeLoadBalancerPolicies",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:DescribeLoadBalancers",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:DescribeTargetGroupAttributes",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:DescribeTargetGroups",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:DescribeTargetHealth",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:DetachLoadBalancerFromSubnets",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:ModifyListener",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:ModifyLoadBalancerAttributes",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:ModifyTargetGroup",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:ModifyTargetGroupAttributes",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:RegisterInstancesWithLoadBalancer",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:RegisterTargets",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:SetLoadBalancerPoliciesForBackendServer",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "elasticloadbalancing:SetLoadBalancerPoliciesOfListener",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          }
+        ],
+        "iam_role_id": "aws_iam_role.iam_for_eks"
+      },
+      "id": "iam-aws_eks_cluster.eks_cluster-2-aws_elb.weblb"
+    },
+    {
+      "source": "aws_eks_cluster.eks_cluster-1",
+      "target": "aws_instance.web_host",
+      "data": {
+        "type": "iam",
+        "permissions": [
+          {
+            "effect": "Allow",
+            "action": "ec2:AttachVolume",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:AuthorizeSecurityGroupIngress",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateRoute",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateSecurityGroup",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateTags",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateVolume",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DeleteRoute",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DeleteSecurityGroup",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DeleteVolume",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeInstances",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeRouteTables",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeSecurityGroups",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeSubnets",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeVolumes",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeVolumesModifications",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeVpcs",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeDhcpOptions",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeNetworkInterfaces",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeAvailabilityZones",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DetachVolume",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:ModifyInstanceAttribute",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:ModifyVolume",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:RevokeSecurityGroupIngress",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeAccountAttributes",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeAddresses",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeInternetGateways",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeInstanceTopology",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DeleteNetworkInterface",
+            "condition": "{\"StringEquals\": {\"ec2:ResourceTag/eks:eni:owner\": \"amazon-vpc-cni\"}}",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicyENIDelete"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateNetworkInterface",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateNetworkInterfacePermission",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DeleteNetworkInterface",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeInstances",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeNetworkInterfaces",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DetachNetworkInterface",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeSecurityGroups",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeSubnets",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeVpcs",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:ModifyNetworkInterfaceAttribute",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:GetSecurityGroupsForVpc",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateTags",
+            "condition": "null",
+            "resource": [
+              "arn:aws:ec2:*:*:vpc/*",
+              "arn:aws:ec2:*:*:subnet/*"
+            ],
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DeleteTags",
+            "condition": "null",
+            "resource": [
+              "arn:aws:ec2:*:*:vpc/*",
+              "arn:aws:ec2:*:*:subnet/*"
+            ],
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateTags",
+            "condition": "{\"StringLike\": {\"aws:RequestTag/Name\": \"eks-cluster-*\"}}",
+            "resource": [
+              "arn:aws:ec2:*:*:network-interface/*"
+            ],
+            "statement_sid": null
+          }
+        ],
+        "iam_role_id": "aws_iam_role.iam_for_eks"
+      },
+      "id": "iam-aws_eks_cluster.eks_cluster-1-aws_instance.web_host"
+    },
+    {
+      "source": "aws_eks_cluster.eks_cluster-2",
+      "target": "aws_instance.web_host",
+      "data": {
+        "type": "iam",
+        "permissions": [
+          {
+            "effect": "Allow",
+            "action": "ec2:AttachVolume",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:AuthorizeSecurityGroupIngress",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateRoute",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateSecurityGroup",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateTags",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateVolume",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DeleteRoute",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DeleteSecurityGroup",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DeleteVolume",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeInstances",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeRouteTables",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeSecurityGroups",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeSubnets",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeVolumes",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeVolumesModifications",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeVpcs",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeDhcpOptions",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeNetworkInterfaces",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeAvailabilityZones",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DetachVolume",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:ModifyInstanceAttribute",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:ModifyVolume",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:RevokeSecurityGroupIngress",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeAccountAttributes",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeAddresses",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeInternetGateways",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeInstanceTopology",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicy"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DeleteNetworkInterface",
+            "condition": "{\"StringEquals\": {\"ec2:ResourceTag/eks:eni:owner\": \"amazon-vpc-cni\"}}",
+            "resource": "*",
+            "statement_sid": "AmazonEKSClusterPolicyENIDelete"
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateNetworkInterface",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateNetworkInterfacePermission",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DeleteNetworkInterface",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeInstances",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeNetworkInterfaces",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DetachNetworkInterface",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeSecurityGroups",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeSubnets",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DescribeVpcs",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:ModifyNetworkInterfaceAttribute",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:GetSecurityGroupsForVpc",
+            "condition": "null",
+            "resource": "*",
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateTags",
+            "condition": "null",
+            "resource": [
+              "arn:aws:ec2:*:*:vpc/*",
+              "arn:aws:ec2:*:*:subnet/*"
+            ],
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:DeleteTags",
+            "condition": "null",
+            "resource": [
+              "arn:aws:ec2:*:*:vpc/*",
+              "arn:aws:ec2:*:*:subnet/*"
+            ],
+            "statement_sid": null
+          },
+          {
+            "effect": "Allow",
+            "action": "ec2:CreateTags",
+            "condition": "{\"StringLike\": {\"aws:RequestTag/Name\": \"eks-cluster-*\"}}",
+            "resource": [
+              "arn:aws:ec2:*:*:network-interface/*"
+            ],
+            "statement_sid": null
+          }
+        ],
+        "iam_role_id": "aws_iam_role.iam_for_eks"
+      },
+      "id": "iam-aws_eks_cluster.eks_cluster-2-aws_instance.web_host"
     }
   ]
 }
