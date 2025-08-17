@@ -21,8 +21,16 @@ const rfStyle = {
 
 function Flow() {
   // Get context values
-  const { nodes, setNodes, edges, setEdges, displayIam, setSelInfoEntity } =
-    useAppContext();
+  const {
+    nodes,
+    setNodes,
+    edges,
+    setEdges,
+    displayIam,
+    setSelInfoEntity,
+    selectedNodeId,
+    hoveredNodeId,
+  } = useAppContext();
 
   // Track if nodes have been initialized
   const nodesInitialized = useNodesInitialized();
@@ -47,11 +55,13 @@ function Flow() {
       edges,
       nodesInitialized,
       getInternalNode,
-      displayIam
+      displayIam,
+      selectedNodeId,
+      hoveredNodeId
     );
     setEdges(newEdges);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [nodesInitialized, nodes, displayIam]);
+  }, [nodesInitialized, nodes, displayIam, hoveredNodeId, selectedNodeId]);
 
   useEffect(() => {
     if (nodesInitialized) {

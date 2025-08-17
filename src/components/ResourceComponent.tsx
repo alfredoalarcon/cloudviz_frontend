@@ -19,8 +19,12 @@ const ResourceComponent = React.memo(function ResourceComponent({
   id,
   data,
 }: NodeProps<ResourceNode>) {
-  const [hovered, setHovered] = React.useState(false);
-  const { setSelInfoEntity, selectedNode } = useAppContext();
+  // Context
+  const { setSelInfoEntity, selectedNode, hoveredNodeId, setHoveredNodeId } =
+    useAppContext();
+
+  // Hover state
+  const isHovered = hoveredNodeId === id;
 
   // Compute image size
   const imageSize = resourceLayout.width * resourceLayout.coeff_image;
@@ -96,7 +100,7 @@ const ResourceComponent = React.memo(function ResourceComponent({
     <>
       {/* Tooltip definition */}
       <NodeToolbar
-        isVisible={hovered}
+        isVisible={isHovered}
         nodeId={id}
         position={Position.Top}
         offset={8}
@@ -146,8 +150,8 @@ const ResourceComponent = React.memo(function ResourceComponent({
               flexShrink: 0,
               ...selStyle,
             }}
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
+            onMouseEnter={() => setHoveredNodeId(id)}
+            onMouseLeave={() => setHoveredNodeId(null)}
             onClick={() => setSelInfoEntity({ type: "node", id })}
             _hover={{
               border: "3px solid black",

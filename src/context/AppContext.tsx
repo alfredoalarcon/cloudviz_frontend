@@ -15,6 +15,9 @@ type AppContextType = {
   setSelInfoEntity: (
     entity: { type: "node" | "edge"; id: string } | null
   ) => void;
+  hoveredNodeId: string | null;
+  setHoveredNodeId: (id: string | null) => void;
+  selectedNodeId: string | null;
 };
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -36,6 +39,10 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
   const selectedNode = nodes.find(
     (node) => node.id === selInfoEntity?.id && selInfoEntity?.type === "node"
   );
+  const selectedNodeId = selectedNode?.id || null;
+
+  // Keep track on hovered node
+  const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null);
 
   //  --------------- Panel Options -----------------
   // Values for iam display
@@ -55,6 +62,9 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
     selectedNode,
     displayIam,
     setDisplayIam,
+    hoveredNodeId,
+    setHoveredNodeId,
+    selectedNodeId,
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

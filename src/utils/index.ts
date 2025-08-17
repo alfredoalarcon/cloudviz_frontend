@@ -11,7 +11,9 @@ export function updateEdges(
   edges: Edge[],
   nodesInitialized: boolean,
   getInternalNode: (nodeId: string) => InternalNode<Node> | undefined,
-  iamDisplay: "res-res" | "res-role" | "off"
+  displayIam: "res-res" | "res-role" | "off",
+  selectedNodeId: string | null,
+  hoveredNodeId: string | null
 ) {
   if (nodesInitialized) {
     return edges.map((e) => {
@@ -26,48 +28,66 @@ export function updateEdges(
       edge.sourceHandle = sourceHandle;
       edge.targetHandle = targetHandle;
 
+      // Hover state if selectedNodeId is source or target
+      const hasSelNodeId =
+        edge.source === selectedNodeId || edge.target === selectedNodeId;
+      const hasHoverSelId =
+        edge.source === hoveredNodeId || edge.target === hoveredNodeId;
+      const isHoveredOrSelected = hasSelNodeId || hasHoverSelId;
+      const strokeWidthCoeff = isHoveredOrSelected ? edgeLayout.coeffHover : 1;
+
       // Add animation for equality edges
       if (edge.data && edge.data.type == "equality") {
         edge.animated = true;
 
         edge.style = {
-          stroke: edgeLayout.stroke.equality,
-          strokeWidth: edgeLayout.strokeWidth.equality,
+          stroke: isHoveredOrSelected
+            ? edgeLayout.stroke.equality
+            : edgeLayout.strokeHoveredSel.equality,
+          strokeWidth: strokeWidthCoeff * edgeLayout.strokeWidth.equality,
         };
       }
 
       //   Add arrows for iam edges
       else if (edge.data && (edge.data.type as string).includes("iam")) {
-        if ((edge.data.type as string).includes(iamDisplay)) {
+        if ((edge.data.type as string).includes(displayIam)) {
           edge.hidden = false;
           edge.markerEnd = {
             type: MarkerType.ArrowClosed,
-            color: edgeLayout.stroke.iam,
+            color: isHoveredOrSelected
+              ? edgeLayout.strokeHoveredSel.iam
+              : edgeLayout.stroke.iam,
             height: edgeLayout.arrowSize,
             width: edgeLayout.arrowSize,
           };
 
           edge.style = {
-            stroke: edgeLayout.stroke.iam,
-            strokeWidth: edgeLayout.strokeWidth.iam,
+            stroke: isHoveredOrSelected
+              ? edgeLayout.strokeHoveredSel.iam
+              : edgeLayout.stroke.iam,
+            strokeWidth: strokeWidthCoeff * edgeLayout.strokeWidth.iam,
           };
         } else {
           edge.hidden = true;
         }
       }
 
-      // Edges of type resource
+      // Edges of type other-res-res
       else if (edge.data && edge.data.type == "other-res-res") {
         edge.markerEnd = {
           type: MarkerType.ArrowClosed,
-          color: edgeLayout.stroke.r2r,
+          color: isHoveredOrSelected
+            ? edgeLayout.strokeHoveredSel.r2r
+            : edgeLayout.stroke.r2r,
           height: edgeLayout.arrowSize,
           width: edgeLayout.arrowSize,
         };
 
         edge.style = {
-          stroke: edgeLayout.stroke.r2r,
-          strokeWidth: edgeLayout.strokeWidth.r2r,
+          stroke: isHoveredOrSelected
+            ? edgeLayout.strokeHoveredSel.r2r
+            : edgeLayout.stroke.r2r,
+          strokeWidth: strokeWidthCoeff * edgeLayout.strokeWidth.r2r,
         };
       }
 

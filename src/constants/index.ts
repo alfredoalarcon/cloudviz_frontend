@@ -17,8 +17,13 @@ export const edgeLayout = {
     r2r: 1.4,
     equality: 1.65,
   },
+  strokeHoveredSel: {
+    iam: "#3a98dbff",
+    r2r: "#a27313ff",
+    equality: "#434343ff",
+  },
   arrowSize: 12,
-  coeffHover: 2,
+  coeffHover: 1.7,
 };
 
 // Layout of Group

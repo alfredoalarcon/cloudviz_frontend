@@ -18,11 +18,16 @@ const GroupContainer = React.memo(function GroupContainer({
   isService?: boolean;
   id: string;
 }) {
-  const [hovered, setHovered] = React.useState(false);
-  const { setSelInfoEntity, selectedNode } = useAppContext();
+  // Context
+  const { setSelInfoEntity, selectedNode, hoveredNodeId, setHoveredNodeId } =
+    useAppContext();
 
+  // Hover state
+  const isHovered = hoveredNodeId === id;
+
+  // Set border width considering hover and selection
   const borderWidthHover =
-    (hovered || selectedNode?.id === id) && !isService ? "2px" : borderWidth;
+    (isHovered || selectedNode?.id === id) && !isService ? "2px" : borderWidth;
   return (
     <Box
       style={{
@@ -40,8 +45,8 @@ const GroupContainer = React.memo(function GroupContainer({
             height: GroupLayout.imageSize,
             flexShrink: 0,
           }}
-          onMouseEnter={() => setHovered(isService ? false : true)}
-          onMouseLeave={() => setHovered(false)}
+          onMouseEnter={() => setHoveredNodeId(isService ? null : id)}
+          onMouseLeave={() => setHoveredNodeId(null)}
           onClick={() =>
             isService
               ? setSelInfoEntity(null)
