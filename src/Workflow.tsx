@@ -9,14 +9,10 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { useAppContext } from "./context/AppContext";
-
 import type { NodeChange } from "@xyflow/react";
-import { Box, Stack, Radio, RadioGroup } from "@chakra-ui/react";
-import graphData from "./data/dg_parents_generated_2.json";
-import { layoutNodesForReactFlow } from "./layout";
-import { updateEdges } from "./utils";
-import { Graph } from "./types";
-import { nodeTypes, resourceLayout, clusterPadding } from "./constants";
+import { Box } from "@chakra-ui/react";
+import { updateEdges, layoutNodes, updateNodes } from "./utils";
+import { nodeTypes } from "./constants";
 import HoverDock from "./components/HoverDock";
 
 const rfStyle = {
@@ -25,60 +21,24 @@ const rfStyle = {
 
 function Flow() {
   // Get context values
-  const {
-    nodes,
-    setNodes,
-    edges,
-    setEdges,
-    setSelectedNodeId,
-    displayIam,
-    setDisplayIam,
-  } = useAppContext();
+  const { nodes, setNodes, edges, setEdges, displayIam, setSelInfoEntity } =
+    useAppContext();
+
+  // Track if nodes have been initialized
   const nodesInitialized = useNodesInitialized();
+
+  // Get react flow instance
   const { getInternalNode, fitView } = useReactFlow();
 
-  // Load and lay out nodes
+  // Layout nodes
   useEffect(() => {
-    async function layoutNodes() {
-      const { nodes, edges } = await layoutNodesForReactFlow(
-        graphData as Graph,
-        {
-          direction: "DOWN",
-          childDefaultSize: {
-            width: resourceLayout.width,
-            height: resourceLayout.height,
-          },
-          clusterPadding: `[top=${clusterPadding.top},left=${clusterPadding.left},bottom=${clusterPadding.bottom},right=${clusterPadding.right}]`,
-          viewportSize: {
-            width: window.innerWidth,
-            height: window.innerHeight,
-          },
-        }
-      );
+    layoutNodes(setNodes, setEdges);
+  }, []);
 
-      // Add attributes to nodes before setting state
-      const updatedNodes = nodes.map((node) => {
-        // take into account display IAM
-        if (node.type === "iam" && displayIam !== "res-role") {
-          node.hidden = true;
-        }
-
-        if (node.id === "IAM Service" && displayIam !== "res-role") {
-          node.hidden = true;
-        }
-
-        return {
-          ...node,
-          extent: "parent",
-        };
-      });
-
-      // @ts-expect-error: Unreachable code error
-      setNodes(updatedNodes);
-      setEdges(edges);
-    }
-
-    layoutNodes();
+  // Update nodes
+  useEffect(() => {
+    const newNodes = updateNodes(nodes, displayIam);
+    setNodes(newNodes);
   }, [displayIam]);
 
   // Update edges by computing handles and adding attributes
@@ -93,16 +53,22 @@ function Flow() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nodesInitialized, nodes, displayIam]);
 
+  useEffect(() => {
+    if (nodesInitialized) {
+      fitView();
+    }
+  }, [nodesInitialized, displayIam]);
+
   // Handle ESC key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setSelectedNodeId(null);
+        setSelInfoEntity(null);
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [setSelectedNodeId]);
+  }, [setSelInfoEntity]);
 
   const onNodesChange = useCallback(
     (changes: NodeChange[]) => {
@@ -122,7 +88,7 @@ function Flow() {
         style={rfStyle}
         attributionPosition="top-right"
         nodeTypes={nodeTypes}
-        onPaneClick={() => setSelectedNodeId(null)}
+        onPaneClick={() => setSelInfoEntity(null)}
       >
         <Controls />
         <Background />

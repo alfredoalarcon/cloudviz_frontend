@@ -14,20 +14,21 @@ import { useAppContext } from "../context/AppContext";
 import { JsonViewer } from "@textea/json-viewer";
 
 export default function DetailsDrawer() {
-  const { selectedNodeId, setSelectedNodeId, selectedNode } = useAppContext();
+  const { selInfoEntity, setSelInfoEntity, selectedNode, selectedEdge } =
+    useAppContext();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  // Open/close drawer whenever selectedNodeId changes
+  // Open/close drawer whenever selInfoEntity changes
   useEffect(() => {
-    if (selectedNodeId) onOpen();
+    if (selInfoEntity) onOpen();
     else onClose();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedNodeId]);
+  }, [selInfoEntity]);
 
   // Ensure closing the drawer clears the selection
   const handleClose = () => {
     onClose();
-    setSelectedNodeId(null);
+    setSelInfoEntity(null);
   };
 
   // --- helpers for sg rules json display ---
@@ -38,7 +39,7 @@ export default function DetailsDrawer() {
       <Box borderWidth="1px" borderRadius="md" p={2}>
         <JsonViewer
           style={{ fontSize: "10px" }}
-          value={selectedNode.data}
+          value={(selectedNode || selectedEdge).data}
           rootName={false}
           enableClipboard={false}
           quotesOnKeys={false}
@@ -54,10 +55,10 @@ export default function DetailsDrawer() {
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton />
-        <DrawerHeader>Node details</DrawerHeader>
+        <DrawerHeader>{selInfoEntity?.type} details</DrawerHeader>
         <DrawerBody>
           <Box style={{ fontSize: "13px", marginBottom: "10px" }}>
-            ID: <strong>{selectedNodeId}</strong>
+            ID: <strong>{selInfoEntity?.id}</strong>
           </Box>
           {dataJson}
         </DrawerBody>

@@ -1,7 +1,6 @@
 import React from "react";
 import { NodeProps, Node } from "@xyflow/react";
-import { Box, Flex, Image } from "@chakra-ui/react";
-import { S3_ICONS_URL, GroupLayout } from "../constants";
+import { S3_ICONS_URL } from "../constants";
 import GroupContainer from "./GroupContainer";
 
 type MainContainerData = {
@@ -23,6 +22,7 @@ const MainContainerComponent = React.memo(function MainContainerComponent({
       label={data.resource_name}
       imageUrl={`${S3_ICONS_URL}/${data.resource_icon}`}
       id={id}
+      isService={true}
     />
   );
 });

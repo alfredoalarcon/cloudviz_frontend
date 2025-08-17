@@ -18,6 +18,7 @@ export const edgeLayout = {
     equality: 1.65,
   },
   arrowSize: 12,
+  coeffHover: 2,
 };
 
 // Layout of Group

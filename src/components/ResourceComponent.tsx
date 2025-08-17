@@ -20,7 +20,7 @@ const ResourceComponent = React.memo(function ResourceComponent({
   data,
 }: NodeProps<ResourceNode>) {
   const [hovered, setHovered] = React.useState(false);
-  const { setSelectedNodeId, selectedNodeId } = useAppContext();
+  const { setSelInfoEntity, selectedNode } = useAppContext();
 
   // Compute image size
   const imageSize = resourceLayout.width * resourceLayout.coeff_image;
@@ -87,7 +87,7 @@ const ResourceComponent = React.memo(function ResourceComponent({
   );
 
   // Style for selected node
-  const selStyle = selectedNodeId === id ? { border: "3px solid black" } : {};
+  const selStyle = selectedNode?.id === id ? { border: "3px solid black" } : {};
 
   // Style if it has a security group
   const sgStyle = data.has_security_groups ? { border: "0.5px solid red" } : {};
@@ -148,7 +148,7 @@ const ResourceComponent = React.memo(function ResourceComponent({
             }}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
-            onClick={() => setSelectedNodeId(id)}
+            onClick={() => setSelInfoEntity({ type: "node", id })}
             _hover={{
               border: "3px solid black",
             }}

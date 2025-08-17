@@ -4,8 +4,6 @@ import { Node, Edge } from "@xyflow/react";
 
 // Type definitions for context
 type AppContextType = {
-  selectedNodeId: string | null;
-  setSelectedNodeId: (id: string | null) => void;
   nodes: Node[];
   setNodes: (nodes: Node[]) => void;
   edges: Edge[];
@@ -13,6 +11,10 @@ type AppContextType = {
   selectedNode: Node | undefined;
   displayIam: "res-res" | "res-role" | "off";
   setDisplayIam: (value: "res-res" | "res-role" | "off") => void;
+  selInfoEntity: { type: "node" | "edge"; id: string } | null;
+  setSelInfoEntity: (
+    entity: { type: "node" | "edge"; id: string } | null
+  ) => void;
 };
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -25,10 +27,15 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
   const [edges, setEdges] = useState<Edge[]>([]);
 
   // State to manage the selected node ID
-  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
+  const [selInfoEntity, setSelInfoEntity] = useState<{
+    type: "node" | "edge";
+    id: string;
+  } | null>(null);
 
-  // Get currently selected node
-  const selectedNode = nodes.find((node) => node.id === selectedNodeId);
+  // Get currently selected node or edge
+  const selectedNode = nodes.find(
+    (node) => node.id === selInfoEntity?.id && selInfoEntity?.type === "node"
+  );
 
   //  --------------- Panel Options -----------------
   // Values for iam display
@@ -39,8 +46,8 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
   // ----------------------------
   // Export values for context
   const value = {
-    selectedNodeId,
-    setSelectedNodeId,
+    selInfoEntity,
+    setSelInfoEntity,
     nodes,
     setNodes,
     edges,

@@ -14,80 +14,12 @@
       }
     },
     {
-      "id": "Lambda",
-      "type": "service_container",
-      "data": {
-        "resource_name": "Lambda",
-        "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_AWS-Lambda_48.svg"
-      },
-      "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "Rds",
-      "type": "service_container",
-      "data": {
-        "resource_name": "Rds",
-        "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Aurora_48.svg"
-      },
-      "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "IAM Service",
-      "type": "service_container",
-      "data": {
-        "resource_name": "IAM Service",
-        "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg"
-      },
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
       "id": "S3",
       "type": "service_container",
       "data": {
         "resource_name": "S3",
         "resource_type": "service_container",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg"
-      },
-      "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "VPC Service",
-      "type": "service_container",
-      "data": {
-        "resource_name": "VPC Service",
-        "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Group-Icons_07312025/AWS-Cloud_32.svg"
-      },
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "Ebs",
-      "type": "service_container",
-      "data": {
-        "resource_name": "Ebs",
-        "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Elastic-Block-Store_48.svg"
       },
       "parentId": "AWS Cloud",
       "position": {
@@ -110,6 +42,47 @@
       }
     },
     {
+      "id": "Elasticsearch",
+      "type": "service_container",
+      "data": {
+        "resource_name": "Elasticsearch",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Analytics/48/Arch_Amazon-OpenSearch-Service_48.svg"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "Ebs",
+      "type": "service_container",
+      "data": {
+        "resource_name": "Ebs",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Elastic-Block-Store_48.svg"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "VPC Service",
+      "type": "service_container",
+      "data": {
+        "resource_name": "VPC Service",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Group-Icons_07312025/AWS-Cloud_32.svg"
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
       "id": "Kms",
       "type": "service_container",
       "data": {
@@ -124,12 +97,39 @@
       }
     },
     {
-      "id": "Elasticsearch",
+      "id": "IAM Service",
       "type": "service_container",
       "data": {
-        "resource_name": "Elasticsearch",
+        "resource_name": "IAM Service",
         "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Analytics/48/Arch_Amazon-OpenSearch-Service_48.svg"
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg"
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "Rds",
+      "type": "service_container",
+      "data": {
+        "resource_name": "Rds",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Aurora_48.svg"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "Lambda",
+      "type": "service_container",
+      "data": {
+        "resource_name": "Lambda",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_AWS-Lambda_48.svg"
       },
       "parentId": "AWS Cloud",
       "position": {

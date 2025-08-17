@@ -1,16 +1,7 @@
 import React from "react";
-import { Node } from "@xyflow/react";
 import { Box, Flex, Image } from "@chakra-ui/react";
 import { GroupLayout } from "../constants";
 import { useAppContext } from "../context/AppContext";
-
-type MainContainerData = {
-  resource_type: string;
-  resource_name: string;
-  resource_icon: string;
-};
-
-type MainContainerNode = Node<MainContainerData, "resource">;
 
 const GroupContainer = React.memo(function GroupContainer({
   borderColor,
@@ -28,10 +19,10 @@ const GroupContainer = React.memo(function GroupContainer({
   id: string;
 }) {
   const [hovered, setHovered] = React.useState(false);
-  const { selectedNodeId, setSelectedNodeId } = useAppContext();
+  const { setSelInfoEntity, selectedNode } = useAppContext();
 
   const borderWidthHover =
-    (hovered || selectedNodeId === id) && !isService ? "2px" : borderWidth;
+    (hovered || selectedNode?.id === id) && !isService ? "2px" : borderWidth;
   return (
     <Box
       style={{
@@ -52,7 +43,9 @@ const GroupContainer = React.memo(function GroupContainer({
           onMouseEnter={() => setHovered(isService ? false : true)}
           onMouseLeave={() => setHovered(false)}
           onClick={() =>
-            isService ? setSelectedNodeId(null) : setSelectedNodeId(id)
+            isService
+              ? setSelInfoEntity(null)
+              : setSelInfoEntity({ type: "node", id })
           }
         >
           <Image src={imageUrl} alt={label} />
