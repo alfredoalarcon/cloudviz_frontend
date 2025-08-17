@@ -15,13 +15,17 @@ const ServiceComponent = React.memo(function ServiceComponent({
   data,
   id,
 }: NodeProps<ServiceNode>) {
-  const borderColor = data.resource_name.toLowerCase().includes("vpc")
-    ? "black"
-    : "gray";
+  const borderColor =
+    data.resource_name.toLowerCase().includes("vpc") ||
+    data.resource_name.toLowerCase().includes("iam")
+      ? "black"
+      : "gray";
 
-  const borderWidth = data.resource_name.toLowerCase().includes("vpc")
-    ? "1.5px"
-    : "1.2px";
+  const borderWidth =
+    data.resource_name.toLowerCase().includes("vpc") ||
+    data.resource_name.toLowerCase().includes("iam")
+      ? "1.5px"
+      : "1.2px";
   return (
     <GroupContainer
       borderColor={borderColor}

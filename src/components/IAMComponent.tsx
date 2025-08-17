@@ -2,6 +2,7 @@ import React from "react";
 import { NodeProps, Node, Handle, Position } from "@xyflow/react";
 import { Box, Flex, Image } from "@chakra-ui/react";
 import { handleStyle, S3_ICONS_URL, resourceLayout } from "../constants";
+import { useAppContext } from "../context/AppContext";
 
 type IAMData = {
   resource_type: string;
@@ -17,7 +18,10 @@ type IAMData = {
 type IAMNode = Node<IAMData, "iam">;
 const IAMComponent = React.memo(function IAMComponent({
   data,
+  id,
 }: NodeProps<IAMNode>) {
+  // Context
+  const { setHoveredNodeId, setSelInfoEntity, selectedNode } = useAppContext();
   // Compute image size
   const imageSize = resourceLayout.width * resourceLayout.coeff_image;
   const labelHeight = resourceLayout.height - imageSize;
@@ -27,6 +31,9 @@ const IAMComponent = React.memo(function IAMComponent({
   if (data.resource_name.length > resourceLayout.labelSize) {
     label = data.resource_name.slice(0, resourceLayout.labelSize);
   }
+
+  // Style for selected node
+  const selStyle = selectedNode?.id === id ? { border: "3px solid black" } : {};
 
   // Define handles
   const handles = (
@@ -104,6 +111,13 @@ const IAMComponent = React.memo(function IAMComponent({
             width: imageSize,
             alignSelf: "center",
             flexShrink: 0,
+            ...selStyle,
+          }}
+          onMouseEnter={() => setHoveredNodeId(id)}
+          onMouseLeave={() => setHoveredNodeId(null)}
+          onClick={() => setSelInfoEntity({ type: "node", id })}
+          _hover={{
+            border: "3px solid black",
           }}
         >
           <Image
