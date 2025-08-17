@@ -96,10 +96,7 @@ export function updateEdges(
   } else return edges;
 }
 
-export async function layoutNodes(
-  setNodes: (nodes: Node[]) => void,
-  setEdges: (edges: Edge[]) => void
-) {
+export async function layoutNodes(): Promise<Graph> {
   const { nodes, edges } = await layoutNodesForReactFlow(graphData as Graph, {
     direction: "DOWN",
     childDefaultSize: {
@@ -113,8 +110,7 @@ export async function layoutNodes(
     },
   });
 
-  setNodes(nodes);
-  setEdges(edges);
+  return { nodes, edges };
 }
 
 export function updateNodes(
@@ -135,9 +131,6 @@ export function updateNodes(
 
     // Add extent
     node.extent = "parent";
-
-    // Add drag handle positioning
-    node.dragHandle = ".drag-handle";
 
     return node;
   });

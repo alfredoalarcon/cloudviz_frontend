@@ -40,7 +40,13 @@ function Flow() {
 
   // Layout nodes
   useEffect(() => {
-    layoutNodes(setNodes, setEdges);
+    async function layoutNodesEffect() {
+      const { nodes, edges } = await layoutNodes();
+      const newNodes = updateNodes(nodes, displayIam);
+      setNodes(newNodes);
+      setEdges(edges);
+    }
+    layoutNodesEffect();
   }, []);
 
   // Update nodes

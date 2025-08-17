@@ -14,7 +14,7 @@ import { useAppContext } from "../context/AppContext";
 import { JsonViewer } from "@textea/json-viewer";
 
 export default function DetailsDrawer() {
-  const { selInfoEntity, setSelInfoEntity, selectedNode } = useAppContext();
+  const { selInfoEntity, selectedNode, edges } = useAppContext();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // Open/close drawer whenever selInfoEntity changes
@@ -27,23 +27,34 @@ export default function DetailsDrawer() {
   // Ensure closing the drawer clears the selection
   const handleClose = () => {
     onClose();
-    // setSelInfoEntity(null);
   };
 
   // --- helpers for sg rules json display ---
   let dataJson = null;
+
+  // Get edges arriving or leaving selectedNode
+  const relatedEdges = edges.filter(
+    (edge) =>
+      edge.source === selectedNode?.id || edge.target === selectedNode?.id
+  );
+
+  // Define final JSON to display
+  const outData = {
+    node: selectedNode,
+    edges: relatedEdges,
+  };
 
   if (selectedNode && selectedNode.data) {
     dataJson = (
       <Box borderWidth="1px" borderRadius="md" p={2}>
         <JsonViewer
           style={{ fontSize: "10px" }}
-          value={selectedNode?.data}
+          value={outData}
           rootName={false}
-          enableClipboard={false}
           quotesOnKeys={false}
           displayDataTypes={false}
           displaySize={false}
+          defaultInspectDepth={2}
         />
       </Box>
     );
