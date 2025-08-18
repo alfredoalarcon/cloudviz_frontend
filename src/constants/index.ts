@@ -30,6 +30,7 @@ export const edgeLayout = {
 export const GroupLayout = {
   imageSize: 24,
   labelSize: 25,
+  resizeHandlerSize: 7,
 };
 
 // Layout of resources

@@ -9,6 +9,8 @@ import {
   Radio,
   Tooltip,
   useColorModeValue,
+  Checkbox,
+  Text,
 } from "@chakra-ui/react";
 import { Pin, PinOff, ChevronsUpDown } from "lucide-react"; // or any icon set you use
 
@@ -33,7 +35,8 @@ export default function HoverDock({
   const [focusedWithin, setFocusedWithin] = useState(false);
 
   // Context
-  const { displayIam, setDisplayIam } = useAppContext();
+  const { displayIam, setDisplayIam, isResizing, setIsResizing } =
+    useAppContext();
 
   const bg = useColorModeValue("white", "gray.800");
   const border = useColorModeValue("gray.200", "whiteAlpha.300");
@@ -95,6 +98,7 @@ export default function HoverDock({
         transform={open ? "translateY(0)" : "translateY(-6px)"}
         transition="opacity 120ms ease, transform 120ms ease"
       >
+        {/* Choose display IAM */}
         <RadioGroup
           value={displayIam}
           onChange={(v) => setDisplayIam(v as "res-res" | "res-role" | "off")}
@@ -106,6 +110,16 @@ export default function HoverDock({
             <Radio value="off">Off</Radio>
           </HStack>
         </RadioGroup>
+
+        {/* Choose resizing */}
+        <Box height={6} />
+        {/* <Box fontSize="lg">Enable Resize</Box> */}
+        <Checkbox
+          isChecked={isResizing}
+          onChange={(e) => setIsResizing(e.target.checked)}
+        >
+          <Text fontSize={"lg"}>Enable Resizing</Text>
+        </Checkbox>
       </Box>
     </Box>
   );

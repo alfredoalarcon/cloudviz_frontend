@@ -18,6 +18,8 @@ type AppContextType = {
   hoveredNodeId: string | null;
   setHoveredNodeId: (id: string | null) => void;
   selectedNodeId: string | null;
+  isResizing: boolean;
+  setIsResizing: (value: boolean) => void;
 };
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -50,6 +52,9 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
     "res-res"
   );
 
+  // Resize activated
+  const [isResizing, setIsResizing] = useState(false);
+
   // ----------------------------
   // Export values for context
   const value = {
@@ -65,6 +70,8 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
     hoveredNodeId,
     setHoveredNodeId,
     selectedNodeId,
+    isResizing,
+    setIsResizing,
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
