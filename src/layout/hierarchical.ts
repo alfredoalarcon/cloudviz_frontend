@@ -75,13 +75,13 @@ export async function layoutNodesHierarchical(
   let aspectRatio: number | undefined;
   if (viewportSize?.width && viewportSize?.height) {
     // 1.6 is a magic factor to make the view wider (tuned)
-    aspectRatio = (1 * viewportSize.width) / viewportSize.height;
+    aspectRatio = (1.3 * viewportSize.width) / viewportSize.height;
   } else if (
     typeof window !== "undefined" &&
     window.innerWidth &&
     window.innerHeight
   ) {
-    aspectRatio = (1.6 * window.innerWidth) / window.innerHeight;
+    aspectRatio = (1.3 * window.innerWidth) / window.innerHeight;
   }
 
   // Clone to avoid mutating the caller’s arrays.

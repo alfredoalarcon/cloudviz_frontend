@@ -3,15 +3,12 @@ import {
   ReactFlow,
   applyNodeChanges,
   Background,
-  useReactFlow,
-  useNodesInitialized,
   Controls,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { useAppContext } from "./context/AppContext";
 import type { NodeChange } from "@xyflow/react";
 import { Box } from "@chakra-ui/react";
-import { updateEdges, updateNodes } from "./utils/utils";
 import { nodeTypes } from "./utils/constants";
 import HoverDock from "./components/HoverDock";
 
@@ -21,43 +18,7 @@ const rfStyle = {
 
 function Workflow() {
   // Get context values
-  const {
-    nodes,
-    setNodes,
-    edges,
-    setEdges,
-    displayIam,
-    setSelInfoEntity,
-    selectedNodeId,
-    hoveredNodeId,
-  } = useAppContext();
-  console.log({ nodes, edges });
-
-  // Track if nodes have been initialized
-  const nodesInitialized = useNodesInitialized();
-
-  // Get react flow instance
-  const { getInternalNode, fitView } = useReactFlow();
-
-  // Update edges by computing handles and adding attributes
-  useEffect(() => {
-    const newEdges = updateEdges(
-      edges,
-      nodesInitialized,
-      getInternalNode,
-      displayIam,
-      selectedNodeId,
-      hoveredNodeId
-    );
-    setEdges(newEdges);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [nodesInitialized, nodes, displayIam, hoveredNodeId, selectedNodeId]);
-
-  useEffect(() => {
-    if (nodesInitialized) {
-      fitView();
-    }
-  }, [nodesInitialized, displayIam]);
+  const { nodes, setNodes, edges, setSelInfoEntity } = useAppContext();
 
   // Handle ESC key
   useEffect(() => {

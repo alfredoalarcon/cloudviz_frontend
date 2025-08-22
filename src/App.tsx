@@ -34,18 +34,18 @@ function App() {
   const form = useForm();
 
   return (
-    <AppProvider>
-      <ChakraProvider theme={theme}>
-        <QueryClientProvider client={queryClient}>
-          <ReactFlowProvider>
+    <ReactFlowProvider>
+      <AppProvider>
+        <ChakraProvider theme={theme}>
+          <QueryClientProvider client={queryClient}>
             <FormProvider {...form}>
               <DetailsDrawer />
               <Workflow />
             </FormProvider>
-          </ReactFlowProvider>
-        </QueryClientProvider>
-      </ChakraProvider>
-    </AppProvider>
+          </QueryClientProvider>
+        </ChakraProvider>
+      </AppProvider>
+    </ReactFlowProvider>
   );
 }
 

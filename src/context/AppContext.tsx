@@ -1,9 +1,13 @@
 // src/context/AppContext.tsx
 import { useState, createContext, useContext, useEffect } from "react";
-import { Node, Edge } from "@xyflow/react";
+import { Node, Edge, useReactFlow, useNodesInitialized } from "@xyflow/react";
 import type { GraphManifest, graphType } from "../utils/types";
-import { fetchGraphData, layoutNodes } from "../utils/utils";
-import { updateNodes } from "../utils/utils";
+import {
+  fetchGraphData,
+  layoutNodes,
+  updateNodes,
+  updateEdges,
+} from "../utils/utils";
 
 // Type definitions for context
 type AppContextType = {
@@ -39,6 +43,12 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
   // States to manage edges and nodes in react flow
   const [nodes, setNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
+
+  // Track if nodes have been initialized
+  const nodesInitialized = useNodesInitialized();
+
+  // Get react flow instance
+  const { getInternalNode, fitView } = useReactFlow();
 
   // State to manage the selected node ID
   const [selInfoEntity, setSelInfoEntity] = useState<{
@@ -124,7 +134,28 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
     setNodes(newNodes);
   }, [displayIam]);
 
-  // ----------------------------
+  // Update edges by computing handles and adding attributes
+  useEffect(() => {
+    const newEdges = updateEdges(
+      edges,
+      nodesInitialized,
+      getInternalNode,
+      displayIam,
+      selectedNodeId,
+      hoveredNodeId,
+      selGraphType
+    );
+    setEdges(newEdges);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nodesInitialized, nodes, displayIam, hoveredNodeId, selectedNodeId]);
+
+  useEffect(() => {
+    if (nodesInitialized) {
+      fitView();
+    }
+  }, [nodesInitialized, displayIam]);
+
+  // ---------------------------- Context Value ----------------------------
   // Export values for context
   const value = {
     selInfoEntity,
@@ -150,6 +181,7 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAppContext = () => {
   const ctx = useContext(AppContext);
   if (!ctx) throw new Error("useAppContext must be used within <AppProvider>");

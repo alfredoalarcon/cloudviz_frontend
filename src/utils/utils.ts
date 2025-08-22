@@ -17,7 +17,8 @@ export function updateEdges(
   getInternalNode: (nodeId: string) => InternalNode<Node> | undefined,
   displayIam: "res-res" | "res-role" | "off",
   selectedNodeId: string | null,
-  hoveredNodeId: string | null
+  hoveredNodeId: string | null,
+  graphType: graphType
 ) {
   if (nodesInitialized) {
     return edges.map((e) => {
@@ -29,8 +30,19 @@ export function updateEdges(
         target
       );
 
+      // Fetch handles
       edge.sourceHandle = sourceHandle;
       edge.targetHandle = targetHandle;
+
+      // Add type other-res-res to edges in complete layout
+
+      if (graphType === "complete") {
+        if (!edge.data) {
+          edge.data = {};
+        }
+
+        edge.data.type = "other-res-res";
+      }
 
       // Hover state if selectedNodeId is source or target
       const hasSelNodeId =
@@ -153,10 +165,9 @@ export function updateNodes(
       node.extent = "parent";
     }
 
-    // Treat nodes for complete graphtype
+    // Treat nodes for complete graphType
     if (graphType === "complete") {
       node.type = "resource";
-      // node.parentId = node.data.resource_service as string;
     }
 
     return node;
