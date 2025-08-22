@@ -3,7 +3,7 @@ import { useState, createContext, useContext, useEffect } from "react";
 import { Node, Edge } from "@xyflow/react";
 import type { GraphManifest, graphType } from "../utils/types";
 import { fetchGraphData, layoutNodes } from "../utils/utils";
-import { set } from "react-hook-form";
+import { updateNodes } from "../utils/utils";
 
 // Type definitions for context
 type AppContextType = {
@@ -67,7 +67,7 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
   );
 
   // Type of graph to display
-  const [selGraphType, setSelGraphType] = useState<graphType>("simplified");
+  const [selGraphType, setSelGraphType] = useState<graphType>("complete");
 
   //  --------------- Panel Options -----------------
   // Values for iam display
@@ -80,7 +80,7 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
 
   // ---------------------------- Effects ----------------------------
 
-  // Load available graphs from local storage and set the first value
+  // Load available graphs (graphManifest) from local storage and set the first value
   useEffect(() => {
     async function loadGraphs() {
       const response = await fetch("/graphs/index.json");
@@ -88,27 +88,6 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
         const graphManifest = await response.json();
 
         setGraphManifest(graphManifest);
-
-        // Set initial selected graph to a random one
-        // const randomIndex = Math.floor(
-        //   Math.random() * storedGraphs["graphs"].length
-        // );
-        // const initialGraph = storedGraphs["graphs"][randomIndex]?.name || null;
-
-        // const initSelGraphName = "terragoat";
-        // setSelectedGraphName("terragoat");
-
-        // Fetch data
-        // let newGraph = await fetchGraphData(
-        //   graphManifest,
-        //   initSelGraphName,
-        //   selGraphType
-        // );
-
-        // newGraph = await layoutNodes(newGraph, "simplified");
-
-        // setNodes(newGraph.nodes);
-        // setEdges(newGraph.edges);
       }
     }
     loadGraphs();
@@ -116,7 +95,7 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
 
   // Whenever graphType or selectedGraphName change update nodes and setup layout
   useEffect(() => {
-    async function setupEdge() {
+    async function setupGraph() {
       if (graphManifest && selectedGraphName) {
         let newGraph = await fetchGraphData(
           graphManifest,
@@ -125,7 +104,10 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
         );
 
         // Layout nodes
-        newGraph = await layoutNodes(newGraph, "simplified");
+        newGraph = await layoutNodes(newGraph, selGraphType);
+
+        // Update nodes
+        newGraph.nodes = updateNodes(newGraph.nodes, selGraphType, displayIam);
 
         // Update state with new graph data
         setNodes(newGraph.nodes);
@@ -133,8 +115,14 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
       }
     }
 
-    setupEdge();
+    setupGraph();
   }, [selGraphType, selectedGraphName, graphManifest]);
+
+  // Handle iamDisplay
+  useEffect(() => {
+    const newNodes = updateNodes(nodes, selGraphType, displayIam);
+    setNodes(newNodes);
+  }, [displayIam]);
 
   // ----------------------------
   // Export values for context

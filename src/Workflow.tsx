@@ -11,7 +11,7 @@ import "@xyflow/react/dist/style.css";
 import { useAppContext } from "./context/AppContext";
 import type { NodeChange } from "@xyflow/react";
 import { Box } from "@chakra-ui/react";
-import { updateEdges, layoutNodes, updateNodes } from "./utils/utils";
+import { updateEdges, updateNodes } from "./utils/utils";
 import { nodeTypes } from "./utils/constants";
 import HoverDock from "./components/HoverDock";
 
@@ -19,7 +19,7 @@ const rfStyle = {
   backgroundColor: "#f2f1f1ff",
 };
 
-function Flow() {
+function Workflow() {
   // Get context values
   const {
     nodes,
@@ -38,12 +38,6 @@ function Flow() {
 
   // Get react flow instance
   const { getInternalNode, fitView } = useReactFlow();
-
-  // Update nodes
-  useEffect(() => {
-    const newNodes = updateNodes(nodes, displayIam);
-    setNodes(newNodes);
-  }, [displayIam]);
 
   // Update edges by computing handles and adding attributes
   useEffect(() => {
@@ -107,4 +101,4 @@ function Flow() {
   );
 }
 
-export default Flow;
+export default Workflow;

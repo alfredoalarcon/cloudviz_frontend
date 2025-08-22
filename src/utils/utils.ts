@@ -3,9 +3,11 @@ import { assignClosestHandles } from "../layout/hierarchical";
 import { edgeLayout } from "./constants";
 import { Graph, graphType } from "./types";
 import { layoutNodesHierarchical } from "../layout/hierarchical";
-import { layoutNodesWithElk } from "../layout/nonHierarchicalElk";
-import { layoutNodesWithD3 } from "../layout/nonHierarchicalD3";
-import { resourceLayout, clusterPadding } from "./constants";
+import {
+  resourceLayout,
+  clusterPadding,
+  nonHierarchicalNodeLayout,
+} from "./constants";
 import type { GraphManifest } from "./types";
 
 // Update edge handles based on node positions, adds an animated property for equality edges
@@ -100,8 +102,7 @@ export function updateEdges(
 
 export async function layoutNodes(
   graphData: Graph,
-  graphType: graphType,
-  nonHierarchicalAlgo: "elk" | "d3" = "d3"
+  graphType: graphType
 ): Promise<Graph> {
   let nodes: Node[] = graphData.nodes;
   let edges: Edge[] = graphData.edges;
@@ -112,28 +113,19 @@ export async function layoutNodes(
     padding: 32,
   };
 
-  if (graphType === "simplified") {
+  const layout =
+    graphType === "complete" ? nonHierarchicalNodeLayout : resourceLayout;
+
+  if (graphType === "simplified" || graphType === "complete") {
     ({ nodes, edges } = await layoutNodesHierarchical(graphData, {
       direction: "DOWN",
       childDefaultSize: {
-        width: resourceLayout.width,
-        height: resourceLayout.height,
+        width: layout.width,
+        height: layout.height,
       },
       clusterPadding: `[top=${clusterPadding.top},left=${clusterPadding.left},bottom=${clusterPadding.bottom},right=${clusterPadding.right}]`,
       viewportSize: { width: viewport.width, height: viewport.height },
     }));
-  } else {
-    if (nonHierarchicalAlgo === "elk") {
-      nodes = await layoutNodesWithElk(nodes, edges, viewport, {
-        direction: "RIGHT",
-      });
-    } else {
-      nodes = await layoutNodesWithD3(nodes, edges, viewport, {
-        chargeStrength: -500,
-        linkDistance: 140,
-        iterations: 350,
-      });
-    }
   }
 
   return { nodes, edges };
@@ -141,6 +133,7 @@ export async function layoutNodes(
 
 export function updateNodes(
   nodes: Node[],
+  graphType: graphType,
   displayIam: "res-res" | "res-role" | "off"
 ): Node[] {
   // Add attributes to nodes before setting state
@@ -156,7 +149,15 @@ export function updateNodes(
     }
 
     // Add extent
-    node.extent = "parent";
+    if (graphType === "simplified") {
+      node.extent = "parent";
+    }
+
+    // Treat nodes for complete graphtype
+    if (graphType === "complete") {
+      node.type = "resource";
+      // node.parentId = node.data.resource_service as string;
+    }
 
     return node;
   });

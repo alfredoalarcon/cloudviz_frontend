@@ -43,6 +43,16 @@ export const resourceLayout = {
   labelFontSize: "10px",
 };
 
+// Layout of nodes in non-hierarchical graphs
+export const nonHierarchicalNodeLayout = {
+  height: 70,
+  width: 70,
+  padding: 0,
+  coeff_image: 0.6,
+  labelSize: 13,
+  labelFontSize: "10px",
+};
+
 // Padding within a cluster for elkjs layout
 export const clusterPadding = {
   top: 38,

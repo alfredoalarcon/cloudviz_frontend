@@ -1,7 +1,12 @@
 import React from "react";
 import { NodeProps, Node, Handle, Position, NodeToolbar } from "@xyflow/react";
 import { Box, Image, Flex } from "@chakra-ui/react";
-import { handleStyle, S3_ICONS_URL, resourceLayout } from "../utils/constants";
+import {
+  handleStyle,
+  S3_ICONS_URL,
+  resourceLayout,
+  nonHierarchicalNodeLayout,
+} from "../utils/constants";
 import { useAppContext } from "../context/AppContext";
 import { SgRule } from "../utils/types";
 
@@ -20,20 +25,29 @@ const ResourceComponent = React.memo(function ResourceComponent({
   data,
 }: NodeProps<ResourceNode>) {
   // Context
-  const { setSelInfoEntity, selectedNode, hoveredNodeId, setHoveredNodeId } =
-    useAppContext();
+  const {
+    setSelInfoEntity,
+    selectedNode,
+    hoveredNodeId,
+    setHoveredNodeId,
+    selGraphType,
+  } = useAppContext();
+
+  // Choose layout
+  const layout =
+    selGraphType === "complete" ? nonHierarchicalNodeLayout : resourceLayout;
 
   // Hover state
   const isHovered = hoveredNodeId === id;
 
   // Compute image size
-  const imageSize = resourceLayout.width * resourceLayout.coeff_image;
-  const labelHeight = resourceLayout.height - imageSize;
+  const imageSize = layout.width * layout.coeff_image;
+  const labelHeight = layout.height - imageSize;
 
   // Compute label to display
   let label = data.resource_name;
-  if (data.resource_name.length > resourceLayout.labelSize) {
-    label = data.resource_name.slice(0, resourceLayout.labelSize);
+  if (data.resource_name.length > layout.labelSize) {
+    label = data.resource_name.slice(0, layout.labelSize);
   }
 
   // Handles definition
@@ -177,7 +191,7 @@ const ResourceComponent = React.memo(function ResourceComponent({
           >
             <Box
               style={{
-                fontSize: resourceLayout.labelFontSize,
+                fontSize: layout.labelFontSize,
                 flexGrow: 0,
                 alignSelf: "center",
                 overflow: "hidden",
