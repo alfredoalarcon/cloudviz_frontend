@@ -1,9 +1,9 @@
 import React from "react";
 import { NodeProps, Node, Handle, Position, NodeToolbar } from "@xyflow/react";
 import { Box, Image, Flex } from "@chakra-ui/react";
-import { handleStyle, S3_ICONS_URL, resourceLayout } from "../constants";
+import { handleStyle, S3_ICONS_URL, resourceLayout } from "../utils/constants";
 import { useAppContext } from "../context/AppContext";
-import { SgRule } from "../types";
+import { SgRule } from "../utils/types";
 
 type ResourceData = {
   resource_type: string;

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAppContext } from "../context/AppContext";
 import {
   Box,
@@ -11,8 +11,13 @@ import {
   useColorModeValue,
   Checkbox,
   Text,
+  Select,
+  FormControl,
+  FormLabel,
+  Divider,
+  VStack,
 } from "@chakra-ui/react";
-import { Pin, PinOff, ChevronsUpDown } from "lucide-react"; // or any icon set you use
+import { Pin, PinOff, ChevronsUpDown } from "lucide-react";
 
 type DockPosition = {
   top?: number | string;
@@ -35,12 +40,54 @@ export default function HoverDock({
   const [focusedWithin, setFocusedWithin] = useState(false);
 
   // Context
-  const { displayIam, setDisplayIam, isResizing, setIsResizing } =
-    useAppContext();
+  const {
+    displayIam,
+    setDisplayIam,
+    isResizing,
+    setIsResizing,
+    graphManifest, // GraphManifest | undefined
+    selectedGraphName, // string | null
+    setSelectedGraphName, // (name: string) => void
+    selGraphType, // "simplified" | "complete"
+    setSelGraphType, // (t: "simplified" | "complete") => void
+  } = useAppContext();
 
   const bg = useColorModeValue("white", "gray.800");
   const border = useColorModeValue("gray.200", "whiteAlpha.300");
   const [shadowLg] = useToken("shadows", ["lg"]);
+
+  // Options derived from manifest
+  const graphNames = useMemo(
+    () => (graphManifest?.graphs ?? []).map((g) => g.name),
+    [graphManifest]
+  );
+
+  const selectedGraph = useMemo(
+    () => graphManifest?.graphs.find((g) => g.name === selectedGraphName),
+    [graphManifest, selectedGraphName]
+  );
+
+  // Availability of graph types for the selected graph
+  const hasSimplified = !!selectedGraph?.variants?.["simplified"];
+  const hasComplete = !!selectedGraph?.variants?.["complete"];
+
+  // Ensure selGraphType is valid for the selected graph
+  useEffect(() => {
+    if (!selectedGraph) return;
+    if (selGraphType === "simplified" && !hasSimplified && hasComplete) {
+      setSelGraphType("complete");
+    } else if (selGraphType === "complete" && !hasComplete && hasSimplified) {
+      setSelGraphType("simplified");
+    } else if (!hasSimplified && !hasComplete) {
+      // No known variants: do nothing, leave as-is (consumer should handle)
+    }
+  }, [
+    selectedGraph,
+    selGraphType,
+    hasSimplified,
+    hasComplete,
+    setSelGraphType,
+  ]);
 
   // Open when pinned OR hovered OR focus is inside (keyboard a11y)
   const open = useMemo(
@@ -92,34 +139,74 @@ export default function HoverDock({
         borderRadius="md"
         boxShadow={shadowLg}
         p={3}
-        minW="220px"
+        minW="260px"
         pointerEvents={open ? "auto" : "none"}
         opacity={open ? 1 : 0}
         transform={open ? "translateY(0)" : "translateY(-6px)"}
         transition="opacity 120ms ease, transform 120ms ease"
       >
-        {/* Choose display IAM */}
-        <RadioGroup
-          value={displayIam}
-          onChange={(v) => setDisplayIam(v as "res-res" | "res-role" | "off")}
-        >
-          <Box fontSize={"lg"}>Display IAM:</Box>
-          <HStack spacing={6}>
-            <Radio value="res-res">Resource to Resource</Radio>
-            <Radio value="res-role">Resource to Role</Radio>
-            <Radio value="off">Off</Radio>
-          </HStack>
-        </RadioGroup>
+        <VStack align="stretch" spacing={3}>
+          {/* Graph selection */}
+          <FormControl>
+            <FormLabel mb={1}>Graph</FormLabel>
+            <Select
+              size="md"
+              value={selectedGraphName ?? ""}
+              onChange={(e) => setSelectedGraphName(e.target.value)}
+              placeholder={
+                graphNames.length ? "Select graph..." : "No graphs available"
+              }
+              isDisabled={!graphNames.length}
+            >
+              {graphNames.map((name) => (
+                <option key={name} value={name}>
+                  {name}
+                </option>
+              ))}
+            </Select>
+          </FormControl>
 
-        {/* Choose resizing */}
-        <Box height={6} />
-        {/* <Box fontSize="lg">Enable Resize</Box> */}
-        <Checkbox
-          isChecked={isResizing}
-          onChange={(e) => setIsResizing(e.target.checked)}
-        >
-          <Text fontSize={"lg"}>Enable Resizing</Text>
-        </Checkbox>
+          {/* Graph type selection */}
+          <FormControl as="fieldset">
+            <FormLabel mb={1}>Graph type</FormLabel>
+            <RadioGroup
+              value={selGraphType}
+              onChange={(v) => setSelGraphType(v as "simplified" | "complete")}
+            >
+              <HStack spacing={6}>
+                <Radio value="simplified" isDisabled={!hasSimplified}>
+                  Simplified
+                </Radio>
+                <Radio value="complete" isDisabled={!hasComplete}>
+                  Complete
+                </Radio>
+              </HStack>
+            </RadioGroup>
+          </FormControl>
+
+          <Divider />
+
+          {/* Display IAM */}
+          <RadioGroup
+            value={displayIam}
+            onChange={(v) => setDisplayIam(v as "res-res" | "res-role" | "off")}
+          >
+            <Box fontSize="lg">Display IAM:</Box>
+            <HStack spacing={6}>
+              <Radio value="res-res">Resource to Resource</Radio>
+              <Radio value="res-role">Resource to Role</Radio>
+              <Radio value="off">Off</Radio>
+            </HStack>
+          </RadioGroup>
+
+          {/* Enable resizing */}
+          <Checkbox
+            isChecked={isResizing}
+            onChange={(e) => setIsResizing(e.target.checked)}
+          >
+            <Text fontSize="lg">Enable Resizing</Text>
+          </Checkbox>
+        </VStack>
       </Box>
     </Box>
   );

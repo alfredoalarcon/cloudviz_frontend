@@ -7,10 +7,6 @@
         "resource_name": "AWS Cloud",
         "resource_type": "aws_container",
         "resource_icon": "aws/Architecture-Group-Icons_07312025/AWS-Cloud-logo_32.svg"
-      },
-      "position": {
-        "x": 0,
-        "y": 0
       }
     },
     {
@@ -21,11 +17,7 @@
         "resource_type": "service_container",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg"
       },
-      "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "AWS Cloud"
     },
     {
       "id": "Neptune",
@@ -35,11 +27,7 @@
         "resource_type": "service_container",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Neptune_48.svg"
       },
-      "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "AWS Cloud"
     },
     {
       "id": "Elasticsearch",
@@ -49,11 +37,7 @@
         "resource_type": "service_container",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Analytics/48/Arch_Amazon-OpenSearch-Service_48.svg"
       },
-      "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "AWS Cloud"
     },
     {
       "id": "Ebs",
@@ -63,11 +47,7 @@
         "resource_type": "service_container",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Elastic-Block-Store_48.svg"
       },
-      "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "AWS Cloud"
     },
     {
       "id": "VPC Service",
@@ -76,10 +56,6 @@
         "resource_name": "VPC Service",
         "resource_type": "service_container",
         "resource_icon": "aws/Architecture-Group-Icons_07312025/AWS-Cloud_32.svg"
-      },
-      "position": {
-        "x": 0,
-        "y": 0
       }
     },
     {
@@ -90,11 +66,7 @@
         "resource_type": "service_container",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Key-Management-Service_48.svg"
       },
-      "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "AWS Cloud"
     },
     {
       "id": "IAM Service",
@@ -103,10 +75,6 @@
         "resource_name": "IAM Service",
         "resource_type": "service_container",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg"
-      },
-      "position": {
-        "x": 0,
-        "y": 0
       }
     },
     {
@@ -117,11 +85,7 @@
         "resource_type": "service_container",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-Aurora_48.svg"
       },
-      "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "AWS Cloud"
     },
     {
       "id": "Lambda",
@@ -131,11 +95,7 @@
         "resource_type": "service_container",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_AWS-Lambda_48.svg"
       },
-      "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "AWS Cloud"
     },
     {
       "id": "aws_vpc.web_vpc",
@@ -149,11 +109,7 @@
         "enable_dns_support": true,
         "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-vpc\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/ec2.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"9bf2359b-952e-4570-9595-52eba4c20473\"})}"
       },
-      "parentId": "VPC Service",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "VPC Service"
     },
     {
       "id": "aws_vpc.eks_vpc",
@@ -167,11 +123,7 @@
         "enable_dns_support": true,
         "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-eks-vpc\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/eks.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"1600ca6c-72f6-45c0-a71d-88e117e51d6b\"})}"
       },
-      "parentId": "VPC Service",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "VPC Service"
     },
     {
       "id": "aws_subnet.web_subnet",
@@ -187,11 +139,7 @@
         "map_public_ip_on_launch": true,
         "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-subnet\"}, {\"git_commit\": \"6e62522d2ab8f63740e53752b84a6e99cd65696a\", \"git_file\": \"terraform/aws/ec2.tf\", \"git_last_modified_at\": \"2021-05-02 11:16:31\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"0345f650-d280-4ca8-86c9-c71c38c0eda8\"})}"
       },
-      "parentId": "aws_vpc.web_vpc",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "aws_vpc.web_vpc"
     },
     {
       "id": "aws_subnet.web_subnet2",
@@ -207,11 +155,7 @@
         "map_public_ip_on_launch": true,
         "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-subnet2\"}, {\"git_commit\": \"6e62522d2ab8f63740e53752b84a6e99cd65696a\", \"git_file\": \"terraform/aws/ec2.tf\", \"git_last_modified_at\": \"2021-05-02 11:16:31\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"224af03a-00e0-4981-be30-14965833c2db\"})}"
       },
-      "parentId": "aws_vpc.web_vpc",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "aws_vpc.web_vpc"
     },
     {
       "id": "aws_subnet.eks_subnet1",
@@ -227,11 +171,7 @@
         "map_public_ip_on_launch": true,
         "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-eks-subnet\", \"\"kubernetes.io/cluster/${local.eks_name.value}\"\": \"shared\"}, {\"git_commit\": \"6e62522d2ab8f63740e53752b84a6e99cd65696a\", \"git_file\": \"terraform/aws/eks.tf\", \"git_last_modified_at\": \"2021-05-02 11:16:31\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"\\\"kubernetes.io/cluster/$${local.eks_name.value}\"\": \"shared\", \"yor_trace\": \"1fb4fa23-a5d6-4d6a-b7dc-88749383f48d\"}, {\"\\\"kubernetes.io/cluster/$$${local.eks_name.value}\"\": \"shared\", \"\"kubernetes.io/cluster/$${local.eks_name.value}\"\": \"shared\"}, {\"\\\"kubernetes.io/cluster/$$$${local.eks_name.value}\"\": \"shared\", \"\"kubernetes.io/cluster/$$${local.eks_name.value}\"\": \"shared\", \"\"kubernetes.io/cluster/$${local.eks_name.value}\"\": \"shared\"})}"
       },
-      "parentId": "aws_vpc.eks_vpc",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "aws_vpc.eks_vpc"
     },
     {
       "id": "aws_subnet.eks_subnet2",
@@ -247,11 +187,7 @@
         "map_public_ip_on_launch": true,
         "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-eks-subnet2\", \"\"kubernetes.io/cluster/${local.eks_name.value}\"\": \"shared\"}, {\"git_commit\": \"6e62522d2ab8f63740e53752b84a6e99cd65696a\", \"git_file\": \"terraform/aws/eks.tf\", \"git_last_modified_at\": \"2021-05-02 11:16:31\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"\\\"kubernetes.io/cluster/$${local.eks_name.value}\"\": \"shared\", \"yor_trace\": \"9ce04af2-5321-4e6c-a262-e4d7c1f69525\"}, {\"\\\"kubernetes.io/cluster/$$${local.eks_name.value}\"\": \"shared\", \"\"kubernetes.io/cluster/$${local.eks_name.value}\"\": \"shared\"}, {\"\\\"kubernetes.io/cluster/$$$${local.eks_name.value}\"\": \"shared\", \"\"kubernetes.io/cluster/$$${local.eks_name.value}\"\": \"shared\", \"\"kubernetes.io/cluster/$${local.eks_name.value}\"\": \"shared\"})}"
       },
-      "parentId": "aws_vpc.eks_vpc",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "aws_vpc.eks_vpc"
     },
     {
       "id": "aws_iam_role.ec2role",
@@ -293,10 +229,6 @@
           ]
         },
         "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-role\", \"Environment\": \"${local.resource_prefix.value}\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/db-app.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"d4b631c1-c1d0-4986-affb-fb8b94a6a7a5\"})}"
-      },
-      "position": {
-        "x": 0,
-        "y": 0
       }
     },
     {
@@ -332,10 +264,6 @@
           "git_repo": "terragoat",
           "yor_trace": "93cfa6f9-a257-40c3-b7dc-3c3686929734"
         }
-      },
-      "position": {
-        "x": 0,
-        "y": 0
       }
     },
     {
@@ -366,10 +294,6 @@
         "name": "${local.resource_prefix.value}-user",
         "force_destroy": true,
         "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-user\", \"Environment\": \"${local.resource_prefix.value}\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/iam.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"9b45b298-c1ea-426a-9644-610780021eaa\"})}"
-      },
-      "position": {
-        "x": 0,
-        "y": 0
       }
     },
     {
@@ -571,10 +495,6 @@
           "git_repo": "terragoat",
           "yor_trace": "de052596-21a0-43de-8153-469add277b18"
         }
-      },
-      "position": {
-        "x": 0,
-        "y": 0
       }
     },
     {
@@ -606,11 +526,7 @@
           "yor_trace": "0d4cbb85-73ed-4ca0-b1da-296e4185f34e"
         }
       },
-      "parentId": "Neptune",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "Neptune"
     },
     {
       "id": "aws_s3_bucket.data",
@@ -626,11 +542,7 @@
         "force_destroy": true,
         "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-data\", \"Environment\": \"${local.resource_prefix.value}\"}, {\"git_commit\": \"4d57f83ca4d3a78a44fb36d1dcf0d23983fa44f5\", \"git_file\": \"terraform/aws/s3.tf\", \"git_last_modified_at\": \"2022-05-18 07:08:06\", \"git_last_modified_by\": \"nimrod@bridgecrew.io\", \"git_modifiers\": \"34870196+LironElbaz/nimrod/nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"0874007d-903a-4b4c-945f-c9c233e13243\"})}"
       },
-      "parentId": "S3",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "S3"
     },
     {
       "id": "aws_s3_bucket.financials",
@@ -647,11 +559,7 @@
         "force_destroy": true,
         "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-financials\", \"Environment\": \"${local.resource_prefix.value}\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/s3.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"0e012640-b597-4e5d-9378-d4b584aea913\"})}"
       },
-      "parentId": "S3",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "S3"
     },
     {
       "id": "aws_s3_bucket.operations",
@@ -673,11 +581,7 @@
         "force_destroy": true,
         "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-operations\", \"Environment\": \"${local.resource_prefix.value}\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/s3.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"29efcf7b-22a8-4bd6-8e14-1f55b3a2d743\"})}"
       },
-      "parentId": "S3",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "S3"
     },
     {
       "id": "aws_s3_bucket.data_science",
@@ -714,11 +618,7 @@
           "yor_trace": "9a7c8788-5655-4708-bbc3-64ead9847f64"
         }
       },
-      "parentId": "S3",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "S3"
     },
     {
       "id": "aws_s3_bucket.logs",
@@ -754,11 +654,7 @@
         "force_destroy": true,
         "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-logs\", \"Environment\": \"${local.resource_prefix.value}\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/s3.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"01946fe9-aae2-4c99-a975-e9b0d3a4696c\"})}"
       },
-      "parentId": "S3",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "S3"
     },
     {
       "id": "aws_kms_key.logs_key",
@@ -783,11 +679,7 @@
           "yor_trace": "cd8fa2a7-4868-4cd1-993d-da4644808ce5"
         }
       },
-      "parentId": "Kms",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "Kms"
     },
     {
       "id": "aws_db_instance.default-1",
@@ -854,11 +746,7 @@
           }
         ]
       },
-      "parentId": "aws_subnet.web_subnet",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "aws_subnet.web_subnet"
     },
     {
       "id": "aws_db_instance.default-2",
@@ -925,11 +813,7 @@
           }
         ]
       },
-      "parentId": "aws_subnet.web_subnet2",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "aws_subnet.web_subnet2"
     },
     {
       "id": "aws_instance.db_app",
@@ -982,11 +866,7 @@
         "user_data": "#! /bin/bash\n### Config from https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Tutorials.WebServerDB.CreateWebServer.html\nsudo yum -y update\nsudo yum -y install httpd php php-mysqlnd\nsudo systemctl enable httpd \nsudo systemctl start httpd\n\nsudo mkdir /var/www/inc\ncat << EnD > /tmp/dbinfo.inc\n<?php\ndefine('DB_SERVER', '${aws_db_instance.default.endpoint}');\ndefine('DB_USERNAME', '${aws_db_instance.default.username}');\ndefine('DB_PASSWORD', '${var.password}');\ndefine('DB_DATABASE', '${aws_db_instance.default.name}');\n?>\nEnD\nsudo mv /tmp/dbinfo.inc /var/www/inc \nsudo chown root:root /var/www/inc/dbinfo.inc\n\ncat << EnD > /tmp/index.php\n<?php include \"../inc/dbinfo.inc\"; ?>\n<html>\n<body>\n<h1>Sample page</h1>\n<?php\n\n  /* Connect to MySQL and select the database. */\n  \\$connection = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD);\n\n  if (mysqli_connect_errno()) echo \"Failed to connect to MySQL: \" . mysqli_connect_error();\n\n  \\$database = mysqli_select_db(\\$connection, DB_DATABASE);\n\n  /* Ensure that the EMPLOYEES table exists. */\n  VerifyEmployeesTable(\\$connection, DB_DATABASE);\n\n  /* If input fields are populated, add a row to the EMPLOYEES table. */\n  \\$employee_name = htmlentities(\\$_POST['NAME']);\n  \\$employee_address = htmlentities(\\$_POST['ADDRESS']);\n\n  if (strlen(\\$employee_name) || strlen(\\$employee_address)) {\n    AddEmployee(\\$connection, \\$employee_name, \\$employee_address);\n  }\n?>\n\n<!-- Input form -->\n<form action=\"<?PHP echo \\$_SERVER['SCRIPT_NAME'] ?>\" method=\"POST\">\n  <table border=\"0\">\n    <tr>\n      <td>NAME</td>\n      <td>ADDRESS</td>\n    </tr>\n    <tr>\n      <td>\n        <input type=\"text\" name=\"NAME\" maxlength=\"45\" size=\"30\" />\n      </td>\n      <td>\n        <input type=\"text\" name=\"ADDRESS\" maxlength=\"90\" size=\"60\" />\n      </td>\n      <td>\n        <input type=\"submit\" value=\"Add Data\" />\n      </td>\n    </tr>\n  </table>\n</form>\n\n<!-- Display table data. -->\n<table border=\"1\" cellpadding=\"2\" cellspacing=\"2\">\n  <tr>\n    <td>ID</td>\n    <td>NAME</td>\n    <td>ADDRESS</td>\n  </tr>\n\n<?php\n\n\\$result = mysqli_query(\\$connection, \"SELECT * FROM EMPLOYEES\");\n\nwhile(\\$query_data = mysqli_fetch_row(\\$result)) {\n  echo \"<tr>\";\n  echo \"<td>\",\\$query_data[0], \"</td>\",\n       \"<td>\",\\$query_data[1], \"</td>\",\n       \"<td>\",\\$query_data[2], \"</td>\";\n  echo \"</tr>\";\n}\n?>\n\n</table>\n\n<!-- Clean up. -->\n<?php\n\n  mysqli_free_result(\\$result);\n  mysqli_close(\\$connection);\n\n?>\n\n</body>\n</html>\n\n\n<?php\n\n/* Add an employee to the table. */\nfunction AddEmployee(\\$connection, \\$name, \\$address) {\n   \\$n = mysqli_real_escape_string(\\$connection, \\$name);\n   \\$a = mysqli_real_escape_string(\\$connection, \\$address);\n\n   \\$query = \"INSERT INTO EMPLOYEES (NAME, ADDRESS) VALUES ('\\$n', '\\$a');\";\n\n   if(!mysqli_query(\\$connection, \\$query)) echo(\"<p>Error adding employee data.</p>\");\n}\n\n/* Check whether the table exists and, if not, create it. */\nfunction VerifyEmployeesTable(\\$connection, \\$dbName) {\n  if(!TableExists(\"EMPLOYEES\", \\$connection, \\$dbName))\n  {\n     \\$query = \"CREATE TABLE EMPLOYEES (\n         ID int(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,\n         NAME VARCHAR(45),\n         ADDRESS VARCHAR(90)\n       )\";\n\n     if(!mysqli_query(\\$connection, \\$query)) echo(\"<p>Error creating table.</p>\");\n  }\n}\n\n/* Check for the existence of a table. */\nfunction TableExists(\\$tableName, \\$connection, \\$dbName) {\n  \\$t = mysqli_real_escape_string(\\$connection, \\$tableName);\n  \\$d = mysqli_real_escape_string(\\$connection, \\$dbName);\n\n  \\$checktable = mysqli_query(\\$connection,\n      \"SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_NAME = '\\$t' AND TABLE_SCHEMA = '\\$d'\");\n\n  if(mysqli_num_rows(\\$checktable) > 0) return true;\n\n  return false;\n}\n?>               \nEnD\n\nsudo mv /tmp/index.php /var/www/html\nsudo chown root:root /var/www/html/index.php",
         "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-dbapp\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/db-app.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"f7999d4e-c983-43ee-bd88-7903a6f8483e\"})}"
       },
-      "parentId": "aws_subnet.web_subnet",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "aws_subnet.web_subnet"
     },
     {
       "id": "aws_elasticsearch_domain.monitoring-framework",
@@ -1026,11 +906,7 @@
           "yor_trace": "95131dec-d7c9-49bb-9aff-eb0e2736603b"
         }
       },
-      "parentId": "Elasticsearch",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "Elasticsearch"
     },
     {
       "id": "aws_elb.weblb",
@@ -1106,11 +982,7 @@
         "connection_draining_timeout": 400,
         "tags": "${merge({\"Name\": \"foobar-terraform-elb\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/elb.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"b4a83ce9-9a45-43b4-b6d9-1783c282f702\"})}"
       },
-      "parentId": "aws_subnet.web_subnet",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "aws_subnet.web_subnet"
     },
     {
       "id": "aws_instance.web_host",
@@ -1162,11 +1034,7 @@
         "user_data": "#! /bin/bash\nsudo apt-get update\nsudo apt-get install -y apache2\nsudo systemctl start apache2\nsudo systemctl enable apache2\nexport AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMAAA\nexport AWS_SECRET_ACCESS_KEY=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\nexport AWS_DEFAULT_REGION=us-west-2\necho \"<h1>Deployed via Terraform</h1>\" | sudo tee /var/www/html/index.html",
         "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-ec2\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/ec2.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"347af3cd-4f70-4632-aca3-4d5e30ffc0b6\"})}"
       },
-      "parentId": "aws_subnet.web_subnet",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "aws_subnet.web_subnet"
     },
     {
       "id": "aws_ebs_volume.web_host_storage",
@@ -1182,11 +1050,7 @@
         "size": 1,
         "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-ebs\"}, {\"git_commit\": \"d3439f0f2af62f6fa3521e14d6c27819ef8f12e1\", \"git_file\": \"terraform/aws/ec2.tf\", \"git_last_modified_at\": \"2021-05-02 11:17:26\", \"git_last_modified_by\": \"nimrodkor@users.noreply.github.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"c5509daf-10f0-46af-9e03-41989212521d\"})}"
       },
-      "parentId": "Ebs",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "Ebs"
     },
     {
       "id": "aws_s3_bucket.flowbucket",
@@ -1202,11 +1066,7 @@
         "force_destroy": true,
         "tags": "${merge({\"Name\": \"${local.resource_prefix.value}-flowlogs\", \"Environment\": \"${local.resource_prefix.value}\"}, {\"git_commit\": \"d68d2897add9bc2203a5ed0632a5cdd8ff8cefb0\", \"git_file\": \"terraform/aws/ec2.tf\", \"git_last_modified_at\": \"2020-06-16 14:46:24\", \"git_last_modified_by\": \"nimrodkor@gmail.com\", \"git_modifiers\": \"nimrodkor\", \"git_org\": \"bridgecrewio\", \"git_repo\": \"terragoat\", \"yor_trace\": \"f058838a-b1e0-4383-b965-7e06e987ffb1\"})}"
       },
-      "parentId": "S3",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "S3"
     },
     {
       "id": "aws_lambda_function.analysis_lambda",
@@ -1243,11 +1103,7 @@
           "yor_trace": "f7d8bc47-e5d9-4b09-9d8f-e7b9724d826e"
         }
       },
-      "parentId": "Lambda",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "Lambda"
     },
     {
       "id": "aws_eks_cluster.eks_cluster-1",
@@ -1285,11 +1141,7 @@
           "yor_trace": "7fa14261-c18d-4fa2-aec4-746f6e64d2d3"
         }
       },
-      "parentId": "aws_subnet.eks_subnet1",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "aws_subnet.eks_subnet1"
     },
     {
       "id": "aws_eks_cluster.eks_cluster-2",
@@ -1327,11 +1179,7 @@
           "yor_trace": "7fa14261-c18d-4fa2-aec4-746f6e64d2d3"
         }
       },
-      "parentId": "aws_subnet.eks_subnet2",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "aws_subnet.eks_subnet2"
     },
     {
       "id": "aws_rds_cluster.app1-rds-cluster",
@@ -1357,11 +1205,7 @@
           "yor_trace": "b6f2c2ec-0715-46a0-83d4-502e588826d1"
         }
       },
-      "parentId": "Rds",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "Rds"
     },
     {
       "id": "aws_rds_cluster.app2-rds-cluster",
@@ -1387,11 +1231,7 @@
           "yor_trace": "d33c9292-952b-4c1f-9973-b6dbad519461"
         }
       },
-      "parentId": "Rds",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "Rds"
     },
     {
       "id": "aws_rds_cluster.app3-rds-cluster",
@@ -1417,11 +1257,7 @@
           "yor_trace": "2a8584b1-7e9d-4739-8e37-366620c92027"
         }
       },
-      "parentId": "Rds",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "Rds"
     },
     {
       "id": "aws_rds_cluster.app4-rds-cluster",
@@ -1447,11 +1283,7 @@
           "yor_trace": "284aaeed-fd3f-4b7a-b5f8-61a8457f4d83"
         }
       },
-      "parentId": "Rds",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "Rds"
     },
     {
       "id": "aws_rds_cluster.app5-rds-cluster",
@@ -1477,11 +1309,7 @@
           "yor_trace": "0b2bea23-5ca5-4bd1-956e-b9ed978daadf"
         }
       },
-      "parentId": "Rds",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "Rds"
     },
     {
       "id": "aws_rds_cluster.app6-rds-cluster",
@@ -1507,11 +1335,7 @@
           "yor_trace": "fcffb961-d859-4be5-997f-d51b50665ada"
         }
       },
-      "parentId": "Rds",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "Rds"
     },
     {
       "id": "aws_rds_cluster.app7-rds-cluster",
@@ -1537,11 +1361,7 @@
           "yor_trace": "ebc2ac20-23a3-4518-a7ef-3a102b003ab6"
         }
       },
-      "parentId": "Rds",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "Rds"
     },
     {
       "id": "aws_rds_cluster.app8-rds-cluster",
@@ -1567,11 +1387,7 @@
           "yor_trace": "af643747-0967-4251-8645-3b54882c2507"
         }
       },
-      "parentId": "Rds",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "Rds"
     },
     {
       "id": "aws_rds_cluster.app9-rds-cluster",
@@ -1597,11 +1413,7 @@
           "yor_trace": "a0c98536-c751-4743-92f1-a106ce750249"
         }
       },
-      "parentId": "Rds",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
+      "parentId": "Rds"
     }
   ],
   "edges": [

@@ -1,0 +1,29 @@
+{
+  "graphs": [
+    {
+      "name": "cloudfoxable",
+      "variants": {
+        "complete": "/graphs/cloudfoxable/complete.json"
+      }
+    },
+    {
+      "name": "terragoat",
+      "variants": {
+        "complete": "/graphs/terragoat/complete.json",
+        "simplified": "/graphs/terragoat/simplified.json"
+      }
+    },
+    {
+      "name": "rag_bedrock_agent",
+      "variants": {
+        "complete": "/graphs/rag_bedrock_agent/complete.json"
+      }
+    },
+    {
+      "name": "sra",
+      "variants": {
+        "complete": "/graphs/sra/complete.json"
+      }
+    }
+  ]
+}

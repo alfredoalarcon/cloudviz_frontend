@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Flex, Image } from "@chakra-ui/react";
-import { GroupLayout } from "../constants";
+import { GroupLayout } from "../utils/constants";
 import { useAppContext } from "../context/AppContext";
 import { NodeResizer } from "@xyflow/react";
 

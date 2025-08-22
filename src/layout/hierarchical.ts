@@ -3,7 +3,7 @@
 // Fixed: positions stay RELATIVE for children (no parent offset accumulation).
 
 import ELK from "elkjs/lib/elk.bundled.js";
-import { Graph } from "./types";
+import { Graph } from "../utils/types";
 import { Node, Edge, InternalNode } from "@xyflow/react";
 
 /**
@@ -74,7 +74,7 @@ function mapById<T extends { id: string }>(arr: T[]): Map<string, T> {
  * Returns a new Graph with updated node positions and sizes (for groups/compounds).
  * Edges are returned as-is (React Flow will render them normally).
  */
-export async function layoutNodesForReactFlow(
+export async function layoutNodesHierarchical(
   raw: Graph,
   {
     direction = "DOWN",
@@ -205,7 +205,7 @@ export async function layout(
   edges: Edge[],
   options?: LayoutOptions
 ): Promise<{ nodes: Node[]; edges: Edge[] }> {
-  const { nodes: nn, edges: ee } = await layoutNodesForReactFlow(
+  const { nodes: nn, edges: ee } = await layoutNodesHierarchical(
     { nodes, edges },
     options
   );

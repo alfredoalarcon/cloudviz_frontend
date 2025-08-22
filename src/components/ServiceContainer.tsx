@@ -1,7 +1,7 @@
 import React from "react";
 import { NodeProps, Node } from "@xyflow/react";
 import GroupContainer from "./GroupContainer";
-import { S3_ICONS_URL } from "../constants";
+import { S3_ICONS_URL } from "../utils/constants";
 
 type ServiceData = {
   resource_type: string;

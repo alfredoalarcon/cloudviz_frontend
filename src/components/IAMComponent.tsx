@@ -1,7 +1,7 @@
 import React from "react";
 import { NodeProps, Node, Handle, Position } from "@xyflow/react";
 import { Box, Flex, Image } from "@chakra-ui/react";
-import { handleStyle, S3_ICONS_URL, resourceLayout } from "../constants";
+import { handleStyle, S3_ICONS_URL, resourceLayout } from "../utils/constants";
 import { useAppContext } from "../context/AppContext";
 
 type IAMData = {

@@ -1,6 +1,6 @@
 import React from "react";
 import { NodeProps, Node } from "@xyflow/react";
-import { S3_ICONS_URL } from "../constants";
+import { S3_ICONS_URL } from "../utils/constants";
 import GroupContainer from "./GroupContainer";
 
 type SubnetData = {

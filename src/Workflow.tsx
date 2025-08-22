@@ -11,8 +11,8 @@ import "@xyflow/react/dist/style.css";
 import { useAppContext } from "./context/AppContext";
 import type { NodeChange } from "@xyflow/react";
 import { Box } from "@chakra-ui/react";
-import { updateEdges, layoutNodes, updateNodes } from "./utils";
-import { nodeTypes } from "./constants";
+import { updateEdges, layoutNodes, updateNodes } from "./utils/utils";
+import { nodeTypes } from "./utils/constants";
 import HoverDock from "./components/HoverDock";
 
 const rfStyle = {
@@ -31,23 +31,13 @@ function Flow() {
     selectedNodeId,
     hoveredNodeId,
   } = useAppContext();
+  console.log({ nodes, edges });
 
   // Track if nodes have been initialized
   const nodesInitialized = useNodesInitialized();
 
   // Get react flow instance
   const { getInternalNode, fitView } = useReactFlow();
-
-  // Layout nodes
-  useEffect(() => {
-    async function layoutNodesEffect() {
-      const { nodes, edges } = await layoutNodes();
-      const newNodes = updateNodes(nodes, displayIam);
-      setNodes(newNodes);
-      setEdges(edges);
-    }
-    layoutNodesEffect();
-  }, []);
 
   // Update nodes
   useEffect(() => {

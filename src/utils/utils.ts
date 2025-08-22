@@ -1,10 +1,12 @@
 import { Edge, InternalNode, Node, MarkerType } from "@xyflow/react";
-import { assignClosestHandles } from "../layout";
-import { edgeLayout } from "../constants";
-import graphData from "../data/dg_parents_generated_2.json";
-import { Graph } from "../types";
-import { layoutNodesForReactFlow } from "../layout";
-import { resourceLayout, clusterPadding } from "../constants";
+import { assignClosestHandles } from "../layout/hierarchical";
+import { edgeLayout } from "./constants";
+import { Graph, graphType } from "./types";
+import { layoutNodesHierarchical } from "../layout/hierarchical";
+import { layoutNodesWithElk } from "../layout/nonHierarchicalElk";
+import { layoutNodesWithD3 } from "../layout/nonHierarchicalD3";
+import { resourceLayout, clusterPadding } from "./constants";
+import type { GraphManifest } from "./types";
 
 // Update edge handles based on node positions, adds an animated property for equality edges
 export function updateEdges(
@@ -96,19 +98,43 @@ export function updateEdges(
   } else return edges;
 }
 
-export async function layoutNodes(): Promise<Graph> {
-  const { nodes, edges } = await layoutNodesForReactFlow(graphData as Graph, {
-    direction: "DOWN",
-    childDefaultSize: {
-      width: resourceLayout.width,
-      height: resourceLayout.height,
-    },
-    clusterPadding: `[top=${clusterPadding.top},left=${clusterPadding.left},bottom=${clusterPadding.bottom},right=${clusterPadding.right}]`,
-    viewportSize: {
-      width: window.innerWidth,
-      height: window.innerHeight,
-    },
-  });
+export async function layoutNodes(
+  graphData: Graph,
+  graphType: graphType,
+  nonHierarchicalAlgo: "elk" | "d3" = "d3"
+): Promise<Graph> {
+  let nodes: Node[] = graphData.nodes;
+  let edges: Edge[] = graphData.edges;
+
+  const viewport = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+    padding: 32,
+  };
+
+  if (graphType === "simplified") {
+    ({ nodes, edges } = await layoutNodesHierarchical(graphData, {
+      direction: "DOWN",
+      childDefaultSize: {
+        width: resourceLayout.width,
+        height: resourceLayout.height,
+      },
+      clusterPadding: `[top=${clusterPadding.top},left=${clusterPadding.left},bottom=${clusterPadding.bottom},right=${clusterPadding.right}]`,
+      viewportSize: { width: viewport.width, height: viewport.height },
+    }));
+  } else {
+    if (nonHierarchicalAlgo === "elk") {
+      nodes = await layoutNodesWithElk(nodes, edges, viewport, {
+        direction: "RIGHT",
+      });
+    } else {
+      nodes = await layoutNodesWithD3(nodes, edges, viewport, {
+        chargeStrength: -500,
+        linkDistance: 140,
+        iterations: 350,
+      });
+    }
+  }
 
   return { nodes, edges };
 }
@@ -137,4 +163,24 @@ export function updateNodes(
 
   // @ts-ignore
   return updatedNodes;
+}
+
+// Fetch graph data based on the selected graph and type
+export async function fetchGraphData(
+  graphManifest: GraphManifest,
+  selectedGraphName: string,
+  selGraphType: string
+) {
+  // Resolve URI to fetch
+  const graphUri = graphManifest.graphs.find(
+    (graph) => graph.name === selectedGraphName
+  )?.variants[selGraphType];
+
+  // Fetch and initialize graph data
+  let newGraph = { nodes: [] as Node[], edges: [] as Edge[] };
+  if (graphUri) {
+    newGraph = await fetch(graphUri).then((res) => res.json());
+  }
+
+  return newGraph;
 }
