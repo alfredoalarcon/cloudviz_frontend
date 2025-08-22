@@ -1,8 +1,8 @@
 // utils.ts
 // ELK-aware layout for React Flow graphs, including edges and multiple handles -> ELK ports.
 // Fixed: positions stay RELATIVE for children (no parent offset accumulation).
-// Behavior: identical to original when all parents exist.
-// If some parentId has no corresponding node, we create ELK-only virtual groups to keep siblings together.
+// Hidden nodes are excluded from ELK but kept in the return value with a placeholder position (required by React Flow).
+// If some parentId has no corresponding visible parent (missing or hidden), we create ELK-only virtual groups.
 
 import ELK from "elkjs/lib/elk.bundled.js";
 import { Graph } from "../utils/types";
@@ -16,7 +16,6 @@ export type LayoutOptions = {
   sizeByNode?: (n: Node) => { width: number; height: number } | undefined;
   clusterPadding?: string; // e.g., "24" or "24,24,24,24"
   elkOptionsOverride?: Record<string, string>;
-  // No new public options needed — behavior changes only when parents are missing.
 };
 
 type ElkNode = {
@@ -32,8 +31,8 @@ type ElkNode = {
 
 type ElkEdge = {
   id: string;
-  sources: string[]; // ["nodeId"] or ["nodeId:portId"]
-  targets: string[]; // ["nodeId"] or ["nodeId:portId"]
+  sources: string[];
+  targets: string[];
 };
 
 type ElkGraph = {
@@ -51,13 +50,6 @@ function mapById<T extends { id: string }>(arr: T[]): Map<string, T> {
   return m;
 }
 
-/**
- * Layout a React Flow graph with ELK (layered). Takes edges into account and
- * respects multiple handles by creating ELK ports.
- *
- * Returns a new Graph with updated node positions and sizes (for groups/compounds).
- * Edges are returned as-is (React Flow will render them normally).
- */
 export async function layoutNodesHierarchical(
   raw: Graph,
   {
@@ -70,11 +62,11 @@ export async function layoutNodesHierarchical(
   }: LayoutOptions & { viewportSize?: { width: number; height: number } } = {}
 ): Promise<Graph> {
   const elk = new ELK();
+  const isHidden = (n: Node) => Boolean((n as any).hidden);
 
-  // compute aspect ratio from viewport -------------------------------
+  // compute aspect ratio from viewport
   let aspectRatio: number | undefined;
   if (viewportSize?.width && viewportSize?.height) {
-    // 1.6 is a magic factor to make the view wider (tuned)
     aspectRatio = (1.3 * viewportSize.width) / viewportSize.height;
   } else if (
     typeof window !== "undefined" &&
@@ -85,17 +77,22 @@ export async function layoutNodesHierarchical(
   }
 
   // Clone to avoid mutating the caller’s arrays.
-  const nodes = raw.nodes.map((n) => ({ ...n, position: { ...n.position } }));
+  // IMPORTANT: Keep position on ALL nodes to satisfy React Flow typing & runtime.
+  const nodes = raw.nodes.map((n) => ({
+    ...n,
+    position: n.position ?? { x: 0, y: 0 },
+  }));
   const edges = raw.edges.map((e) => ({ ...e }));
 
   const nodeById = mapById(nodes);
 
-  // Build children map (compound support via parentId)
-  const childrenOf = new Map<string | undefined, Node[]>();
+  // Build children map for VISIBLE nodes only (hidden are excluded from ELK).
+  const childrenOfVisible = new Map<string | undefined, Node[]>();
   for (const n of nodes) {
+    if (isHidden(n)) continue;
     const key = n.parentId ?? undefined;
-    if (!childrenOf.has(key)) childrenOf.set(key, []);
-    childrenOf.get(key)!.push(n);
+    if (!childrenOfVisible.has(key)) childrenOfVisible.set(key, []);
+    childrenOfVisible.get(key)!.push(n);
   }
 
   const getLeafSize = (n: Node) => {
@@ -110,9 +107,9 @@ export async function layoutNodesHierarchical(
   };
 
   const buildElkSubtree = (parentId?: string): ElkNode[] => {
-    const kids = childrenOf.get(parentId) ?? [];
+    const kids = childrenOfVisible.get(parentId) ?? [];
     return kids.map<ElkNode>((n) => {
-      const grandkids = childrenOf.get(n.id) ?? [];
+      const grandkids = childrenOfVisible.get(n.id) ?? [];
       const isCompound = grandkids.length > 0;
 
       if (isCompound) {
@@ -132,34 +129,40 @@ export async function layoutNodesHierarchical(
     });
   };
 
-  const elkEdges: ElkEdge[] = edges.map((e) => ({
-    id: e.id ?? `${e.source}-${e.target}`,
-    sources: [e.source],
-    targets: [e.target],
-  }));
+  // ELK edges: include ONLY if BOTH endpoints exist and are visible.
+  const elkEdges: ElkEdge[] = edges
+    .filter((e) => {
+      const s = nodeById.get(e.source);
+      const t = nodeById.get(e.target);
+      if (!s || !t) return false;
+      return !isHidden(s) && !isHidden(t);
+    })
+    .map((e) => ({
+      id: e.id ?? `${e.source}-${e.target}`,
+      sources: [e.source],
+      targets: [e.target],
+    }));
 
-  // ---- Detect missing parents. Only change behavior if any are missing.
-  const nodeIds = new Set(nodes.map((n) => n.id));
-  const referencedParents = Array.from(childrenOf.keys()).filter(
+  // Virtual parents for missing or hidden parents of visible nodes.
+  const referencedParents = Array.from(childrenOfVisible.keys()).filter(
     (k): k is string => typeof k === "string"
   );
-  const virtualParentIds = referencedParents.filter((pid) => !nodeIds.has(pid));
-  const hasMissingParents = virtualParentIds.length > 0;
+  const virtualParentIds = referencedParents.filter((pid) => {
+    const p = nodeById.get(pid);
+    return !p || isHidden(p);
+  });
+  const hasVirtualParents = virtualParentIds.length > 0;
 
-  // Build ELK children:
-  // - If no parents are missing: original behavior (root = buildElkSubtree(undefined))
-  // - If some parents are missing: create ELK-only virtual compounds to keep those siblings grouped
   const rootChildren: ElkNode[] = [];
-
-  // Always include real root subtree as before
   rootChildren.push(...buildElkSubtree(undefined));
 
-  if (hasMissingParents) {
+  if (hasVirtualParents) {
     for (const vpid of virtualParentIds) {
-      const kids = childrenOf.get(vpid) ?? [];
-      // Group all children under an ELK-only container so they lay out together
+      const kids = childrenOfVisible.get(vpid) ?? [];
+      if (kids.length === 0) continue;
+
       const compoundKids: ElkNode[] = kids.map((n) => {
-        const grand = childrenOf.get(n.id) ?? [];
+        const grand = childrenOfVisible.get(n.id) ?? [];
         const isCompound = grand.length > 0;
         if (isCompound) {
           return {
@@ -177,7 +180,7 @@ export async function layoutNodesHierarchical(
       });
 
       rootChildren.push({
-        id: `__virtual__${vpid}`, // ELK-only container; won’t be written back
+        id: `__virtual__${vpid}`,
         children: compoundKids,
         layoutOptions: {
           ...(clusterPadding
@@ -190,7 +193,7 @@ export async function layoutNodesHierarchical(
 
   const elkGraph: ElkGraph = {
     id: "root",
-    children: hasMissingParents ? rootChildren : buildElkSubtree(undefined),
+    children: hasVirtualParents ? rootChildren : buildElkSubtree(undefined),
     edges: elkEdges,
     layoutOptions: {
       "elk.algorithm": "layered",
@@ -212,6 +215,7 @@ export async function layoutNodesHierarchical(
 
   const layouted = (await elk.layout(elkGraph)) as ElkGraph;
 
+  // Write back positions/sizes for visible nodes included in ELK.
   const applyPositions = (elkNode: ElkNode) => {
     const n = nodeById.get(elkNode.id);
     if (n) {
@@ -221,8 +225,10 @@ export async function layoutNodesHierarchical(
     }
     elkNode.children?.forEach(applyPositions);
   };
-
   for (const child of layouted.children ?? []) applyPositions(child);
+
+  // NOTE: Do NOT remove 'position' from hidden nodes — React Flow requires it.
+  // If you truly must strip it for storage, do it AFTER calling React Flow (not before).
 
   return { nodes, edges };
 }
@@ -243,7 +249,6 @@ export async function layout(
 
 //  ------------ Edge port positioning -------------------
 
-// helper: get all handle center points in absolute coords for a node
 function getHandlePoints(
   node: InternalNode,
   kind: "source" | "target"
@@ -252,7 +257,6 @@ function getHandlePoints(
   const py = node.internals.positionAbsolute.y;
 
   const bounds = node.internals.handleBounds?.[kind] ?? [];
-  // bounds[].x/y are relative to the node's top-left; width/height are the handle box
   return bounds.map((h) => ({
     id: h.id ?? null,
     x: px + h.x + h.width / 2,
@@ -263,7 +267,7 @@ function getHandlePoints(
 function dist2(a: { x: number; y: number }, b: { x: number; y: number }) {
   const dx = a.x - b.x;
   const dy = a.y - b.y;
-  return dx * dx + dy * dy; // squared distance (no sqrt needed)
+  return dx * dx + dy * dy;
 }
 
 export function assignClosestHandles(
@@ -275,7 +279,6 @@ export function assignClosestHandles(
 
   if (sPts.length === 0 || tPts.length === 0) {
     return { sourceHandle: undefined, targetHandle: undefined };
-    // React Flow will use the node’s default handle.
   }
 
   let best: {

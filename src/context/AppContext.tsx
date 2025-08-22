@@ -64,6 +64,7 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
 
   // Keep track on hovered node
   const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null);
+
   // ---------- Graph type selection options -----------
 
   // Object holding manifest for available graphs
@@ -88,7 +89,7 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
   // Resize activated
   const [isResizing, setIsResizing] = useState(false);
 
-  // ---------------------------- Effects ----------------------------
+  // -------------------------- Effects ----------------------------
 
   // Load available graphs (graphManifest) from local storage and set the first value
   useEffect(() => {
@@ -112,12 +113,11 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
           selectedGraphName,
           selGraphType
         );
+        // Update nodes
+        newGraph.nodes = updateNodes(newGraph.nodes, selGraphType, displayIam);
 
         // Layout nodes
         newGraph = await layoutNodes(newGraph, selGraphType);
-
-        // Update nodes
-        newGraph.nodes = updateNodes(newGraph.nodes, selGraphType, displayIam);
 
         // Update state with new graph data
         setNodes(newGraph.nodes);
@@ -130,8 +130,12 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
 
   // Handle iamDisplay
   useEffect(() => {
-    const newNodes = updateNodes(nodes, selGraphType, displayIam);
-    setNodes(newNodes);
+    async function updateLayout() {
+      const newNodes = updateNodes(nodes, selGraphType, displayIam);
+      const graph = await layoutNodes({ nodes: newNodes, edges }, selGraphType);
+      setNodes(graph.nodes);
+    }
+    updateLayout();
   }, [displayIam]);
 
   // Update edges by computing handles and adding attributes

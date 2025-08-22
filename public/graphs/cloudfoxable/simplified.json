@@ -1,0 +1,1478 @@
+{
+  "nodes": [
+    {
+      "id": "AWS Cloud",
+      "type": "aws_container",
+      "data": {
+        "resource_name": "AWS Cloud",
+        "resource_type": "aws_container",
+        "resource_icon": "aws/Architecture-Group-Icons_07312025/AWS-Cloud-logo_32.svg"
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "Lambda",
+      "type": "service_container",
+      "data": {
+        "resource_name": "Lambda",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_AWS-Lambda_48.svg"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "Elasticsearch",
+      "type": "service_container",
+      "data": {
+        "resource_name": "Elasticsearch",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Analytics/48/Arch_Amazon-OpenSearch-Service_48.svg"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "IAM Service",
+      "type": "service_container",
+      "data": {
+        "resource_name": "IAM Service",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg"
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "Db",
+      "type": "service_container",
+      "data": {
+        "resource_name": "Db",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-RDS_48.svg"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "S3",
+      "type": "service_container",
+      "data": {
+        "resource_name": "S3",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "VPC Service",
+      "type": "service_container",
+      "data": {
+        "resource_name": "VPC Service",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Group-Icons_07312025/AWS-Cloud_32.svg"
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "Instance",
+      "type": "service_container",
+      "data": {
+        "resource_name": "Instance",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_Amazon-EC2_48.svg"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_vpc.cloudfox",
+      "type": "vpc",
+      "data": {
+        "resource_type": "aws_vpc",
+        "resource_name": "cloudfox",
+        "resource_service": "vpc",
+        "resource_icon": "aws/Architecture-Group-Icons_07312025/AWS-Cloud_32.svg",
+        "cidr_block": "10.0.0.0/16",
+        "enable_dns_support": "true",
+        "enable_dns_hostnames": "true",
+        "instance_tenancy": "default",
+        "tags": {
+          "Name": "cloudfox"
+        }
+      },
+      "parentId": "VPC Service",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_subnet.cloudfox-operational",
+      "type": "subnet",
+      "data": {
+        "resource_type": "aws_subnet",
+        "resource_name": "cloudfox-operational",
+        "resource_service": "subnet",
+        "resource_icon": "aws/Category-Icons_07312025/Arch-Category_48/Arch-Category_Networking-Content-Delivery_48.svg",
+        "count": "${length(data.aws_availability_zones.available.names)}",
+        "vpc_id": "${aws_vpc.cloudfox.id}",
+        "cidr_block": "${cidrsubnet(\"10.0.0.0/16\", 8, count.index)}",
+        "map_public_ip_on_launch": "true",
+        "availability_zone": "${element(data.aws_availability_zones.available.names, count.index)}",
+        "tags": {
+          "Name": "cloudfox Operational Subnet ${count.index}"
+        },
+        "is_public": false
+      },
+      "parentId": "aws_vpc.cloudfox",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_user.ctf-starting-user",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_user",
+        "resource_name": "ctf-starting-user",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "ctf-starting-user",
+        "path": "/",
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.its-another-secret-role",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "its-another-secret-role",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "Ertz",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Principal\": {\"AWS\": [\"arn:aws:iam:::user/${module.enabled.ctf_starting_user_name}\"]}, \"Action\": [\"sts:AssumeRole\"]}]})}",
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.Alexander-Arnold",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "Alexander-Arnold",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "Alexander-Arnold",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Principal\": {\"AWS\": [\"arn:aws:iam:::user/${module.enabled.ctf_starting_user_name}\"]}, \"Action\": [\"sts:AssumeRole\"]}]})}",
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.execution",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "execution",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "viniciusjr",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Principal\": {\"AWS\": [\"${module.enabled.ctf_starting_user_arn}\"]}, \"Action\": [\"sts:AssumeRole\"]}]})}",
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.executioner-role",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "executioner-role",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "ream",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Action\": \"sts:AssumeRole\", \"Effect\": \"Allow\", \"Sid\": \"\", \"Principal\": {\"Service\": \"lambda.amazonaws.com\"}}]})}",
+        "managed_policy_arns": [
+          "${aws_iam_policy.executioner-policy.arn}",
+          "${aws_iam_policy.executioner-secret-policy.arn}"
+        ],
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.event_bridge_sns_rce_role",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "event_bridge_sns_rce_role",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "event_bridge_sns_rce_role",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Principal\": {\"Service\": \"scheduler.amazonaws.com\"}, \"Action\": \"sts:AssumeRole\"}]})}",
+        "tags": {
+          "Name": "event_bridge_sns_rce_role",
+          "Environment": "cloudfox"
+        },
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.root-role",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "root-role",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "Kent",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Principal\": {\"AWS\": [\"${module.enabled.ctf_starting_user_arn}\"]}, \"Action\": [\"sts:AssumeRole\"]}]})}",
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.privesc-AssumeRole-intermediate-role",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "privesc-AssumeRole-intermediate-role",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "Beard",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Action\": \"sts:AssumeRole\", \"Effect\": \"Allow\", \"Sid\": \"\", \"Principal\": {\"AWS\": \"${format(\"arn:aws:iam::%s:root\", None)}\"}}]})}",
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.privesc-AssumeRole-ending-role",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "privesc-AssumeRole-ending-role",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "Lasso",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Action\": \"sts:AssumeRole\", \"Effect\": \"Allow\", \"Sid\": \"\", \"Principal\": {\"AWS\": \"${aws_iam_role.privesc-AssumeRole-intermediate-role.arn}\"}}]})}",
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.double_tap_secret",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "double_tap_secret",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "double_tap_secret",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Principal\": {\"Service\": \"ec2.amazonaws.com\"}, \"Action\": \"sts:AssumeRole\"}]})}",
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.ec2_privileged",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "ec2_privileged",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "ec2_privileged",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Principal\": {\"Service\": \"ec2.amazonaws.com\"}, \"Action\": \"sts:AssumeRole\"}]})}",
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.double_tap_xsdf",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "double_tap_xsdf",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "double_tap_xsdf",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Principal\": {\"AWS\": \"${module.enabled.ctf_starting_user_arn}\"}, \"Action\": \"sts:AssumeRole\"}]})}",
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.lambda_ec2",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "lambda_ec2",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "lambda_ec2",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Principal\": {\"Service\": \"lambda.amazonaws.com\"}, \"Action\": \"sts:AssumeRole\"}]})}",
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.double_tap_asdf",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "double_tap_asdf",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "double_tap_asdf",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Principal\": {\"AWS\": \"${module.enabled.ctf_starting_user_arn}\"}, \"Action\": \"sts:AssumeRole\"}]})}",
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.double_tap_esdf",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "double_tap_esdf",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "double_tap_esdf",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Principal\": {\"AWS\": \"${module.enabled.ctf_starting_user_arn}\"}, \"Action\": \"sts:AssumeRole\"}]})}",
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.double_tap_qsdf",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "double_tap_qsdf",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "double_tap_qsdf",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Principal\": {\"AWS\": \"${module.enabled.ctf_starting_user_arn}\"}, \"Action\": \"sts:AssumeRole\"}]})}",
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.double_tap_zsdf",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "double_tap_zsdf",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "double_tap_zsdf",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Principal\": {\"AWS\": \"${module.enabled.ctf_starting_user_arn}\"}, \"Action\": \"sts:AssumeRole\"}]})}",
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.ramos",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "ramos",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "ramos",
+        "assume_role_policy": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Principal": {
+                "AWS": "${module.enabled.ctf_starting_user_arn}"
+              },
+              "Effect": "Allow",
+              "Sid": ""
+            }
+          ]
+        },
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.pain",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "pain",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "christian_pulisic",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Principal\": {\"AWS\": [\"arn:aws:iam:::user/${module.enabled.ctf_starting_user_name}\"]}, \"Action\": [\"sts:AssumeRole\"]}]})}",
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.pain2",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "pain2",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "tab_ramos",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Principal\": {\"Service\": [\"cloudformation.amazonaws.com\"]}, \"Action\": [\"sts:AssumeRole\"]}]})}",
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.pain3",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "pain3",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "brian_mcbride",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Principal\": {\"Service\": [\"lambda.amazonaws.com\"]}, \"Action\": [\"sts:AssumeRole\"]}]})}",
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.pain4",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "pain4",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "landon_donovan",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Principal\": {\"Service\": [\"ec2.amazonaws.com\"]}, \"Action\": [\"sts:AssumeRole\"]}]})}",
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.reinier",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "reinier",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "reinier",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Action\": \"sts:AssumeRole\", \"Effect\": \"Allow\", \"Sid\": \"\", \"Principal\": {\"AWS\": [\"arn:aws:iam:::user/${module.enabled.ctf_starting_user_name}\"]}}]})}",
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.deployment_automation",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "deployment_automation",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "deployment_automation",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Action\": \"sts:AssumeRole\", \"Effect\": \"Allow\", \"Sid\": \"\", \"Principal\": {\"AWS\": [\"arn:aws:iam:::role/reinier\"]}}]})}",
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.secret_reader",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "secret_reader",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "secret_reader",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Action\": \"sts:AssumeRole\", \"Effect\": \"Allow\", \"Sid\": \"\", \"Principal\": {\"AWS\": [\"arn:aws:iam:::role/deployment_automation\"]}}]})}",
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.furls1",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "furls1",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "aaronson",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Action\": \"sts:AssumeRole\", \"Effect\": \"Allow\", \"Sid\": \"\", \"Principal\": {\"Service\": \"lambda.amazonaws.com\"}}]})}",
+        "managed_policy_arns": [
+          "${aws_iam_policy.furls1.arn}"
+        ],
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.furls2",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "furls2",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "sauerbrunn",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Action\": \"sts:AssumeRole\", \"Effect\": \"Allow\", \"Sid\": \"\", \"Principal\": {\"Service\": \"lambda.amazonaws.com\"}}]})}",
+        "managed_policy_arns": [
+          "${aws_iam_policy.furls2.arn}"
+        ],
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.mewis",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "mewis",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "mewis",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Action\": \"sts:AssumeRole\", \"Effect\": \"Allow\", \"Sid\": \"\", \"Principal\": {\"AWS\": \"${module.enabled.ctf_starting_user_arn}\"}}]})}",
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.event_bridge_sns_role",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "event_bridge_sns_role",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "spy-sns-role",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Principal\": {\"Service\": \"scheduler.amazonaws.com\"}, \"Action\": \"sts:AssumeRole\"}]})}",
+        "tags": {
+          "Name": "event_bridge_sns_role",
+          "Environment": "cloudfox"
+        },
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.producer",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "producer",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "producer",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Action\": \"sts:AssumeRole\", \"Effect\": \"Allow\", \"Sid\": \"\", \"Principal\": {\"Service\": \"lambda.amazonaws.com\"}}]})}",
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.pepi",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "pepi",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "pepi",
+        "assume_role_policy": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Sid": "AllowCTFStartingUserAssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": "${module.enabled.ctf_starting_user_arn}"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.consumer",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "consumer",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "swanson",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Action\": \"sts:AssumeRole\", \"Effect\": \"Allow\", \"Sid\": \"\", \"Principal\": {\"Service\": \"lambda.amazonaws.com\"}}]})}",
+        "managed_policy_arns": [
+          "${aws_iam_policy.lambda-sqs-secret-policy.arn}"
+        ],
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.wyatt",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "wyatt",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "wyatt",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Action\": \"sts:AssumeRole\", \"Effect\": \"Allow\", \"Sid\": \"\", \"Principal\": {\"Service\": \"ec2.amazonaws.com\"}}]})}",
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.bastion",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "bastion",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "reyna",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Action\": \"sts:AssumeRole\", \"Effect\": \"Allow\", \"Sid\": \"\", \"Principal\": {\"Service\": \"ec2.amazonaws.com\"}}]})}",
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.lambda_execution_role",
+      "type": "iam",
+      "parentId": "IAM Service",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "lambda_execution_role",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "lambda_execution_role",
+        "assume_role_policy": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              },
+              "Effect": "Allow",
+              "Sid": ""
+            }
+          ]
+        },
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_s3_bucket.cloudfoxable-bucket1",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_s3_bucket",
+        "resource_name": "cloudfoxable-bucket1",
+        "resource_service": "s3",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg",
+        "bucket": "cloudfoxable-bucket1-${random_string.resource-suffix.result}",
+        "force_destroy": true,
+        "tags": {
+          "Name": "bucket1-${random_string.resource-suffix.result}"
+        },
+        "has_security_groups": false,
+        "sg_rules": [],
+        "iam_role_id": null
+      },
+      "parentId": "S3",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_s3_bucket.cloudfoxable-bucket2",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_s3_bucket",
+        "resource_name": "cloudfoxable-bucket2",
+        "resource_service": "s3",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg",
+        "bucket": "cloudfoxable-bucket2-${random_string.resource-suffix.result}",
+        "force_destroy": true,
+        "tags": {
+          "Name": "bucket2-${random_string.resource-suffix.result}"
+        },
+        "has_security_groups": false,
+        "sg_rules": [],
+        "iam_role_id": null
+      },
+      "parentId": "S3",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_s3_bucket.cloudfoxable-bucket3",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_s3_bucket",
+        "resource_name": "cloudfoxable-bucket3",
+        "resource_service": "s3",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg",
+        "bucket": "cloudfoxable-bucket3-${random_string.resource-suffix.result}",
+        "force_destroy": true,
+        "tags": {
+          "Name": "bucket3-${random_string.resource-suffix.result}"
+        },
+        "has_security_groups": false,
+        "sg_rules": [],
+        "iam_role_id": null
+      },
+      "parentId": "S3",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_lambda_function.executioner",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_lambda_function",
+        "resource_name": "executioner",
+        "resource_service": "lambda",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_AWS-Lambda_48.svg",
+        "filename": "challenges/The topic is execution/data/lambda/lambda_function.zip",
+        "function_name": "executioner",
+        "role": "${aws_iam_role.executioner-role.arn}",
+        "handler": "index.handler",
+        "source_code_hash": null,
+        "runtime": "nodejs18.x",
+        "has_security_groups": false,
+        "sg_rules": [],
+        "iam_role_id": "aws_iam_role.executioner-role"
+      },
+      "parentId": "Lambda",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_instance.flag",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_instance",
+        "resource_name": "flag",
+        "resource_service": "instance",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_Amazon-EC2_48.svg",
+        "ami": null,
+        "instance_type": "t3a.nano",
+        "iam_instance_profile": "${aws_iam_instance_profile.double_tap_secret_profile.name}",
+        "security_groups": [
+          "instance_sg"
+        ],
+        "tags": {
+          "double_tap2": "true",
+          "Name": "double_tap"
+        },
+        "has_security_groups": false,
+        "sg_rules": [],
+        "iam_role_id": "aws_iam_role.double_tap_secret"
+      },
+      "parentId": "Instance",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_instance.ec2",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_instance",
+        "resource_name": "ec2",
+        "resource_service": "instance",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_Amazon-EC2_48.svg",
+        "ami": null,
+        "instance_type": "t3a.nano",
+        "iam_instance_profile": "${aws_iam_instance_profile.ec2_privileged_profile.name}",
+        "security_groups": [
+          "instance_sg"
+        ],
+        "tags": {
+          "double_tap1": "true",
+          "Name": "double_tap"
+        },
+        "has_security_groups": false,
+        "sg_rules": [],
+        "iam_role_id": "aws_iam_role.ec2_privileged"
+      },
+      "parentId": "Instance",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_s3_bucket.pain-s3",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_s3_bucket",
+        "resource_name": "pain-s3",
+        "resource_service": "s3",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg",
+        "bucket": "pain-s3-${random_string.resource-suffix.result}",
+        "has_security_groups": false,
+        "sg_rules": [],
+        "iam_role_id": null
+      },
+      "parentId": "S3",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_s3_bucket.deployment-automation",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_s3_bucket",
+        "resource_name": "deployment-automation",
+        "resource_service": "s3",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg",
+        "bucket": "deployment-automation-${random_string.resource-suffix.result}",
+        "force_destroy": true,
+        "tags": {
+          "Name": "deployment-automation-${random_string.resource-suffix.result}"
+        },
+        "has_security_groups": false,
+        "sg_rules": [],
+        "iam_role_id": null
+      },
+      "parentId": "S3",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_elasticsearch_domain.pat",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_elasticsearch_domain",
+        "resource_name": "pat",
+        "resource_service": "elasticsearch",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Analytics/48/Arch_Amazon-OpenSearch-Service_48.svg",
+        "domain_name": "pat",
+        "elasticsearch_version": 7.9,
+        "cluster_config": [
+          {
+            "instance_type": "t2.small.elasticsearch",
+            "instance_count": 1
+          }
+        ],
+        "ebs_options": [
+          {
+            "ebs_enabled": true,
+            "volume_size": 10
+          }
+        ],
+        "snapshot_options": [
+          {
+            "automated_snapshot_start_hour": 23
+          }
+        ],
+        "access_policies": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Principal\": {\"AWS\": \"*\"}, \"Action\": [\"es:ESHttpGet\", \"es:ESHttpHead\", \"es:ESHttpPost\"], \"Resource\": \"*\", \"Condition\": {\"IpAddress\": {\"aws:SourceIp\": \"'' != \"\" ? chomp('') : chomp(None)/32\"}}}]})}",
+        "has_security_groups": false,
+        "sg_rules": [],
+        "iam_role_id": null
+      },
+      "parentId": "Elasticsearch",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_lambda_function.furls1",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_lambda_function",
+        "resource_name": "furls1",
+        "resource_service": "lambda",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_AWS-Lambda_48.svg",
+        "filename": "challenges/Furls 1/data/lambda/lambda_function.zip",
+        "function_name": "furls1",
+        "role": "${aws_iam_role.furls1.arn}",
+        "handler": "index.handler",
+        "source_code_hash": null,
+        "runtime": "nodejs18.x",
+        "has_security_groups": false,
+        "sg_rules": [],
+        "iam_role_id": "aws_iam_role.furls1"
+      },
+      "parentId": "Lambda",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_lambda_function.auth-me",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_lambda_function",
+        "resource_name": "auth-me",
+        "resource_service": "lambda",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_AWS-Lambda_48.svg",
+        "filename": "challenges/Furls 2/data/lambda/lambda_function.zip",
+        "function_name": "auth-me",
+        "role": "${aws_iam_role.furls2.arn}",
+        "handler": "index.handler",
+        "source_code_hash": null,
+        "runtime": "nodejs18.x",
+        "environment": [
+          {
+            "variables": {
+              "lambda_http_user": "admin",
+              "lambda_http_password": "NotSummer2023"
+            }
+          }
+        ],
+        "has_security_groups": false,
+        "sg_rules": [],
+        "iam_role_id": "aws_iam_role.furls2"
+      },
+      "parentId": "Lambda",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_lambda_function.producer",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_lambda_function",
+        "resource_name": "producer",
+        "resource_service": "lambda",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_AWS-Lambda_48.svg",
+        "filename": "challenges/Middle/data/lambda/producer/lambda_function.zip",
+        "function_name": "producer",
+        "role": "${aws_iam_role.producer.arn}",
+        "handler": "lambda_function.lambda_handler",
+        "source_code_hash": null,
+        "runtime": "python3.10",
+        "environment": [
+          {
+            "variables": {
+              "TARGET_SQS_QUEUE_NAME": "${aws_sqs_queue.internal_message_bus.id}"
+            }
+          }
+        ],
+        "has_security_groups": false,
+        "sg_rules": [],
+        "iam_role_id": "aws_iam_role.producer"
+      },
+      "parentId": "Lambda",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_lambda_function.consumer",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_lambda_function",
+        "resource_name": "consumer",
+        "resource_service": "lambda",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_AWS-Lambda_48.svg",
+        "filename": "challenges/Middle/data/lambda/consumer/lambda_function.zip",
+        "function_name": "consumer",
+        "role": "${aws_iam_role.consumer.arn}",
+        "handler": "lambda_function.lambda_handler",
+        "source_code_hash": null,
+        "runtime": "python3.10",
+        "environment": [
+          {
+            "variables": {
+              "TARGET_SQS_QUEUE_NAME": "${aws_sqs_queue.internal_message_bus.id}"
+            }
+          }
+        ],
+        "has_security_groups": false,
+        "sg_rules": [],
+        "iam_role_id": "aws_iam_role.consumer"
+      },
+      "parentId": "Lambda",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_instance.wyatt",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_instance",
+        "resource_name": "wyatt",
+        "resource_service": "instance",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_Amazon-EC2_48.svg",
+        "ami": null,
+        "vpc_security_group_ids": [
+          "${aws_security_group.wyatt.id}"
+        ],
+        "iam_instance_profile": "${aws_iam_instance_profile.wyatt.name}",
+        "instance_type": "t3a.nano",
+        "subnet_id": "'${module.enabled.subnet_ids}'[0]",
+        "user_data": "#!/bin/bash\nyum update -y\namazon-linux-extras install docker -y\nservice docker start\nusermod -a -G docker ec2-user\nchkconfig docker on\nyum install -y git\ndocker pull sethsec/nodejs-ssrf-app\ndocker run -d -p 12380:12380 sethsec/nodejs-ssrf-app 12380",
+        "tags": {
+          "Name": "wyatt"
+        },
+        "has_security_groups": true,
+        "sg_rules": [
+          {
+            "type": "ingress",
+            "from_port": 12380,
+            "to_port": 12380,
+            "protocol": "tcp",
+            "cidr_blocks": [
+              "${module.enabled.vpc_cidr}"
+            ],
+            "sg_id": "aws_security_group.wyatt"
+          },
+          {
+            "type": "egress",
+            "from_port": 0,
+            "to_port": 65535,
+            "protocol": "tcp",
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ],
+            "sg_id": "aws_security_group.wyatt"
+          }
+        ],
+        "iam_role_id": "aws_iam_role.wyatt"
+      },
+      "parentId": "Instance",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_instance.bastion",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_instance",
+        "resource_name": "bastion",
+        "resource_service": "instance",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_Amazon-EC2_48.svg",
+        "ami": null,
+        "instance_type": "t3a.nano",
+        "subnet_id": "'${module.enabled.subnet_ids}'[0]",
+        "iam_instance_profile": "${aws_iam_instance_profile.bastion.name}",
+        "associate_public_ip_address": true,
+        "vpc_security_group_ids": [
+          "${aws_security_group.intra-sg-access.id}"
+        ],
+        "tags": {
+          "Name": "bastion"
+        },
+        "has_security_groups": true,
+        "sg_rules": [
+          {
+            "type": "egress",
+            "from_port": 0,
+            "to_port": 65535,
+            "protocol": "tcp",
+            "cidr_blocks": [
+              "0.0.0.0/0"
+            ],
+            "sg_id": "aws_security_group.intra-sg-access"
+          }
+        ],
+        "iam_role_id": "aws_iam_role.bastion"
+      },
+      "parentId": "Instance",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_s3_bucket.cloudfoxable-bastion",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_s3_bucket",
+        "resource_name": "cloudfoxable-bastion",
+        "resource_service": "s3",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg",
+        "bucket": "cloudfoxable-bastion-${random_string.resource-suffix.result}",
+        "force_destroy": true,
+        "tags": {
+          "Name": "cloudfoxable-bastion-${random_string.resource-suffix.result}"
+        },
+        "has_security_groups": false,
+        "sg_rules": [],
+        "iam_role_id": null
+      },
+      "parentId": "S3",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_db_instance.default",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_db_instance",
+        "resource_name": "default",
+        "resource_service": "db",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-RDS_48.svg",
+        "allocated_storage": 5,
+        "engine": "mysql",
+        "engine_version": 8.0,
+        "instance_class": "db.t3.micro",
+        "db_name": "cloudfox${random_string.resource-suffix.result}",
+        "identifier": "cloudfox-rds-${random_string.resource-suffix.result}",
+        "username": "admin",
+        "password": "${random_password.rds-password.result}",
+        "parameter_group_name": "default.mysql8.0",
+        "skip_final_snapshot": true,
+        "publicly_accessible": false,
+        "vpc_security_group_ids": [
+          "${module.challenge_bastion[0].intra-sg-access-id}"
+        ],
+        "db_subnet_group_name": "${aws_db_subnet_group.default.id}",
+        "has_security_groups": false,
+        "sg_rules": [],
+        "iam_role_id": null
+      },
+      "parentId": "Db",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_lambda_function.rds_sql_executor",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_lambda_function",
+        "resource_name": "rds_sql_executor",
+        "resource_service": "lambda",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_AWS-Lambda_48.svg",
+        "filename": "challenges/Variable/data/lambda_function.zip",
+        "function_name": "rds-sql-executor",
+        "runtime": "python3.9",
+        "handler": "lambda_function.lambda_handler",
+        "source_code_hash": "None-rds_zip.output_base64sha256",
+        "role": "${aws_iam_role.lambda_execution_role.arn}",
+        "timeout": 60,
+        "vpc_config": [
+          {
+            "subnet_ids": "${module.enabled.subnet_ids}",
+            "security_group_ids": [
+              "${module.challenge_bastion[0].intra-sg-access-id}"
+            ]
+          }
+        ],
+        "environment": [
+          {
+            "variables": {
+              "RDS_HOST": "${aws_db_instance.default.address}",
+              "RDS_USER": "${aws_db_instance.default.username}",
+              "RDS_PASSWORD": "${aws_db_instance.default.password}",
+              "RDS_DB_NAME": "${aws_db_instance.default.db_name}"
+            }
+          }
+        ],
+        "has_security_groups": false,
+        "sg_rules": [],
+        "iam_role_id": "aws_iam_role.lambda_execution_role"
+      },
+      "parentId": "Lambda",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "aws_lambda_function.executioner",
+      "target": "aws_iam_role.executioner-role",
+      "data": {
+        "type": "iam-res-role"
+      },
+      "id": "iam-res-role-aws_lambda_function.executioner-aws_iam_role.executioner-role"
+    },
+    {
+      "source": "aws_instance.flag",
+      "target": "aws_iam_role.double_tap_secret",
+      "data": {
+        "type": "iam-res-role"
+      },
+      "id": "iam-res-role-aws_instance.flag-aws_iam_role.double_tap_secret"
+    },
+    {
+      "source": "aws_instance.ec2",
+      "target": "aws_iam_role.ec2_privileged",
+      "data": {
+        "type": "iam-res-role"
+      },
+      "id": "iam-res-role-aws_instance.ec2-aws_iam_role.ec2_privileged"
+    },
+    {
+      "source": "aws_lambda_function.furls1",
+      "target": "aws_iam_role.furls1",
+      "data": {
+        "type": "iam-res-role"
+      },
+      "id": "iam-res-role-aws_lambda_function.furls1-aws_iam_role.furls1"
+    },
+    {
+      "source": "aws_lambda_function.auth-me",
+      "target": "aws_iam_role.furls2",
+      "data": {
+        "type": "iam-res-role"
+      },
+      "id": "iam-res-role-aws_lambda_function.auth-me-aws_iam_role.furls2"
+    },
+    {
+      "source": "aws_lambda_function.producer",
+      "target": "aws_iam_role.producer",
+      "data": {
+        "type": "iam-res-role"
+      },
+      "id": "iam-res-role-aws_lambda_function.producer-aws_iam_role.producer"
+    },
+    {
+      "source": "aws_lambda_function.consumer",
+      "target": "aws_iam_role.consumer",
+      "data": {
+        "type": "iam-res-role"
+      },
+      "id": "iam-res-role-aws_lambda_function.consumer-aws_iam_role.consumer"
+    },
+    {
+      "source": "aws_instance.wyatt",
+      "target": "aws_iam_role.wyatt",
+      "data": {
+        "type": "iam-res-role"
+      },
+      "id": "iam-res-role-aws_instance.wyatt-aws_iam_role.wyatt"
+    },
+    {
+      "source": "aws_instance.bastion",
+      "target": "aws_iam_role.bastion",
+      "data": {
+        "type": "iam-res-role"
+      },
+      "id": "iam-res-role-aws_instance.bastion-aws_iam_role.bastion"
+    },
+    {
+      "source": "aws_lambda_function.rds_sql_executor",
+      "target": "aws_iam_role.lambda_execution_role",
+      "data": {
+        "type": "iam-res-role"
+      },
+      "id": "iam-res-role-aws_lambda_function.rds_sql_executor-aws_iam_role.lambda_execution_role"
+    },
+    {
+      "source": "aws_lambda_function.rds_sql_executor",
+      "target": "aws_db_instance.default",
+      "data": {
+        "type": "other-res-res",
+        "label": [
+          "environment",
+          "0",
+          "variables",
+          "RDS_DB_NAME"
+        ]
+      },
+      "id": "other-res-res-aws_lambda_function.rds_sql_executor-aws_db_instance.default"
+    }
+  ]
+}

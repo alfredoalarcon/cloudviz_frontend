@@ -3,7 +3,8 @@
     {
       "name": "cloudfoxable",
       "variants": {
-        "complete": "/graphs/cloudfoxable/complete.json"
+        "complete": "/graphs/cloudfoxable/complete.json",
+        "simplified": "/graphs/cloudfoxable/simplified.json"
       }
     },
     {
@@ -16,13 +17,15 @@
     {
       "name": "rag_bedrock_agent",
       "variants": {
-        "complete": "/graphs/rag_bedrock_agent/complete.json"
+        "complete": "/graphs/rag_bedrock_agent/complete.json",
+        "simplified": "/graphs/rag_bedrock_agent/simplified.json"
       }
     },
     {
       "name": "sra",
       "variants": {
-        "complete": "/graphs/sra/complete.json"
+        "complete": "/graphs/sra/complete.json",
+        "simplified": "/graphs/sra/simplified.json"
       }
     }
   ]
