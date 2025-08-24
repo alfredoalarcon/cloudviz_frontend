@@ -154,7 +154,7 @@ export function updateNodes(
     // take into account display IAM
     if (node.type === "iam" && displayIam !== "res-role") {
       node.hidden = true;
-    } else if (node.id === "IAM Service" && displayIam !== "res-role") {
+    } else if (node.id === "IAM" && displayIam !== "res-role") {
       node.hidden = true;
     } else {
       node.hidden = false;

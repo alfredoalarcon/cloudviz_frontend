@@ -1,0 +1,516 @@
+{
+  "nodes": [
+    {
+      "id": "AWS Cloud",
+      "type": "aws_container",
+      "data": {
+        "resource_name": "AWS Cloud",
+        "resource_type": "aws_container",
+        "resource_icon": "aws/Architecture-Group-Icons_07312025/AWS-Cloud-logo_32.svg"
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "s3",
+      "type": "service_container",
+      "data": {
+        "resource_name": "s3",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "lambda",
+      "type": "service_container",
+      "data": {
+        "resource_name": "lambda",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_AWS-Lambda_48.svg"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "cloudwatch",
+      "type": "service_container",
+      "data": {
+        "resource_name": "cloudwatch",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Management-Governance/48/Arch_Amazon-CloudWatch_48.svg"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "accessanalyzer",
+      "type": "service_container",
+      "data": {
+        "resource_name": "accessanalyzer",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Resource-Icons_07312025/Res_Networking-Content-Delivery/Res_Amazon-VPC_Network-Access-Analyzer_48.svg"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "kms",
+      "type": "service_container",
+      "data": {
+        "resource_name": "kms",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Key-Management-Service_48.svg"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "dynamodb",
+      "type": "service_container",
+      "data": {
+        "resource_name": "dynamodb",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-DynamoDB_48.svg"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "IAM",
+      "type": "service_container",
+      "data": {
+        "resource_name": "IAM",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg"
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.management_account_parameters_lambda_role",
+      "type": "iam",
+      "parentId": "IAM",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "management_account_parameters_lambda_role",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "sra-management-account-parameters-lambda",
+        "description": "Role for 'sra-management-account-parameters-lambda' Lambda function",
+        "assume_role_policy": null,
+        "tags": {
+          "\"${var.sra_solution_tag_key}\"": "sra-common-prerequisites"
+        },
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.sra_execution_role",
+      "type": "iam",
+      "parentId": "IAM",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "sra_execution_role",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "sra-execution",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Action\": \"sts:AssumeRole\", \"Effect\": \"Allow\", \"Principal\": {\"AWS\": \"${format(\"arn:%s:iam::%s:root\", var.aws_partition, var.management_account_id)}\"}}]})}",
+        "tags": {
+          "sra-solution": "sra-create-deployment-roles"
+        },
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.configuration_role",
+      "type": "iam",
+      "parentId": "IAM",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "configuration_role",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "sra-securityhub-configuration",
+        "assume_role_policy": null,
+        "tags": {
+          "sra-solution": "sra-securityhub-org"
+        },
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.disable_macie_role",
+      "type": "iam",
+      "parentId": "IAM",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "disable_macie_role",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "sra-macie-org-disable",
+        "assume_role_policy": "${jsonencode({\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Principal\": {\"AWS\": \"${format(\"arn::iam::%s:root\", var.management_account_id)}\"}, \"Action\": \"sts:AssumeRole\", \"Condition\": {\"StringEquals\": {\"aws:PrincipalArn\": \"${format(\"arn::iam::%s:role/%s\", var.management_account_id, var.macie_org_lambda_role_name)}\"}}}]})}",
+        "tags": {
+          "sra-solution": "sra-macie-org"
+        },
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.inspector_configuration_role",
+      "type": "iam",
+      "parentId": "IAM",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "inspector_configuration_role",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "sra-inspector-configuration",
+        "assume_role_policy": null,
+        "tags": {
+          "sra-solution": "sra-inspector-org"
+        },
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_iam_role.iam_password_policy_lambda_role",
+      "type": "iam",
+      "parentId": "IAM",
+      "data": {
+        "resource_type": "aws_iam_role",
+        "resource_name": "iam_password_policy_lambda_role",
+        "resource_service": "iam",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg",
+        "name": "sra-iam-password-policy-lambda",
+        "assume_role_policy": null,
+        "tags": {
+          "sra-solution": "sra-iam-password-policy"
+        },
+        "policies": {}
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_lambda_function.management_account_parameters",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_lambda_function",
+        "resource_name": "management_account_parameters",
+        "resource_service": "lambda",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_AWS-Lambda_48.svg",
+        "function_name": "sra-management-account-parameters",
+        "source_code_hash": null,
+        "filename": null,
+        "handler": "app.terraform_handler",
+        "runtime": "python3.9",
+        "role": "${aws_iam_role.management_account_parameters_lambda_role.arn}",
+        "timeout": 300,
+        "memory_size": 128,
+        "environment": [
+          {
+            "variables": {
+              "LOG_LEVEL": "INFO",
+              "TAG_KEY": "sra-solution",
+              "TAG_VALUE": "sra-common-prerequisites",
+              "CONTROL_TOWER": "true",
+              "OTHER_REGIONS": "ct-regions",
+              "OTHER_SECURITY_ACCT": 111111111111,
+              "OTHER_LOG_ARCHIVE_ACCT": 222222222222
+            }
+          }
+        ],
+        "architectures": [
+          "arm64"
+        ],
+        "tags": {
+          "\"${var.sra_solution_tag_key}\"": "sra-common-prerequisites"
+        },
+        "has_security_groups": false,
+        "sg_rules": [],
+        "iam_role_id": "aws_iam_role.management_account_parameters_lambda_role"
+      },
+      "parentId": "lambda",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_cloudwatch_log_group.management_account_parameters",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_cloudwatch_log_group",
+        "resource_name": "management_account_parameters",
+        "resource_service": "cloudwatch",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Management-Governance/48/Arch_Amazon-CloudWatch_48.svg",
+        "count": 1,
+        "name": "/aws/lambda/${aws_lambda_function.management_account_parameters.function_name}",
+        "kms_key_id": "",
+        "retention_in_days": 14,
+        "has_security_groups": false,
+        "sg_rules": [],
+        "iam_role_id": null
+      },
+      "parentId": "cloudwatch",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_kms_key.sra_secrets_key",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_kms_key",
+        "resource_name": "sra_secrets_key",
+        "resource_service": "kms",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Key-Management-Service_48.svg",
+        "description": "SRA Secrets Key",
+        "enable_key_rotation": true,
+        "policy": null,
+        "has_security_groups": false,
+        "sg_rules": [],
+        "iam_role_id": null
+      },
+      "parentId": "kms",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_s3_bucket.sra_state_bucket",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_s3_bucket",
+        "resource_name": "sra_state_bucket",
+        "resource_service": "s3",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg",
+        "bucket": "sra-tfstate-files--",
+        "force_destroy": true,
+        "tags": {
+          "sra-solution": "sra-tfstate-s3"
+        },
+        "has_security_groups": false,
+        "sg_rules": [],
+        "iam_role_id": null
+      },
+      "parentId": "s3",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_dynamodb_table.terraform_locks",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_dynamodb_table",
+        "resource_name": "terraform_locks",
+        "resource_service": "dynamodb",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-DynamoDB_48.svg",
+        "name": "sra-tfstate-lock",
+        "billing_mode": "PAY_PER_REQUEST",
+        "hash_key": "LockID",
+        "attribute": [
+          {
+            "name": "LockID",
+            "type": "S"
+          }
+        ],
+        "has_security_groups": false,
+        "sg_rules": [],
+        "iam_role_id": null
+      },
+      "parentId": "dynamodb",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_accessanalyzer_analyzer.account_access_analyzer",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_accessanalyzer_analyzer",
+        "resource_name": "account_access_analyzer",
+        "resource_service": "accessanalyzer",
+        "resource_icon": "aws/Resource-Icons_07312025/Res_Networking-Content-Delivery/Res_Amazon-VPC_Network-Access-Analyzer_48.svg",
+        "analyzer_name": "sra-account-access-analyzer-",
+        "tags": {
+          "sra-solution": "sra-iam-access-analyzer"
+        },
+        "type": "ACCOUNT",
+        "has_security_groups": false,
+        "sg_rules": [],
+        "iam_role_id": null
+      },
+      "parentId": "accessanalyzer",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_accessanalyzer_analyzer.rOrganizationAccessAnalyzer",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_accessanalyzer_analyzer",
+        "resource_name": "rOrganizationAccessAnalyzer",
+        "resource_service": "accessanalyzer",
+        "resource_icon": "aws/Resource-Icons_07312025/Res_Networking-Content-Delivery/Res_Amazon-VPC_Network-Access-Analyzer_48.svg",
+        "analyzer_name": "sra-organization-access-analyzer",
+        "tags": {
+          "sra-solution": "sra-iam-access-analyzer"
+        },
+        "type": "ORGANIZATION",
+        "has_security_groups": false,
+        "sg_rules": [],
+        "iam_role_id": null
+      },
+      "parentId": "accessanalyzer",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_cloudwatch_log_group.lambda_log_group",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_cloudwatch_log_group",
+        "resource_name": "lambda_log_group",
+        "resource_service": "cloudwatch",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Management-Governance/48/Arch_Amazon-CloudWatch_48.svg",
+        "count": 1,
+        "name": "/aws/lambda/sra-iam-password-policy",
+        "retention_in_days": 14,
+        "kms_key_id": "",
+        "has_security_groups": false,
+        "sg_rules": [],
+        "iam_role_id": null
+      },
+      "parentId": "cloudwatch",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_lambda_function.iam_password_policy_lambda_function",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_lambda_function",
+        "resource_name": "iam_password_policy_lambda_function",
+        "resource_service": "lambda",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_AWS-Lambda_48.svg",
+        "function_name": "sra-iam-password-policy",
+        "description": "SRA Update IAM password policy",
+        "role": "${aws_iam_role.iam_password_policy_lambda_role.arn}",
+        "handler": "app.lambda_handler",
+        "memory_size": 512,
+        "runtime": "python3.9",
+        "timeout": 900,
+        "source_code_hash": null,
+        "filename": null,
+        "architectures": [
+          "arm64"
+        ],
+        "environment": [
+          {
+            "variables": {
+              "LOG_LEVEL": "INFO"
+            }
+          }
+        ],
+        "tags": {
+          "sra-solution": "sra-iam-password-policy"
+        },
+        "has_security_groups": false,
+        "sg_rules": [],
+        "iam_role_id": "aws_iam_role.iam_password_policy_lambda_role"
+      },
+      "parentId": "lambda",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "aws_lambda_function.management_account_parameters",
+      "target": "aws_iam_role.management_account_parameters_lambda_role",
+      "data": {
+        "type": "iam-res-role"
+      },
+      "id": "iam-res-role-aws_lambda_function.management_account_parameters-aws_iam_role.management_account_parameters_lambda_role"
+    },
+    {
+      "source": "aws_cloudwatch_log_group.management_account_parameters",
+      "target": "aws_lambda_function.management_account_parameters",
+      "data": {
+        "type": "other-res-res",
+        "label": [
+          "name"
+        ]
+      },
+      "id": "other-res-res-aws_cloudwatch_log_group.management_account_parameters-aws_lambda_function.management_account_parameters"
+    },
+    {
+      "source": "aws_lambda_function.iam_password_policy_lambda_function",
+      "target": "aws_iam_role.iam_password_policy_lambda_role",
+      "data": {
+        "type": "iam-res-role"
+      },
+      "id": "iam-res-role-aws_lambda_function.iam_password_policy_lambda_function-aws_iam_role.iam_password_policy_lambda_role"
+    }
+  ]
+}

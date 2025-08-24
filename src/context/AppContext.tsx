@@ -182,6 +182,7 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
     setSelGraphType,
     graphManifest,
   };
+
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
 
