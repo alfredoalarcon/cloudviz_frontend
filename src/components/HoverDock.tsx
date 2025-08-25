@@ -50,6 +50,8 @@ export default function HoverDock({
     setSelectedGraphName, // (name: string) => void
     selGraphType, // "simplified" | "complete"
     setSelGraphType, // (t: "simplified" | "complete") => void
+    displayEdgeLabels,
+    setDisplayEdgeLabels,
   } = useAppContext();
 
   const bg = useColorModeValue("white", "gray.800");
@@ -198,6 +200,14 @@ export default function HoverDock({
               <Radio value="off">Off</Radio>
             </HStack>
           </RadioGroup>
+
+          {/* Display Edge Labels */}
+          <Checkbox
+            isChecked={displayEdgeLabels}
+            onChange={(e) => setDisplayEdgeLabels(e.target.checked)}
+          >
+            <Text fontSize="lg">Display Edge Labels</Text>
+          </Checkbox>
 
           {/* Enable resizing */}
           <Checkbox

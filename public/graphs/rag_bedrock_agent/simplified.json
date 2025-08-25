@@ -14,40 +14,25 @@
       }
     },
     {
+      "id": "vpc",
+      "type": "service_container",
+      "data": {
+        "resource_name": "vpc",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Group-Icons_07312025/Virtual-private-cloud-VPC_32.svg"
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
       "id": "s3",
       "type": "service_container",
       "data": {
         "resource_name": "s3",
         "resource_type": "service_container",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg"
-      },
-      "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "lambda",
-      "type": "service_container",
-      "data": {
-        "resource_name": "lambda",
-        "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_AWS-Lambda_48.svg"
-      },
-      "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "cloudwatch",
-      "type": "service_container",
-      "data": {
-        "resource_name": "cloudwatch",
-        "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Management-Governance/48/Arch_Amazon-CloudWatch_48.svg"
       },
       "parentId": "AWS Cloud",
       "position": {
@@ -70,12 +55,40 @@
       }
     },
     {
-      "id": "opensearchserverless",
+      "id": "lambda",
       "type": "service_container",
       "data": {
-        "resource_name": "opensearchserverless",
+        "resource_name": "lambda",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_AWS-Lambda_48.svg"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "opensearch",
+      "type": "service_container",
+      "data": {
+        "resource_name": "opensearch",
         "resource_type": "service_container",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Analytics/48/Arch_Amazon-OpenSearch-Service_48.svg"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "bedrock",
+      "type": "service_container",
+      "data": {
+        "resource_name": "bedrock",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Artificial-Intelligence/48/Arch_Amazon-Bedrock_48.svg"
       },
       "parentId": "AWS Cloud",
       "position": {
@@ -97,13 +110,14 @@
       }
     },
     {
-      "id": "vpc",
+      "id": "cloudwatch",
       "type": "service_container",
       "data": {
-        "resource_name": "vpc",
+        "resource_name": "cloudwatch",
         "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Group-Icons_07312025/Virtual-private-cloud-VPC_32.svg"
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Management-Governance/48/Arch_Amazon-CloudWatch_48.svg"
       },
+      "parentId": "AWS Cloud",
       "position": {
         "x": 0,
         "y": 0
@@ -249,7 +263,7 @@
       "data": {
         "resource_type": "aws_opensearchserverless_collection",
         "resource_name": "sample_aoss_collection",
-        "resource_service": "opensearchserverless",
+        "resource_service": "opensearch",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Analytics/48/Arch_Amazon-OpenSearch-Service_48.svg",
         "name": "aoss-collection-usw2-prod",
         "type": "VECTORSEARCH",
@@ -262,7 +276,133 @@
         "sg_rules": [],
         "iam_role_id": null
       },
-      "parentId": "opensearchserverless",
+      "parentId": "opensearch",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_bedrockagent_agent.bedrock_agent",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_bedrockagent_agent",
+        "resource_name": "bedrock_agent",
+        "resource_service": "bedrock",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Artificial-Intelligence/48/Arch_Amazon-Bedrock_48.svg",
+        "agent_name": "bedrock-agent-usw2-prod",
+        "agent_resource_role_arn": "${module.roles.bedrock_agent_role_arn}",
+        "idle_session_ttl_in_seconds": 600,
+        "prepare_agent": true,
+        "customer_encryption_key_arn": "arn:aws:kms:us-west-2:XXXXXXXXXXXXX:key/1488f8c9-6443-4486-9927-8825278e3aad",
+        "foundation_model": "anthropic.claude-3-haiku-20240307-v1:0",
+        "description": "You are a fitness chatbot",
+        "instruction": "You are a helpful fitness assistant. You have general knowledge about sports. You can answer\nquestions related to fitness, diet plans. Use only the tools or knowledge base provided to answer\nuser questions. Choose between the tools or the knowledge base. Do not use both. Do not respond\nwithout using a tool or knowledge base.\nWhen a user asks to calculate their BMI:\n1. Ask for their weight in kilograms.\n2. Ask for their height in meters\n3. If the user provides values in any other unit, convert it into kilograms for weight and\nmeters for height. Do not make any comments about health status.",
+        "prompt_override_configuration": [
+          {
+            "prompt_configurations": [
+              {
+                "base_prompt_template": "${file(\"${path.module}/prompt_templates/pre_processing.txt\")}",
+                "inference_configuration": [
+                  {
+                    "max_length": 4096,
+                    "stop_sequences": [
+                      "\n\nHuman:"
+                    ],
+                    "temperature": 0,
+                    "top_k": 250,
+                    "top_p": 1
+                  }
+                ],
+                "parser_mode": "DEFAULT",
+                "prompt_creation_mode": "OVERRIDDEN",
+                "prompt_state": "ENABLED",
+                "prompt_type": "PRE_PROCESSING"
+              },
+              {
+                "base_prompt_template": "${file(\"${path.module}/prompt_templates/orchestration.txt\")}",
+                "inference_configuration": [
+                  {
+                    "max_length": 4096,
+                    "stop_sequences": [
+                      "\n\nHuman:"
+                    ],
+                    "temperature": 0,
+                    "top_k": 250,
+                    "top_p": 1
+                  }
+                ],
+                "parser_mode": "DEFAULT",
+                "prompt_creation_mode": "OVERRIDDEN",
+                "prompt_state": "ENABLED",
+                "prompt_type": "ORCHESTRATION"
+              },
+              {
+                "base_prompt_template": "${file(\"${path.module}/prompt_templates/kb_resp_gen.txt\")}",
+                "inference_configuration": [
+                  {
+                    "max_length": 4096,
+                    "stop_sequences": [
+                      "\n\nHuman:"
+                    ],
+                    "temperature": 0,
+                    "top_k": 250,
+                    "top_p": 1
+                  }
+                ],
+                "parser_mode": "DEFAULT",
+                "prompt_creation_mode": "OVERRIDDEN",
+                "prompt_state": "ENABLED",
+                "prompt_type": "KNOWLEDGE_BASE_RESPONSE_GENERATION"
+              },
+              {
+                "base_prompt_template": "${file(\"${path.module}/prompt_templates/post_processing.txt\")}",
+                "inference_configuration": [
+                  {
+                    "max_length": 4096,
+                    "stop_sequences": [
+                      "\n\nHuman:"
+                    ],
+                    "temperature": 0,
+                    "top_k": 250,
+                    "top_p": 1
+                  }
+                ],
+                "parser_mode": "DEFAULT",
+                "prompt_creation_mode": "OVERRIDDEN",
+                "prompt_state": "ENABLED",
+                "prompt_type": "POST_PROCESSING"
+              }
+            ]
+          }
+        ],
+        "has_security_groups": false,
+        "sg_rules": [],
+        "iam_role_id": null
+      },
+      "parentId": "bedrock",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "aws_bedrockagent_agent_knowledge_base_association.bedrock_agent_kb_association",
+      "type": "resource",
+      "data": {
+        "resource_type": "aws_bedrockagent_agent_knowledge_base_association",
+        "resource_name": "bedrock_agent_kb_association",
+        "resource_service": "bedrock",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Artificial-Intelligence/48/Arch_Amazon-Bedrock_48.svg",
+        "agent_id": "${aws_bedrockagent_agent.bedrock_agent.agent_id}",
+        "description": "Use the knowledge base when the user is asking for a definition about a fitness, diet plans. Give a very detailed answer and cite the source.",
+        "knowledge_base_id": "${module.bedrock_knowledge_base.knowledge_base_id}",
+        "knowledge_base_state": "ENABLED",
+        "has_security_groups": false,
+        "sg_rules": [],
+        "iam_role_id": null
+      },
+      "parentId": "bedrock",
       "position": {
         "x": 0,
         "y": 0
@@ -556,26 +696,83 @@
   ],
   "edges": [
     {
+      "source": "aws_s3_bucket.sample_kb_bucket",
+      "target": "aws_s3_bucket.sample_kb_logging_bucket",
+      "data": {
+        "type": "other-res-res",
+        "json_path": "target_bucket"
+      },
+      "id": "other-res-res-aws_s3_bucket.sample_kb_bucket-aws_s3_bucket.sample_kb_logging_bucket"
+    },
+    {
+      "source": "aws_s3_bucket.sample_kb_logging_bucket",
+      "target": "aws_s3_bucket.sample_kb_bucket",
+      "data": {
+        "type": "other-res-res",
+        "json_path": "bucket"
+      },
+      "id": "other-res-res-aws_s3_bucket.sample_kb_logging_bucket-aws_s3_bucket.sample_kb_bucket"
+    },
+    {
+      "source": "aws_bedrockagent_agent.bedrock_agent",
+      "target": "aws_lambda_function.bi_chatbot_container_lambda",
+      "data": {
+        "type": "other-res-res",
+        "json_path": "action_group_executor.0.lambda"
+      },
+      "id": "other-res-res-aws_bedrockagent_agent.bedrock_agent-aws_lambda_function.bi_chatbot_container_lambda"
+    },
+    {
+      "source": "aws_bedrockagent_agent.bedrock_agent",
+      "target": "aws_bedrockagent_agent_knowledge_base_association.bedrock_agent_kb_association",
+      "data": {
+        "type": "other-res-res",
+        "json_path": "depends_on.2"
+      },
+      "id": "other-res-res-aws_bedrockagent_agent.bedrock_agent-aws_bedrockagent_agent_knowledge_base_association.bedrock_agent_kb_association"
+    },
+    {
+      "source": "aws_bedrockagent_agent_knowledge_base_association.bedrock_agent_kb_association",
+      "target": "aws_bedrockagent_agent.bedrock_agent",
+      "data": {
+        "type": "other-res-res",
+        "json_path": "agent_id"
+      },
+      "id": "other-res-res-aws_bedrockagent_agent_knowledge_base_association.bedrock_agent_kb_association-aws_bedrockagent_agent.bedrock_agent"
+    },
+    {
       "source": "aws_lambda_function.bi_chatbot_container_lambda",
       "target": "aws_sqs_queue.bi_chatbot_container_lambda_dql",
       "data": {
         "type": "other-res-res",
-        "label": [
-          "dead_letter_config",
-          "0",
-          "target_arn"
-        ]
+        "json_path": "dead_letter_config.0.target_arn"
       },
       "id": "other-res-res-aws_lambda_function.bi_chatbot_container_lambda-aws_sqs_queue.bi_chatbot_container_lambda_dql"
+    },
+    {
+      "source": "aws_lambda_function.bi_chatbot_container_lambda",
+      "target": "aws_bedrockagent_agent.bedrock_agent",
+      "data": {
+        "type": "other-res-res",
+        "json_path": "agent_id"
+      },
+      "id": "other-res-res-aws_lambda_function.bi_chatbot_container_lambda-aws_bedrockagent_agent.bedrock_agent"
+    },
+    {
+      "source": "aws_lambda_function.bi_chatbot_container_lambda",
+      "target": "aws_cloudwatch_log_group.lambda_log_group",
+      "data": {
+        "type": "other-res-res",
+        "json_path": "log_group_name"
+      },
+      "id": "other-res-res-aws_lambda_function.bi_chatbot_container_lambda-aws_cloudwatch_log_group.lambda_log_group"
     },
     {
       "source": "aws_cloudwatch_log_group.lambda_log_group",
       "target": "aws_lambda_function.bi_chatbot_container_lambda",
       "data": {
         "type": "other-res-res",
-        "label": [
-          "name"
-        ]
+        "json_path": "name"
       },
       "id": "other-res-res-aws_cloudwatch_log_group.lambda_log_group-aws_lambda_function.bi_chatbot_container_lambda"
     }

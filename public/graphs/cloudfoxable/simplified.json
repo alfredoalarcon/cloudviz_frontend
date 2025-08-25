@@ -14,14 +14,13 @@
       }
     },
     {
-      "id": "elasticsearch",
+      "id": "IAM",
       "type": "service_container",
       "data": {
-        "resource_name": "elasticsearch",
+        "resource_name": "IAM",
         "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Analytics/48/Arch_Amazon-OpenSearch-Service_48.svg"
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg"
       },
-      "parentId": "AWS Cloud",
       "position": {
         "x": 0,
         "y": 0
@@ -42,68 +41,26 @@
       }
     },
     {
+      "id": "elasticsearch",
+      "type": "service_container",
+      "data": {
+        "resource_name": "elasticsearch",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Analytics/48/Arch_Amazon-OpenSearch-Service_48.svg"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
       "id": "sns",
       "type": "service_container",
       "data": {
         "resource_name": "sns",
         "resource_type": "service_container",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_App-Integration/48/Arch_Amazon-Simple-Notification-Service_48.svg"
-      },
-      "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "lambda",
-      "type": "service_container",
-      "data": {
-        "resource_name": "lambda",
-        "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_AWS-Lambda_48.svg"
-      },
-      "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "dynamodb",
-      "type": "service_container",
-      "data": {
-        "resource_name": "dynamodb",
-        "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-DynamoDB_48.svg"
-      },
-      "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "eventbridge",
-      "type": "service_container",
-      "data": {
-        "resource_name": "eventbridge",
-        "resource_type": "service_container",
-        "resource_icon": "aws/Resource-Icons_07312025/Res_Application-Integration/Res_Amazon-EventBridge_Scheduler_48.svg"
-      },
-      "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "sqs",
-      "type": "service_container",
-      "data": {
-        "resource_name": "sqs",
-        "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_App-Integration/48/Arch_Amazon-Simple-Queue-Service_48.svg"
       },
       "parentId": "AWS Cloud",
       "position": {
@@ -140,26 +97,56 @@
       }
     },
     {
-      "id": "IAM",
+      "id": "sqs",
       "type": "service_container",
       "data": {
-        "resource_name": "IAM",
+        "resource_name": "sqs",
         "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg"
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_App-Integration/48/Arch_Amazon-Simple-Queue-Service_48.svg"
       },
+      "parentId": "AWS Cloud",
       "position": {
         "x": 0,
         "y": 0
       }
     },
     {
-      "id": "vpc",
+      "id": "eventbridge",
       "type": "service_container",
       "data": {
-        "resource_name": "vpc",
+        "resource_name": "eventbridge",
         "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Group-Icons_07312025/Virtual-private-cloud-VPC_32.svg"
+        "resource_icon": "aws/Resource-Icons_07312025/Res_Application-Integration/Res_Amazon-EventBridge_Scheduler_48.svg"
       },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "dynamodb",
+      "type": "service_container",
+      "data": {
+        "resource_name": "dynamodb",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Database/48/Arch_Amazon-DynamoDB_48.svg"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "lambda",
+      "type": "service_container",
+      "data": {
+        "resource_name": "lambda",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_AWS-Lambda_48.svg"
+      },
+      "parentId": "AWS Cloud",
       "position": {
         "x": 0,
         "y": 0
@@ -174,6 +161,19 @@
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Networking-Content-Delivery/48/Arch_AWS-Client-VPN_48.svg"
       },
       "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "vpc",
+      "type": "service_container",
+      "data": {
+        "resource_name": "vpc",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Group-Icons_07312025/Virtual-private-cloud-VPC_32.svg"
+      },
       "position": {
         "x": 0,
         "y": 0
@@ -4188,15 +4188,29 @@
       "id": "iam-res-role-aws_lambda_function.executioner-aws_iam_role.executioner-role"
     },
     {
+      "source": "aws_lambda_function.executioner",
+      "target": "aws_sns_topic.test_sns",
+      "data": {
+        "type": "other-res-res",
+        "json_path": "topic_arn"
+      },
+      "id": "other-res-res-aws_lambda_function.executioner-aws_sns_topic.test_sns"
+    },
+    {
+      "source": "aws_sns_topic.test_sns",
+      "target": "aws_lambda_function.executioner",
+      "data": {
+        "type": "other-res-res",
+        "json_path": "endpoint"
+      },
+      "id": "other-res-res-aws_sns_topic.test_sns-aws_lambda_function.executioner"
+    },
+    {
       "source": "aws_scheduler_schedule.eventbridge_sns_rce",
       "target": "aws_sns_topic.test_sns",
       "data": {
         "type": "other-res-res",
-        "label": [
-          "target",
-          "0",
-          "arn"
-        ]
+        "json_path": "target.0.arn"
       },
       "id": "other-res-res-aws_scheduler_schedule.eventbridge_sns_rce-aws_sns_topic.test_sns"
     },
@@ -4237,11 +4251,7 @@
       "target": "aws_sns_topic.eventbridge_sns",
       "data": {
         "type": "other-res-res",
-        "label": [
-          "target",
-          "0",
-          "arn"
-        ]
+        "json_path": "target.0.arn"
       },
       "id": "other-res-res-aws_scheduler_schedule.test_eventbridge-sns-aws_sns_topic.eventbridge_sns"
     },
@@ -4258,12 +4268,7 @@
       "target": "aws_sqs_queue.internal_message_bus",
       "data": {
         "type": "other-res-res",
-        "label": [
-          "environment",
-          "0",
-          "variables",
-          "TARGET_SQS_QUEUE_NAME"
-        ]
+        "json_path": "environment.0.variables.TARGET_SQS_QUEUE_NAME"
       },
       "id": "other-res-res-aws_lambda_function.producer-aws_sqs_queue.internal_message_bus"
     },
@@ -4272,11 +4277,18 @@
       "target": "aws_sqs_queue.terraform_queue_deadletter",
       "data": {
         "type": "other-res-res",
-        "label": [
-          "redrive_policy"
-        ]
+        "json_path": "redrive_policy"
       },
       "id": "other-res-res-aws_sqs_queue.internal_message_bus-aws_sqs_queue.terraform_queue_deadletter"
+    },
+    {
+      "source": "aws_sqs_queue.internal_message_bus",
+      "target": "aws_lambda_function.consumer",
+      "data": {
+        "type": "other-res-res",
+        "json_path": "function_name"
+      },
+      "id": "other-res-res-aws_sqs_queue.internal_message_bus-aws_lambda_function.consumer"
     },
     {
       "source": "aws_lambda_function.consumer",
@@ -4291,12 +4303,7 @@
       "target": "aws_sqs_queue.internal_message_bus",
       "data": {
         "type": "other-res-res",
-        "label": [
-          "environment",
-          "0",
-          "variables",
-          "TARGET_SQS_QUEUE_NAME"
-        ]
+        "json_path": "environment.0.variables.TARGET_SQS_QUEUE_NAME"
       },
       "id": "other-res-res-aws_lambda_function.consumer-aws_sqs_queue.internal_message_bus"
     },
@@ -4317,6 +4324,15 @@
       "id": "iam-res-role-aws_instance.bastion-aws_iam_role.bastion"
     },
     {
+      "source": "aws_db_instance.default",
+      "target": "aws_lambda_function.rds_sql_executor",
+      "data": {
+        "type": "other-res-res",
+        "json_path": "provisioner.0.local-exec.command"
+      },
+      "id": "other-res-res-aws_db_instance.default-aws_lambda_function.rds_sql_executor"
+    },
+    {
       "source": "aws_lambda_function.rds_sql_executor",
       "target": "aws_iam_role.lambda_execution_role",
       "data": {
@@ -4329,12 +4345,7 @@
       "target": "aws_db_instance.default",
       "data": {
         "type": "other-res-res",
-        "label": [
-          "environment",
-          "0",
-          "variables",
-          "RDS_DB_NAME"
-        ]
+        "json_path": "environment.0.variables.RDS_DB_NAME"
       },
       "id": "other-res-res-aws_lambda_function.rds_sql_executor-aws_db_instance.default"
     },

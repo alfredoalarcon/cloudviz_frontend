@@ -33,6 +33,8 @@ type AppContextType = {
   setSelGraphType(type: graphType): void;
   selGraphType: graphType;
   graphManifest: GraphManifest | null;
+  displayEdgeLabels: boolean;
+  setDisplayEdgeLabels: (value: boolean) => void;
 };
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -88,6 +90,9 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
 
   // Resize activated
   const [isResizing, setIsResizing] = useState(false);
+
+  // Display edges labels
+  const [displayEdgeLabels, setDisplayEdgeLabels] = useState(false);
 
   // -------------------------- Effects ----------------------------
 
@@ -147,12 +152,21 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
       displayIam,
       selectedNodeId,
       hoveredNodeId,
-      selGraphType
+      selGraphType,
+      displayEdgeLabels
     );
     setEdges(newEdges);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [nodesInitialized, nodes, displayIam, hoveredNodeId, selectedNodeId]);
+  }, [
+    nodesInitialized,
+    nodes,
+    displayIam,
+    hoveredNodeId,
+    selectedNodeId,
+    displayEdgeLabels,
+  ]);
 
+  // Fit view when nodes are initialized or displayIam changes
   useEffect(() => {
     if (nodesInitialized) {
       fitView();
@@ -181,6 +195,8 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
     selGraphType,
     setSelGraphType,
     graphManifest,
+    displayEdgeLabels,
+    setDisplayEdgeLabels,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

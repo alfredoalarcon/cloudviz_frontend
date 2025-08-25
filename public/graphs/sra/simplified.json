@@ -14,68 +14,25 @@
       }
     },
     {
+      "id": "IAM",
+      "type": "service_container",
+      "data": {
+        "resource_name": "IAM",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg"
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
       "id": "s3",
       "type": "service_container",
       "data": {
         "resource_name": "s3",
         "resource_type": "service_container",
         "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Storage/48/Arch_Amazon-Simple-Storage-Service_48.svg"
-      },
-      "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "lambda",
-      "type": "service_container",
-      "data": {
-        "resource_name": "lambda",
-        "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_AWS-Lambda_48.svg"
-      },
-      "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "cloudwatch",
-      "type": "service_container",
-      "data": {
-        "resource_name": "cloudwatch",
-        "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Management-Governance/48/Arch_Amazon-CloudWatch_48.svg"
-      },
-      "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "accessanalyzer",
-      "type": "service_container",
-      "data": {
-        "resource_name": "accessanalyzer",
-        "resource_type": "service_container",
-        "resource_icon": "aws/Resource-Icons_07312025/Res_Networking-Content-Delivery/Res_Amazon-VPC_Network-Access-Analyzer_48.svg"
-      },
-      "parentId": "AWS Cloud",
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "id": "kms",
-      "type": "service_container",
-      "data": {
-        "resource_name": "kms",
-        "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Key-Management-Service_48.svg"
       },
       "parentId": "AWS Cloud",
       "position": {
@@ -98,13 +55,56 @@
       }
     },
     {
-      "id": "IAM",
+      "id": "accessanalyzer",
       "type": "service_container",
       "data": {
-        "resource_name": "IAM",
+        "resource_name": "accessanalyzer",
         "resource_type": "service_container",
-        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Identity-and-Access-Management_48.svg"
+        "resource_icon": "aws/Resource-Icons_07312025/Res_Networking-Content-Delivery/Res_Amazon-VPC_Network-Access-Analyzer_48.svg"
       },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "lambda",
+      "type": "service_container",
+      "data": {
+        "resource_name": "lambda",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Compute/48/Arch_AWS-Lambda_48.svg"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "kms",
+      "type": "service_container",
+      "data": {
+        "resource_name": "kms",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Security-Identity-Compliance/48/Arch_AWS-Key-Management-Service_48.svg"
+      },
+      "parentId": "AWS Cloud",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "cloudwatch",
+      "type": "service_container",
+      "data": {
+        "resource_name": "cloudwatch",
+        "resource_type": "service_container",
+        "resource_icon": "aws/Architecture-Service-Icons_07312025/Arch_Management-Governance/48/Arch_Amazon-CloudWatch_48.svg"
+      },
+      "parentId": "AWS Cloud",
       "position": {
         "x": 0,
         "y": 0
@@ -498,9 +498,7 @@
       "target": "aws_lambda_function.management_account_parameters",
       "data": {
         "type": "other-res-res",
-        "label": [
-          "name"
-        ]
+        "json_path": "name"
       },
       "id": "other-res-res-aws_cloudwatch_log_group.management_account_parameters-aws_lambda_function.management_account_parameters"
     },

@@ -18,9 +18,11 @@ export function updateEdges(
   displayIam: "res-res" | "res-role" | "off",
   selectedNodeId: string | null,
   hoveredNodeId: string | null,
-  graphType: graphType
+  graphType: graphType,
+  displayEdgeLabels: boolean
 ) {
   if (nodesInitialized) {
+    // Loop over all edges and modify them
     return edges.map((e) => {
       const edge = { ...e };
       const source = getInternalNode(edge.source) as InternalNode;
@@ -105,6 +107,20 @@ export function updateEdges(
             : edgeLayout.stroke.r2r,
           strokeWidth: strokeWidthCoeff * edgeLayout.strokeWidth.r2r,
         };
+      }
+
+      // Add labels only for other-res-res or if graphType complete
+      if (displayEdgeLabels) {
+        if (
+          (edge.data && edge.data.type === "other-res-res") ||
+          graphType === "complete"
+        ) {
+          edge.label = edge.data?.json_path as string;
+          edge.labelStyle = { fontSize: 8, fill: "#333" }; // 👈 smaller font
+          edge.labelBgStyle = { fill: "transparent" }; // 👈 transparent background
+          edge.labelBgPadding = [0, 0]; // 👈 remove padding
+          edge.labelBgBorderRadius = 0; // 👈 remove rounded corners
+        }
       }
 
       return edge;
