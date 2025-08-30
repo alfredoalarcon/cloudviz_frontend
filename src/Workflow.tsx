@@ -18,7 +18,8 @@ const rfStyle = {
 
 function Workflow() {
   // Get context values
-  const { nodes, setNodes, edges, setSelInfoEntity } = useAppContext();
+  const { nodes, setNodes, edges, setSelInfoEntity, isPanelOpen } =
+    useAppContext();
 
   // Handle ESC key
   useEffect(() => {
@@ -39,15 +40,22 @@ function Workflow() {
     [setNodes, edges]
   );
 
+  // Adjust width based on whether panel is open
+  const workflowWidth = isPanelOpen ? `calc(100% - 400px)` : "100%";
+
   return (
-    <Box height="100vh" width="100%">
+    <Box
+      height="100vh"
+      width={workflowWidth}
+      transition="width 0.2s ease-in-out"
+      position="relative"
+    >
       <ReactFlow
         nodes={nodes}
         edges={edges}
         onNodesChange={onNodesChange}
         fitView
         style={rfStyle}
-        attributionPosition="top-right"
         nodeTypes={nodeTypes}
         onPaneClick={() => setSelInfoEntity(null)}
       >

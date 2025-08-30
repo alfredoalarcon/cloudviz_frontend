@@ -35,6 +35,8 @@ type AppContextType = {
   graphManifest: GraphManifest | null;
   displayEdgeLabels: boolean;
   setDisplayEdgeLabels: (value: boolean) => void;
+  isPanelOpen: boolean;
+  setIsPanelOpen: (value: boolean) => void;
 };
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -93,6 +95,9 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
 
   // Display edges labels
   const [displayEdgeLabels, setDisplayEdgeLabels] = useState(false);
+
+  // Panel visibility control
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
 
   // -------------------------- Effects ----------------------------
 
@@ -197,6 +202,8 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
     graphManifest,
     displayEdgeLabels,
     setDisplayEdgeLabels,
+    isPanelOpen,
+    setIsPanelOpen,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

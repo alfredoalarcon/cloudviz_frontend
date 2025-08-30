@@ -1,12 +1,13 @@
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, Box } from "@chakra-ui/react";
 import Workflow from "./Workflow";
 import "./index.css";
 import { ReactFlowProvider } from "@xyflow/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { FormProvider, useForm } from "react-hook-form";
 import { AppProvider } from "./context/AppContext";
-import DetailsDrawer from "./components/DetailsDrawer";
+import FloatingPanelButton from "./components/FloatingPanelButton";
 import { extendTheme } from "@chakra-ui/react";
+import SidePanel from "./components/SidePanel";
 
 // Define Chakra UI theme
 const theme = extendTheme({
@@ -39,8 +40,11 @@ function App() {
         <ChakraProvider theme={theme}>
           <QueryClientProvider client={queryClient}>
             <FormProvider {...form}>
-              <DetailsDrawer />
-              <Workflow />
+              <Box position="relative" height="100vh" width="100vw">
+                <SidePanel />
+                <Workflow />
+                <FloatingPanelButton />
+              </Box>
             </FormProvider>
           </QueryClientProvider>
         </ChakraProvider>
