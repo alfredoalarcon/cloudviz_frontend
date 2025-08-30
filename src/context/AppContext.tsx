@@ -37,6 +37,9 @@ type AppContextType = {
   setDisplayEdgeLabels: (value: boolean) => void;
   isPanelOpen: boolean;
   setIsPanelOpen: (value: boolean) => void;
+  // SidePanel tab selection
+  selectedTab: "debug" | "menu";
+  setSelectedTab: (tab: "debug" | "menu") => void;
 };
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -98,6 +101,9 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
 
   // Panel visibility control
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+
+  // SidePanel tab selection
+  const [selectedTab, setSelectedTab] = useState<"debug" | "menu">("debug");
 
   // -------------------------- Effects ----------------------------
 
@@ -204,6 +210,8 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
     setDisplayEdgeLabels,
     isPanelOpen,
     setIsPanelOpen,
+    selectedTab,
+    setSelectedTab,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

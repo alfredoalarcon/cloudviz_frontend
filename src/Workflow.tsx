@@ -10,7 +10,6 @@ import { useAppContext } from "./context/AppContext";
 import type { NodeChange } from "@xyflow/react";
 import { Box } from "@chakra-ui/react";
 import { nodeTypes } from "./utils/constants";
-import HoverDock from "./components/HoverDock";
 
 const rfStyle = {
   backgroundColor: "#f2f1f1ff",
@@ -62,10 +61,6 @@ function Workflow() {
         <Controls />
         <Background />
       </ReactFlow>
-
-      {/* Add the Hover Dock */}
-      {/* Pin to top-left */}
-      <HoverDock position={{ top: 5, left: 5 }} initialPinned={false} />
     </Box>
   );
 }
