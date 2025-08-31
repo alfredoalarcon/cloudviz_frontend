@@ -21,8 +21,15 @@ const IAMComponent = React.memo(function IAMComponent({
   id,
 }: NodeProps<IAMNode>) {
   // Context
-  const { setHoveredNodeId, setSelInfoEntity, selectedNode, hoveredNodeId } =
-    useAppContext();
+  const {
+    setHoveredNodeId,
+    setSelectedNodeId,
+    selectedNode,
+    hoveredNodeId,
+    isPanelOpen,
+    selectedTab,
+    checkovResourceErrors,
+  } = useAppContext();
 
   // Hover state
   const isHovered = hoveredNodeId === id;
@@ -39,6 +46,9 @@ const IAMComponent = React.memo(function IAMComponent({
 
   // Style for selected node
   const selStyle = selectedNode?.id === id ? { border: "3px solid black" } : {};
+
+  // Get Checkov error data for this resource
+  const checkovErrorData = checkovResourceErrors?.[id] || null;
 
   // Define handles
   const handles = (
@@ -116,6 +126,22 @@ const IAMComponent = React.memo(function IAMComponent({
           <Box opacity={0.8} fontSize="9px">
             {data.resource_type}
           </Box>
+
+          {/* Checkov Test Results - Always visible */}
+          {checkovErrorData && (
+            <Box style={{ fontSize: "9px", marginTop: "4px" }}>
+              {(checkovErrorData.passed_count || 0) > 0 && (
+                <Box color="green.600" fontWeight="medium">
+                  ✓ {checkovErrorData.passed_count || 0} passed
+                </Box>
+              )}
+              {checkovErrorData.failed_count > 0 && (
+                <Box color="red.600" fontWeight="medium">
+                  ✗ {checkovErrorData.failed_count} failed
+                </Box>
+              )}
+            </Box>
+          )}
         </Box>
       </NodeToolbar>
       <Box
@@ -123,8 +149,71 @@ const IAMComponent = React.memo(function IAMComponent({
           height: "100%",
           width: "100%",
           borderRadius: "8px",
+          position: "relative",
         }}
       >
+        {/* Checkov Passed Tests Indicator (Green) */}
+        {(() => {
+          if (isPanelOpen && selectedTab === "checkov" && checkovErrorData) {
+            const passedCount = checkovErrorData.passed_count || 0;
+            if (passedCount > 0) {
+              return (
+                <Box
+                  position="absolute"
+                  top="-10px"
+                  left="-10px"
+                  bg="green.500"
+                  color="white"
+                  borderRadius="full"
+                  width="24px"
+                  height="24px"
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  fontSize="sm"
+                  fontWeight="bold"
+                  zIndex={10}
+                  title={`${passedCount} passed security checks`}
+                  boxShadow="0 2px 4px rgba(0,0,0,0.3)"
+                >
+                  {passedCount}
+                </Box>
+              );
+            }
+          }
+          return null;
+        })()}
+
+        {/* Checkov Error Indicator Overlay */}
+        {isPanelOpen &&
+          selectedTab === "checkov" &&
+          checkovErrorData &&
+          checkovErrorData.has_issues && (
+            <Box
+              position="absolute"
+              top="-10px"
+              right="-10px"
+              bg="red.500"
+              color="white"
+              borderRadius="full"
+              width="24px"
+              height="24px"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              fontSize="sm"
+              fontWeight="bold"
+              zIndex={10}
+              title={`${checkovErrorData.failed_count} errors${
+                checkovErrorData.error_details
+                  ? `: ${checkovErrorData.error_details}`
+                  : ""
+              }`}
+              boxShadow="0 2px 4px rgba(0,0,0,0.3)"
+            >
+              {checkovErrorData.failed_count}
+            </Box>
+          )}
         <Flex
           style={{
             height: "100%",
@@ -144,7 +233,7 @@ const IAMComponent = React.memo(function IAMComponent({
             }}
             onMouseEnter={() => setHoveredNodeId(id)}
             onMouseLeave={() => setHoveredNodeId(null)}
-            onClick={() => setSelInfoEntity({ type: "node", id })}
+            onClick={() => setSelectedNodeId(id)}
             _hover={{
               border: "3px solid black",
             }}

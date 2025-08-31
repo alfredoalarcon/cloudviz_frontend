@@ -13,10 +13,11 @@ import {
 import { useAppContext } from "../context/AppContext";
 import DebugTab from "./DebugTab";
 import MenuTab from "./MenuTab";
+import CheckovTab from "./CheckovTab";
 
 export default function SidePanel() {
   const {
-    selInfoEntity,
+    selectedNodeId,
     isPanelOpen,
     setIsPanelOpen,
     selectedTab,
@@ -42,42 +43,64 @@ export default function SidePanel() {
       borderLeft="1px solid"
       borderColor="gray.200"
       boxShadow="lg"
-      overflowY="auto"
+      display="flex"
+      flexDirection="column"
     >
-      <VStack align="stretch" spacing={0} height="100%">
-        <Box
-          p={4}
-          borderBottom="1px solid"
-          borderColor="gray.200"
-          bg="gray.50"
-          position="relative"
+      {/* Fixed Header with Tabs */}
+      <Box
+        p={4}
+        borderBottom="1px solid"
+        borderColor="gray.200"
+        bg="gray.50"
+        flexShrink={0}
+        position="relative"
+      >
+        <Text fontSize="lg" fontWeight="bold" mb={3}>
+          {selectedNodeId ? "Node details" : "SidePanel"}
+        </Text>
+
+        {/* Tabs in Header */}
+        <Tabs
+          index={selectedTab === "debug" ? 0 : selectedTab === "menu" ? 1 : 2}
+          onChange={(index) =>
+            setSelectedTab(
+              index === 0 ? "debug" : index === 1 ? "menu" : "checkov"
+            )
+          }
         >
-          <Text fontSize="lg" fontWeight="bold">
-            {selInfoEntity ? `${selInfoEntity.type} details` : "SidePanel"}
-          </Text>
-          <IconButton
-            aria-label="Close details"
-            icon={
-              <Text fontSize="lg" fontWeight="bold">
-                ×
-              </Text>
-            }
-            size="sm"
-            position="absolute"
-            top={2}
-            right={2}
-            onClick={handleClose}
-          />
-        </Box>
-        <Box p={4} flex={1}>
+          <TabList>
+            <Tab>Debug</Tab>
+            <Tab>Menu</Tab>
+            <Tab>Checkov</Tab>
+          </TabList>
+        </Tabs>
+
+        <IconButton
+          aria-label="Close details"
+          icon={
+            <Text fontSize="lg" fontWeight="bold">
+              ×
+            </Text>
+          }
+          size="sm"
+          position="absolute"
+          top={2}
+          right={2}
+          onClick={handleClose}
+        />
+      </Box>
+
+      {/* Scrollable Content */}
+      <Box flex={1} overflowY="auto">
+        <Box p={4}>
           <Tabs
-            index={selectedTab === "debug" ? 0 : 1}
-            onChange={(index) => setSelectedTab(index === 0 ? "debug" : "menu")}
+            index={selectedTab === "debug" ? 0 : selectedTab === "menu" ? 1 : 2}
+            onChange={(index) =>
+              setSelectedTab(
+                index === 0 ? "debug" : index === 1 ? "menu" : "checkov"
+              )
+            }
           >
-            <TabList>
-              <Tab>Debug</Tab>
-              <Tab>Menu</Tab>
-            </TabList>
             <TabPanels>
               <TabPanel>
                 <DebugTab />
@@ -85,10 +108,13 @@ export default function SidePanel() {
               <TabPanel>
                 <MenuTab />
               </TabPanel>
+              <TabPanel>
+                <CheckovTab />
+              </TabPanel>
             </TabPanels>
           </Tabs>
         </Box>
-      </VStack>
+      </Box>
     </Box>
   );
 }

@@ -21,11 +21,14 @@ const GroupContainer = React.memo(function GroupContainer({
 }) {
   // Context
   const {
-    setSelInfoEntity,
+    setSelectedNodeId,
     selectedNode,
     hoveredNodeId,
     setHoveredNodeId,
     isResizing,
+    isPanelOpen,
+    selectedTab,
+    checkovResourceErrors,
   } = useAppContext();
 
   // Hover state
@@ -35,6 +38,10 @@ const GroupContainer = React.memo(function GroupContainer({
   // Set border width considering hover and selection
   const borderWidthHover =
     (isHovered || isSelected) && !isService ? "2px" : borderWidth;
+
+  // Get Checkov error data for this resource
+  const checkovErrorData = checkovResourceErrors?.[id] || null;
+
   return (
     <>
       <NodeResizer
@@ -52,8 +59,71 @@ const GroupContainer = React.memo(function GroupContainer({
           height: "100%",
           width: "100%",
           borderRadius: "4px",
+          position: "relative",
         }}
       >
+        {/* Checkov Passed Tests Indicator (Green) */}
+        {(() => {
+          if (isPanelOpen && selectedTab === "checkov" && checkovErrorData) {
+            const passedCount = checkovErrorData.passed_count || 0;
+            if (passedCount > 0) {
+              return (
+                <Box
+                  position="absolute"
+                  top="-10px"
+                  left="-10px"
+                  bg="green.500"
+                  color="white"
+                  borderRadius="full"
+                  width="24px"
+                  height="24px"
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  fontSize="sm"
+                  fontWeight="bold"
+                  zIndex={10}
+                  title={`${passedCount} passed security checks`}
+                  boxShadow="0 2px 4px rgba(0,0,0,0.3)"
+                >
+                  {passedCount}
+                </Box>
+              );
+            }
+          }
+          return null;
+        })()}
+
+        {/* Checkov Error Indicator Overlay */}
+        {isPanelOpen &&
+          selectedTab === "checkov" &&
+          checkovErrorData &&
+          checkovErrorData.has_issues && (
+            <Box
+              position="absolute"
+              top="-10px"
+              right="-10px"
+              bg="red.500"
+              color="white"
+              borderRadius="full"
+              width="24px"
+              height="24px"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              fontSize="sm"
+              fontWeight="bold"
+              zIndex={10}
+              title={`${checkovErrorData.failed_count} errors${
+                checkovErrorData.error_details
+                  ? `: ${checkovErrorData.error_details}`
+                  : ""
+              }`}
+              boxShadow="0 2px 4px rgba(0,0,0,0.3)"
+            >
+              {checkovErrorData.failed_count}
+            </Box>
+          )}
         <Flex>
           {/* Image */}
           <Box
@@ -64,7 +134,7 @@ const GroupContainer = React.memo(function GroupContainer({
             }}
             onMouseEnter={() => setHoveredNodeId(isService ? null : id)}
             onMouseLeave={() => setHoveredNodeId(null)}
-            onClick={() => setSelInfoEntity({ type: "node", id })}
+            onClick={() => setSelectedNodeId(id)}
           >
             <Image src={imageUrl} alt={label} />
           </Box>

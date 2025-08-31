@@ -26,11 +26,14 @@ const ResourceComponent = React.memo(function ResourceComponent({
 }: NodeProps<ResourceNode>) {
   // Context
   const {
-    setSelInfoEntity,
+    setSelectedNodeId,
     selectedNode,
     hoveredNodeId,
     setHoveredNodeId,
     selGraphType,
+    isPanelOpen,
+    selectedTab,
+    checkovResourceErrors,
   } = useAppContext();
 
   // Choose layout
@@ -110,6 +113,9 @@ const ResourceComponent = React.memo(function ResourceComponent({
   // Style if it has a security group
   const sgStyle = data.has_security_groups ? { border: "0.5px solid red" } : {};
 
+  // Get Checkov error data for this resource
+  const checkovErrorData = checkovResourceErrors?.[id] || null;
+
   return (
     <>
       {/* Tooltip definition */}
@@ -136,6 +142,22 @@ const ResourceComponent = React.memo(function ResourceComponent({
           <Box style={{ fontSize: "9px", marginTop: "4px", opacity: 0.8 }}>
             {data.has_security_groups ? "✓ Security Groups" : null}
           </Box>
+
+          {/* Checkov Test Results - Always visible */}
+          {checkovErrorData && (
+            <Box style={{ fontSize: "9px", marginTop: "4px" }}>
+              {(checkovErrorData.passed_count || 0) > 0 && (
+                <Box color="green.600" fontWeight="medium">
+                  ✓ {checkovErrorData.passed_count || 0} passed
+                </Box>
+              )}
+              {(checkovErrorData.failed_count || 0) > 0 && (
+                <Box color="red.600" fontWeight="medium">
+                  ✗ {checkovErrorData.failed_count || 0} failed
+                </Box>
+              )}
+            </Box>
+          )}
         </Box>
       </NodeToolbar>
 
@@ -144,9 +166,90 @@ const ResourceComponent = React.memo(function ResourceComponent({
         style={{
           height: "100%",
           width: "100%",
+          position: "relative",
           ...sgStyle,
         }}
       >
+        {/* Checkov Error Indicator Overlay */}
+
+        {/* Checkov Passed Tests Indicator (Green) */}
+        {(() => {
+          if (isPanelOpen && selectedTab === "checkov" && checkovErrorData) {
+            const passedCount = checkovErrorData.passed_count || 0;
+            if (passedCount > 0) {
+              return (
+                <Box
+                  position="absolute"
+                  top="-10px"
+                  left="-10px"
+                  bg="green.500"
+                  color="white"
+                  borderRadius="full"
+                  width="24px"
+                  height="24px"
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  fontSize="sm"
+                  fontWeight="bold"
+                  zIndex={10}
+                  title={`${passedCount} passed security checks`}
+                  boxShadow="0 2px 4px rgba(0,0,0,0.3)"
+                >
+                  {passedCount}
+                </Box>
+              );
+            }
+          }
+          return null;
+        })()}
+
+        {/* Checkov Error Indicator (Red) */}
+        {(() => {
+          // Debug logging
+          if (isPanelOpen && selectedTab === "checkov") {
+            console.log(`Resource ${id} - Debug:`, {
+              isPanelOpen,
+              selectedTab,
+              checkovErrorData,
+              hasIssues: checkovErrorData?.has_issues,
+              failedCount: checkovErrorData?.failed_count,
+              passedCount: checkovErrorData?.passed_count,
+            });
+          }
+          return (
+            isPanelOpen &&
+            selectedTab === "checkov" &&
+            checkovErrorData &&
+            checkovErrorData.has_issues
+          );
+        })() &&
+          checkovErrorData && (
+            <Box
+              position="absolute"
+              top="-10px"
+              right="-10px"
+              bg="red.500"
+              color="white"
+              borderRadius="full"
+              width="24px"
+              height="24px"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              fontSize="sm"
+              fontWeight="bold"
+              zIndex={10}
+              title={`${checkovErrorData.failed_count} errors${
+                checkovErrorData.error_details
+                  ? `: ${checkovErrorData.error_details}`
+                  : ""
+              }`}
+              boxShadow="0 2px 4px rgba(0,0,0,0.3)"
+            >
+              {checkovErrorData.failed_count}
+            </Box>
+          )}
         <Flex
           style={{
             height: "100%",
@@ -166,7 +269,7 @@ const ResourceComponent = React.memo(function ResourceComponent({
             }}
             onMouseEnter={() => setHoveredNodeId(id)}
             onMouseLeave={() => setHoveredNodeId(null)}
-            onClick={() => setSelInfoEntity({ type: "node", id })}
+            onClick={() => setSelectedNodeId(id)}
             _hover={{
               border: "3px solid black",
             }}

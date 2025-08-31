@@ -3,7 +3,7 @@ import { JsonViewer } from "@textea/json-viewer";
 import { useAppContext } from "../context/AppContext";
 
 export default function DebugTab() {
-  const { selInfoEntity, selectedNode, edges } = useAppContext();
+  const { selectedNodeId, selectedNode, edges } = useAppContext();
 
   // --- helpers for sg rules json display ---
   let dataJson = null;
@@ -36,11 +36,11 @@ export default function DebugTab() {
     );
   }
 
-  // If no entity is selected, show empty state
-  if (!selInfoEntity) {
+  // If no node is selected, show empty state
+  if (!selectedNodeId) {
     return (
       <Box p={4}>
-        <Text>Select a node or edge to view debug information</Text>
+        <Text>Select a node to view debug information</Text>
       </Box>
     );
   }
@@ -48,7 +48,7 @@ export default function DebugTab() {
   return (
     <Box p={4}>
       <Box style={{ fontSize: "13px", marginBottom: "10px" }}>
-        ID: <strong>{selInfoEntity.id}</strong>
+        ID: <strong>{selectedNodeId}</strong>
       </Box>
       {dataJson}
     </Box>

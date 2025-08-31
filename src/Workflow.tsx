@@ -17,19 +17,19 @@ const rfStyle = {
 
 function Workflow() {
   // Get context values
-  const { nodes, setNodes, edges, setSelInfoEntity, isPanelOpen } =
+  const { nodes, setNodes, edges, setSelectedNodeId, isPanelOpen } =
     useAppContext();
 
   // Handle ESC key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setSelInfoEntity(null);
+        setSelectedNodeId(null);
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [setSelInfoEntity]);
+  }, [setSelectedNodeId]);
 
   const onNodesChange = useCallback(
     (changes: NodeChange[]) => {
@@ -56,7 +56,7 @@ function Workflow() {
         fitView
         style={rfStyle}
         nodeTypes={nodeTypes}
-        onPaneClick={() => setSelInfoEntity(null)}
+        onPaneClick={() => setSelectedNodeId(null)}
       >
         <Controls />
         <Background />

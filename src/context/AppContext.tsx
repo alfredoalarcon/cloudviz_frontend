@@ -9,6 +9,35 @@ import {
   updateEdges,
 } from "../utils/utils";
 
+// Checkov data types
+interface CheckovResourceError {
+  has_issues: boolean;
+  failed_count: number;
+  passed_count?: number; // Number of passed checks
+  error_details?: string; // Optional field
+}
+
+interface CheckovResourceErrors {
+  [key: string]: CheckovResourceError;
+}
+
+interface CheckovDetailedResult {
+  metadata: {
+    graph_name: string;
+    total_checks: number;
+    total_failed: number;
+    total_passed: number;
+    total_skipped: number;
+    resources_with_issues: number;
+  };
+  resources: Record<string, any>;
+  summary: {
+    by_status: Record<string, number>;
+    by_check_type: Record<string, number>;
+    by_file: Record<string, number>;
+  };
+}
+
 // Type definitions for context
 type AppContextType = {
   nodes: Node[];
@@ -18,13 +47,10 @@ type AppContextType = {
   selectedNode: Node | undefined;
   displayIam: "res-res" | "res-role" | "off";
   setDisplayIam: (value: "res-res" | "res-role" | "off") => void;
-  selInfoEntity: { type: "node" | "edge"; id: string } | null;
-  setSelInfoEntity: (
-    entity: { type: "node" | "edge"; id: string } | null
-  ) => void;
   hoveredNodeId: string | null;
   setHoveredNodeId: (id: string | null) => void;
   selectedNodeId: string | null;
+  setSelectedNodeId: (id: string | null) => void;
   isResizing: boolean;
   setIsResizing: (value: boolean) => void;
   // Options for graph selection
@@ -38,8 +64,13 @@ type AppContextType = {
   isPanelOpen: boolean;
   setIsPanelOpen: (value: boolean) => void;
   // SidePanel tab selection
-  selectedTab: "debug" | "menu";
-  setSelectedTab: (tab: "debug" | "menu") => void;
+  selectedTab: "debug" | "menu" | "checkov";
+  setSelectedTab: (tab: "debug" | "menu" | "checkov") => void;
+  // Checkov data
+  checkovResourceErrors: CheckovResourceErrors | null;
+  checkovDetailedResults: CheckovDetailedResult | null;
+  checkovLoading: boolean;
+  checkovError: string | null;
 };
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -58,16 +89,10 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
   const { getInternalNode, fitView } = useReactFlow();
 
   // State to manage the selected node ID
-  const [selInfoEntity, setSelInfoEntity] = useState<{
-    type: "node" | "edge";
-    id: string;
-  } | null>(null);
+  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
 
-  // Get currently selected node or edge
-  const selectedNode = nodes.find(
-    (node) => node.id === selInfoEntity?.id && selInfoEntity?.type === "node"
-  );
-  const selectedNodeId = selectedNode?.id || null;
+  // Get currently selected node
+  const selectedNode = nodes.find((node) => node.id === selectedNodeId);
 
   // Keep track on hovered node
   const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null);
@@ -100,10 +125,20 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
   const [displayEdgeLabels, setDisplayEdgeLabels] = useState(false);
 
   // Panel visibility control
-  const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [isPanelOpen, setIsPanelOpen] = useState(true);
 
   // SidePanel tab selection
-  const [selectedTab, setSelectedTab] = useState<"debug" | "menu">("debug");
+  const [selectedTab, setSelectedTab] = useState<"debug" | "menu" | "checkov">(
+    "checkov"
+  );
+
+  // Checkov data states
+  const [checkovResourceErrors, setCheckovResourceErrors] =
+    useState<CheckovResourceErrors | null>(null);
+  const [checkovDetailedResults, setCheckovDetailedResults] =
+    useState<CheckovDetailedResult | null>(null);
+  const [checkovLoading, setCheckovLoading] = useState(false);
+  const [checkovError, setCheckovError] = useState<string | null>(null);
 
   // -------------------------- Effects ----------------------------
 
@@ -119,6 +154,70 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
     }
     loadGraphs();
   }, []);
+
+  // Load Checkov data when graph changes
+  useEffect(() => {
+    console.log("Checkov data loading effect triggered:", {
+      selectedGraphName,
+      selectedTab,
+    });
+
+    const loadCheckovData = async () => {
+      if (!selectedGraphName) return;
+
+      setCheckovLoading(true);
+      setCheckovError(null);
+
+      try {
+        // Load resource errors
+        const resourceErrorsResponse = await fetch(
+          `/checkov/${selectedGraphName}/checkov_resource_errors.json`
+        );
+        if (resourceErrorsResponse.ok) {
+          const resourceErrors = await resourceErrorsResponse.json();
+          console.log(
+            `Loaded Checkov resource errors for ${selectedGraphName}:`,
+            resourceErrors
+          );
+          console.log("Resource errors keys:", Object.keys(resourceErrors));
+          setCheckovResourceErrors(resourceErrors);
+        } else {
+          console.warn(
+            `Failed to load Checkov resource errors for ${selectedGraphName}`
+          );
+          setCheckovResourceErrors(null);
+        }
+
+        // Load detailed results
+        const detailedResultsResponse = await fetch(
+          `/checkov/${selectedGraphName}/checkov_results_detailed.json`
+        );
+        if (detailedResultsResponse.ok) {
+          const detailedResults = await detailedResultsResponse.json();
+          setCheckovDetailedResults(detailedResults);
+        } else {
+          console.warn(
+            `Failed to load Checkov detailed results for ${selectedGraphName}`
+          );
+          setCheckovDetailedResults(null);
+        }
+      } catch (error) {
+        console.error("Failed to load Checkov data:", error);
+        setCheckovError(
+          error instanceof Error ? error.message : "Failed to load Checkov data"
+        );
+        setCheckovResourceErrors(null);
+        setCheckovDetailedResults(null);
+      } finally {
+        setCheckovLoading(false);
+      }
+    };
+
+    // Load data when graph changes
+    if (selectedGraphName) {
+      loadCheckovData();
+    }
+  }, [selectedGraphName, selectedTab]);
 
   // Whenever graphType or selectedGraphName change update nodes and setup layout
   useEffect(() => {
@@ -187,8 +286,6 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
   // ---------------------------- Context Value ----------------------------
   // Export values for context
   const value = {
-    selInfoEntity,
-    setSelInfoEntity,
     nodes,
     setNodes,
     edges,
@@ -199,6 +296,7 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
     hoveredNodeId,
     setHoveredNodeId,
     selectedNodeId,
+    setSelectedNodeId,
     isResizing,
     setIsResizing,
     selectedGraphName,
@@ -212,6 +310,11 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
     setIsPanelOpen,
     selectedTab,
     setSelectedTab,
+    // Checkov data
+    checkovResourceErrors,
+    checkovDetailedResults,
+    checkovLoading,
+    checkovError,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
