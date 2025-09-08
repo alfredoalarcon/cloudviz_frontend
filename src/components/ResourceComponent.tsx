@@ -206,17 +206,6 @@ const ResourceComponent = React.memo(function ResourceComponent({
 
         {/* Checkov Error Indicator (Red) */}
         {(() => {
-          // Debug logging
-          if (isPanelOpen && selectedTab === "checkov") {
-            console.log(`Resource ${id} - Debug:`, {
-              isPanelOpen,
-              selectedTab,
-              checkovErrorData,
-              hasIssues: checkovErrorData?.has_issues,
-              failedCount: checkovErrorData?.failed_count,
-              passedCount: checkovErrorData?.passed_count,
-            });
-          }
           return (
             isPanelOpen &&
             selectedTab === "checkov" &&

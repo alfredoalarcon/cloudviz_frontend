@@ -1,6 +1,6 @@
 import { Edge, InternalNode, Node, MarkerType } from "@xyflow/react";
 import { assignClosestHandles } from "../layout/hierarchical";
-import { edgeLayout } from "./constants";
+import { edgeLayout, R2_GRAPHS_URL } from "./constants";
 import { Graph, graphType } from "./types";
 import { layoutNodesHierarchical } from "../layout/hierarchical";
 import {
@@ -200,7 +200,8 @@ export async function fetchGraphData(
   selGraphType: string
 ) {
   // Resolve URI to fetch
-  const graphUri = graphManifest.graphs.find(
+  let graphUri = R2_GRAPHS_URL;
+  graphUri += graphManifest.graphs.find(
     (graph) => graph.name === selectedGraphName
   )?.variants[selGraphType];
 

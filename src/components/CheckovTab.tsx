@@ -67,7 +67,6 @@ interface CheckovData {
 const CheckovTab: React.FC = () => {
   const {
     selectedNodeId,
-    selectedGraphName,
     setSelectedNodeId,
     checkovDetailedResults: checkovData,
     checkovLoading: loading,
@@ -80,23 +79,11 @@ const CheckovTab: React.FC = () => {
 
   // Auto-expand resource when node is selected
   useEffect(() => {
-    console.log("Auto-expand effect triggered:", {
-      selectedNodeId,
-      checkovDataLoaded: !!checkovData,
-    });
-
     if (selectedNodeId && checkovData?.resources) {
-      console.log(
-        "Available resource keys:",
-        Object.keys(checkovData.resources)
-      );
-      console.log("Looking for resource:", selectedNodeId);
-
       // Check if the resource exists in Checkov data
       if (checkovData.resources[selectedNodeId]) {
         console.log("Resource found, expanding:", selectedNodeId);
       } else {
-        console.log("Resource not found in Checkov data:", selectedNodeId);
         // Try to find a matching resource (case-insensitive or partial match)
         const matchingResource = Object.keys(checkovData.resources).find(
           (key) =>
@@ -104,10 +91,6 @@ const CheckovTab: React.FC = () => {
             key.includes(selectedNodeId) ||
             selectedNodeId.includes(key)
         );
-
-        if (matchingResource) {
-          console.log("Found matching resource:", matchingResource);
-        }
       }
     }
   }, [selectedNodeId, checkovData]);

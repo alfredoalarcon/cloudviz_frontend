@@ -8,6 +8,7 @@ import {
   updateNodes,
   updateEdges,
 } from "../utils/utils";
+import { R2_GRAPHS_URL } from "../utils/constants";
 
 // Checkov data types
 interface CheckovResourceError {
@@ -145,11 +146,14 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
   // Load available graphs (graphManifest) from local storage and set the first value
   useEffect(() => {
     async function loadGraphs() {
-      const response = await fetch("/graphs/index.json");
+      const response = await fetch(`${R2_GRAPHS_URL}/graphs/index.json`);
       if (response.ok) {
         const graphManifest = await response.json();
-
         setGraphManifest(graphManifest);
+      } else {
+        console.error(
+          `Failed to fetch graph manifest: ${response.status} ${response.statusText}`
+        );
       }
     }
     loadGraphs();
@@ -157,11 +161,6 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
 
   // Load Checkov data when graph changes
   useEffect(() => {
-    console.log("Checkov data loading effect triggered:", {
-      selectedGraphName,
-      selectedTab,
-    });
-
     const loadCheckovData = async () => {
       if (!selectedGraphName) return;
 
@@ -171,15 +170,11 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
       try {
         // Load resource errors
         const resourceErrorsResponse = await fetch(
-          `/checkov/${selectedGraphName}/checkov_resource_errors.json`
+          `${R2_GRAPHS_URL}/checkov/${selectedGraphName}/checkov_resource_errors.json`
         );
         if (resourceErrorsResponse.ok) {
           const resourceErrors = await resourceErrorsResponse.json();
-          console.log(
-            `Loaded Checkov resource errors for ${selectedGraphName}:`,
-            resourceErrors
-          );
-          console.log("Resource errors keys:", Object.keys(resourceErrors));
+
           setCheckovResourceErrors(resourceErrors);
         } else {
           console.warn(
@@ -190,7 +185,7 @@ export const AppProvider: React.FC<React.PropsWithChildren> = ({
 
         // Load detailed results
         const detailedResultsResponse = await fetch(
-          `/checkov/${selectedGraphName}/checkov_results_detailed.json`
+          `${R2_GRAPHS_URL}/checkov/${selectedGraphName}/checkov_results_detailed.json`
         );
         if (detailedResultsResponse.ok) {
           const detailedResults = await detailedResultsResponse.json();

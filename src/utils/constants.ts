@@ -63,7 +63,10 @@ export const clusterPadding = {
 
 // For icon download
 export const S3_ICONS_URL =
-  "https://cloudviz-icons.s3.eu-west-3.amazonaws.com//nYJrrsxmBNL9AnoWp3WPGLUYFoGRdZxo24Bg6";
+  "https://pub-9bfd9c01c9804102b5ad18b6e9fabaff.r2.dev//nYJrrsxmBNL9AnoWp3WPGLUYFoGRdZxo24Bg6";
+
+export const R2_GRAPHS_URL =
+  "https://pub-9bfd9c01c9804102b5ad18b6e9fabaff.r2.dev//9aW9BgskzsfKjdDEXoRd4ehNpDwNbd83nwido";
 
 // For handler layout
 export const handleStyle = {
